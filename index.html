@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruimtereservering</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --text-muted: #7a7870;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --accent-hover: #234830;
+    --danger: #c0392b;
+    --danger-light: #fdf0ee;
+    --warning: #d4830a;
+    --warning-light: #fef6e4;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  header {
+    background: var(--accent);
+    color: white;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  header span {
+    font-size: 13px;
+    opacity: 0.7;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+
+  .tab-btn {
+    padding: 8px 20px;
+    border: none;
+    background: none;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* OVERZICHT */
+  .date-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .date-nav button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+
+  .date-nav button:hover { background: var(--surface2); }
+
+  .date-nav h2 {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .date-nav input[type="date"] {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .rooms-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .room-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    transition: box-shadow 0.15s;
+  }
+
+  .room-row:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+  .room-info .room-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .room-info .room-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .timeline {
+    position: relative;
+    height: 36px;
+    background: var(--surface2);
+    border-radius: 6px;
+    overflow: visible;
+  }
+
+  .timeline-hours {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 3px;
+    padding: 0 0;
+  }
+
+  .booking-block {
+    position: absolute;
+    top: 4px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .booking-block:hover { opacity: 0.85; }
+
+  .booking-block span {
+    font-size: 11px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+
+  .reserve-btn-small {
+    padding: 7px 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+
+  .reserve-btn-small:hover { background: var(--accent-hover); }
+
+  /* FORMULIER */
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    max-width: 560px;
+  }
+
+  .form-card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color 0.15s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .capacity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+
+  .conflict-warning {
+    background: var(--danger-light);
+    border: 1px solid #f5c6c2;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--danger);
+    margin-bottom: 1rem;
+    display: none;
+  }
+
+  .conflict-warning.show { display: block; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 0.5rem;
+  }
+
+  .submit-btn:hover { background: var(--accent-hover); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .success-msg {
+    background: var(--accent-light);
+    border: 1px solid #b8d4c0;
+    border-radius: var(--radius);
+    padding: 16px;
+    color: var(--accent);
+    font-weight: 500;
+    text-align: center;
+    display: none;
+    margin-top: 1rem;
+  }
+
+  .success-msg.show { display: block; }
+
+  /* MIJN RESERVERINGEN */
+  .my-bookings-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .booking-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .booking-card .bk-room {
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .booking-card .bk-details {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .booking-card .bk-who {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .cancel-btn {
+    padding: 6px 14px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--danger);
+    transition: all 0.15s;
+  }
+
+  .cancel-btn:hover {
+    background: var(--danger-light);
+    border-color: var(--danger);
+  }
+
+  /* BEHEER */
+  .admin-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-room-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-room-row:last-child { border-bottom: none; }
+
+  .admin-room-row input {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .admin-room-row input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .admin-room-row input.num { width: 80px; flex: none; }
+
+  .del-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    background: none;
+    border-radius: 7px;
+    cursor: pointer;
+    color: var(--danger);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .del-btn:hover { background: var(--danger-light); border-color: var(--danger); }
+
+  .add-room-btn {
+    padding: 8px 16px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border: 1px solid #b8d4c0;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: background 0.15s;
+  }
+
+  .add-room-btn:hover { background: #d4e8d8; }
+
+  .save-btn {
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.15s;
+  }
+
+  .save-btn:hover { background: var(--accent-hover); }
+
+  .setup-notice {
+    background: var(--warning-light);
+    border: 1px solid #f5d99a;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #7a4f00;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .setup-notice a { color: var(--accent); font-weight: 500; }
+  .setup-notice code {
+    background: rgba(0,0,0,0.07);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .tooltip {
+    position: fixed;
+    background: var(--text);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 999;
+    max-width: 220px;
+    line-height: 1.5;
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .room-row { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    header { padding: 1rem; }
+    .container { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#x1F3E2; Ruimtereservering</h1>
+  <span id="header-date"></span>
+</header>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overzicht')">Overzicht</button>
+    <button class="tab-btn" onclick="switchTab('reserveren')">Reserveren</button>
+    <button class="tab-btn" onclick="switchTab('mijn')">Mijn reserveringen</button>
+    <button class="tab-btn" id="beheer-tab-btn" onclick="switchTab('beheer')" style="display:none">Beheer</button>
+  </div>
+
+  <!-- PINCODE MODAL -->
+  <div id="pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:var(--surface);border-radius:var(--radius-lg);padding:2rem;width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
+      <h2 style="font-size:17px;font-weight:600;margin-bottom:0.5rem">Beheer toegang</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.25rem">Voer de beheercode in om door te gaan.</p>
+      <input type="password" id="pin-input" placeholder="••••••" maxlength="20"
+        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:18px;letter-spacing:4px;text-align:center;background:var(--surface);color:var(--text);margin-bottom:0.75rem"
+        onkeydown="if(event.key==='Enter')checkPin()">
+      <div id="pin-error" style="color:var(--danger);font-size:13px;margin-bottom:0.75rem;display:none">Onjuiste code. Probeer opnieuw.</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="closePinModal()" style="flex:1;padding:10px;border:1px solid var(--border);background:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;color:var(--text)">Annuleren</button>
+        <button onclick="checkPin()" style="flex:1;padding:10px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Inloggen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERZICHT -->
+  <div id="tab-overzicht" class="section active">
+    <div class="date-nav">
+      <button onclick="changeDay(-1)">&#8249;</button>
+      <h2 id="overview-date-label"></h2>
+      <button onclick="changeDay(1)">&#8250;</button>
+      <input type="date" id="date-picker" onchange="onDatePick()">
+    </div>
+    <div id="rooms-grid" class="rooms-grid">
+      <div class="empty-state">Reserveringen laden...</div>
+    </div>
+  </div>
+
+  <!-- RESERVEREN -->
+  <div id="tab-reserveren" class="section">
+    <div class="form-card">
+      <h2>Nieuwe reservering</h2>
+      <div class="form-group">
+        <label>Jouw naam</label>
+        <input type="text" id="f-name" placeholder="Voornaam Achternaam">
+      </div>
+      <div class="form-group">
+        <label>Ruimte</label>
+        <select id="f-room" onchange="onRoomSelect()">
+          <option value="">— Kies een ruimte —</option>
+        </select>
+        <div id="capacity-info"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Datum</label>
+          <input type="date" id="f-date" onchange="checkConflict()">
+        </div>
+        <div class="form-group">
+          <label>Beginttijd</label>
+          <input type="time" id="f-start" value="09:00" onchange="checkConflict()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Eindtijd</label>
+          <input type="time" id="f-end" value="10:00" onchange="checkConflict()">
+        </div>
+        <div class="form-group">
+          <label>Aantal personen</label>
+          <input type="number" id="f-persons" min="1" placeholder="bijv. 4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Omschrijving (optioneel)</label>
+        <input type="text" id="f-desc" placeholder="bijv. teamoverleg, workshop...">
+      </div>
+      <div id="conflict-warning" class="conflict-warning"></div>
+      <button class="submit-btn" id="submit-btn" onclick="submitBooking()">Reservering plaatsen</button>
+      <div id="success-msg" class="success-msg"></div>
+    </div>
+  </div>
+
+  <!-- MIJN RESERVERINGEN -->
+  <div id="tab-mijn" class="section">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.5rem;">
+      <input type="text" id="search-name" placeholder="Zoek op naam..." style="padding:9px 12px; border:1px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; width:280px; background:var(--surface); color:var(--text);" oninput="renderMyBookings()">
+    </div>
+    <div id="my-bookings-list" class="my-bookings-list">
+      <div class="empty-state">Vul je naam in om je reserveringen te zien.</div>
+    </div>
+  </div>
+
+  <!-- BEHEER -->
+  <div id="tab-beheer" class="section">
+    <div class="setup-notice">
+      <strong>&#9888; Backend instellen:</strong> Om reserveringen op te slaan zodat iedereen ze ziet, moet je eenmalig een Google Sheet koppelen.<br><br>
+      1. Maak een nieuw Google Sheet aan<br>
+      2. Ga naar <strong>Extensies → Apps Script</strong> en plak het script uit <code>apps-script.gs</code><br>
+      3. Klik op <strong>Implementeren → Nieuwe implementatie → Webtoepassing</strong><br>
+      4. Stel in: <em>Iedereen kan toegang</em> → kopieer de URL<br>
+      5. Plak de URL hieronder en klik Opslaan
+    </div>
+    <div class="admin-card">
+      <h3>&#128279; Google Sheets koppeling</h3>
+      <div class="form-group">
+        <label>Apps Script Web App URL</label>
+        <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; background:var(--surface); color:var(--text);">
+      </div>
+      <button class="save-btn" onclick="saveSheetUrl()">URL opslaan</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>&#127968; Ruimtes beheren</h3>
+      <div id="admin-rooms-list"></div>
+      <button class="add-room-btn" onclick="addAdminRoom()">+ Ruimte toevoegen</button>
+      <br>
+      <button class="save-btn" onclick="saveRooms()">Ruimtes opslaan</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>&#128197; Alle reserveringen</h3>
+      <div id="all-bookings-admin"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ============================================================
+// CONFIGURATIE — pas dit aan als nodig
+// ============================================================
+const DEFAULT_ROOMS = [
+  { id: "0.03", name: "Vergaderruimte 1", capacity: 8, notes: "" },
+  { id: "0.05", name: "ABE", capacity: 4, notes: "" },
+  { id: "0.07", name: "Flexruimte / SEECE", capacity: 8, notes: "" },
+  { id: "0.10", name: "Projectruimte 1", capacity: 6, notes: "" },
+  { id: "0.11", name: "Projectruimte 2", capacity: 12, notes: "" },
+  { id: "0.12", name: "Projectruimte 3", capacity: 12, notes: "" },
+  { id: "0.13", name: "Projectruimte 4", capacity: 10, notes: "" },
+  { id: "0.14", name: "Projectruimte 5", capacity: 12, notes: "" },
+  { id: "0.15", name: "Projectruimte 6", capacity: 12, notes: "" },
+  { id: "1.01", name: "Lecture room", capacity: 31, notes: "" },
+  { id: "1.02", name: "Vergaderruimte 2 / projectruimte", capacity: 12, notes: "" },
+  { id: "1.03", name: "Vergaderruimte 3 / projectruimte", capacity: 12, notes: "" },
+  { id: "1.05", name: "Regterschot", capacity: 12, notes: "" },
+  { id: "1.07", name: "Projectruimte 7", capacity: 6, notes: "" },
+  { id: "1.08", name: "Projectruimte 8", capacity: 8, notes: "" },
+  { id: "1.09", name: "Projectruimte 9", capacity: 8, notes: "" },
+  { id: "1.11A", name: "Circulaire Economie 1.11A", capacity: 20, notes: "" },
+  { id: "1.11B", name: "Circulaire Economie 1.11B", capacity: 32, notes: "" },
+  { id: "1.11C", name: "Circulaire Economie 1.11C", capacity: 32, notes: "" },
+  { id: "1.12", name: "Circulaire Economie 1.12", capacity: 11, notes: "" },
+];
+
+const DAY_START = 7;  // uur dat de tijdlijn begint
+const DAY_END = 22;   // uur dat de tijdlijn eindigt
+
+// ============================================================
+// BEHEER PINCODE — verander dit naar jouw eigen code!
+// ============================================================
+const BEHEER_PIN = "1234";       // <-- VERANDER DIT
+const BEHEER_SECRET = "beheer";  // geheime URL: index.html?beheer=open
+
+// ============================================================
+// STATE
+// ============================================================
+let rooms = JSON.parse(localStorage.getItem('rooms') || 'null') || DEFAULT_ROOMS;
+let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+let sheetUrl = localStorage.getItem('sheetUrl') || '';
+let currentDate = new Date();
+currentDate.setHours(0,0,0,0);
+let adminUnlocked = false;
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  updateHeaderDate();
+  renderOverview();
+  populateRoomSelect();
+  document.getElementById('f-date').valueAsDate = new Date();
+  document.getElementById('date-picker').valueAsDate = new Date();
+  document.getElementById('sheets-url').value = sheetUrl;
+  if (sheetUrl) fetchRemoteBookings();
+  // Geheime URL: index.html?beheer=open
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('beheer') === BEHEER_SECRET) openPinModal();
+});
+
+function updateHeaderDate() {
+  const now = new Date();
+  document.getElementById('header-date').textContent =
+    now.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+// ============================================================
+// PINCODE FUNCTIES
+// ============================================================
+function openPinModal() {
+  document.getElementById('pin-overlay').style.display = 'flex';
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-error').style.display = 'none';
+  setTimeout(() => document.getElementById('pin-input').focus(), 100);
+}
+
+function closePinModal() {
+  document.getElementById('pin-overlay').style.display = 'none';
+  if (!adminUnlocked) switchTabDirect('overzicht');
+}
+
+function checkPin() {
+  const entered = document.getElementById('pin-input').value;
+  if (entered === BEHEER_PIN) {
+    adminUnlocked = true;
+    document.getElementById('pin-overlay').style.display = 'none';
+    document.getElementById('beheer-tab-btn').style.display = '';
+    switchTabDirect('beheer');
+    renderAdminRooms();
+    renderAllBookingsAdmin();
+    document.getElementById('sheets-url').value = sheetUrl;
+  } else {
+    document.getElementById('pin-error').style.display = 'block';
+    document.getElementById('pin-input').value = '';
+    document.getElementById('pin-input').focus();
+  }
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(name) {
+  if (name === 'beheer' && !adminUnlocked) {
+    openPinModal();
+    return;
+  }
+  if (name === 'beheer') { renderAdminRooms(); renderAllBookingsAdmin(); }
+  switchTabDirect(name);
+}
+
+function switchTabDirect(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    const t = b.textContent.trim().toLowerCase();
+    if (name === 'overzicht' && t === 'overzicht') b.classList.add('active');
+    if (name === 'reserveren' && t === 'reserveren') b.classList.add('active');
+    if (name === 'mijn' && t === 'mijn reserveringen') b.classList.add('active');
+    if (name === 'beheer' && b.id === 'beheer-tab-btn') b.classList.add('active');
+  });
+  if (name === 'overzicht') renderOverview();
+  if (name === 'mijn') renderMyBookings();
+}
+
+// ============================================================
+// DATUM NAVIGATIE
+// ============================================================
+function changeDay(delta) {
+  currentDate.setDate(currentDate.getDate() + delta);
+  document.getElementById('date-picker').valueAsDate = new Date(currentDate);
+  renderOverview();
+}
+
+function onDatePick() {
+  const val = document.getElementById('date-picker').value;
+  if (val) {
+    currentDate = new Date(val + 'T00:00:00');
+    renderOverview();
+  }
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function dateStr(d) {
+  return d.toISOString().split('T')[0];
+}
+
+// ============================================================
+// OVERZICHT
+// ============================================================
+function renderOverview() {
+  document.getElementById('overview-date-label').textContent = formatDate(currentDate);
+  const grid = document.getElementById('rooms-grid');
+  const todayStr = dateStr(currentDate);
+  const todayBookings = bookings.filter(b => b.date === todayStr);
+
+  if (rooms.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Geen ruimtes geconfigureerd.</div>';
+    return;
+  }
+
+  grid.innerHTML = rooms.map(room => {
+    const rb = todayBookings.filter(b => b.roomId === room.id);
+    const timelineBlocks = rb.map(b => {
+      const left = timeToPercent(b.start);
+      const right = timeToPercent(b.end);
+      const width = right - left;
+      return `<div class="booking-block" style="left:${left}%;width:${width}%"
+        onmouseenter="showTooltip(event,'${b.name} · ${b.start}–${b.end}${b.desc ? ' · '+b.desc : ''}')"
+        onmouseleave="hideTooltip()">
+        <span>${b.name}</span>
+      </div>`;
+    }).join('');
+
+    const hours = [];
+    for (let h = DAY_START; h <= DAY_END; h += 3) hours.push(h + ':00');
+
+    const cap = room.capacity ? `max ${room.capacity} pers.` : '';
+    const notes = room.notes ? ` · ${room.notes}` : '';
+
+    return `<div class="room-row">
+      <div class="room-info">
+        <div class="room-name">${room.name}</div>
+        <div class="room-meta"><span class="tag">${room.id}</span> ${cap}${notes}</div>
+      </div>
+      <div>
+        <div class="timeline">${timelineBlocks}</div>
+        <div class="timeline-hours">${hours.map(h => `<span>${h}</span>`).join('')}</div>
+      </div>
+      <button class="reserve-btn-small" onclick="quickReserve('${room.id}')">Reserveer</button>
+    </div>`;
+  }).join('');
+}
+
+function timeToPercent(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const total = (DAY_END - DAY_START) * 60;
+  const pos = (h - DAY_START) * 60 + m;
+  return Math.max(0, Math.min(100, (pos / total) * 100));
+}
+
+function quickReserve(roomId) {
+  switchTabDirect('reserveren');
+  document.getElementById('f-room').value = roomId;
+  document.getElementById('f-date').valueAsDate = new Date(currentDate);
+  onRoomSelect();
+  checkConflict();
+  document.getElementById('f-name').focus();
+}
+
+// ============================================================
+// TOOLTIP
+// ============================================================
+function showTooltip(e, text) {
+  const t = document.getElementById('tooltip');
+  t.textContent = text;
+  t.style.display = 'block';
+  t.style.left = (e.clientX + 12) + 'px';
+  t.style.top = (e.clientY - 10) + 'px';
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').style.display = 'none';
+}
+
+// ============================================================
+// FORMULIER
+// ============================================================
+function populateRoomSelect() {
+  const sel = document.getElementById('f-room');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">— Kies een ruimte —</option>' +
+    rooms.map(r => `<option value="${r.id}">${r.id} · ${r.name}${r.capacity ? ' (max '+r.capacity+')' : ''}</option>`).join('');
+  if (current) sel.value = current;
+}
+
+function onRoomSelect() {
+  const roomId = document.getElementById('f-room').value;
+  const info = document.getElementById('capacity-info');
+  if (!roomId) { info.innerHTML = ''; return; }
+  const room = rooms.find(r => r.id === roomId);
+  if (room && room.capacity) {
+    info.innerHTML = `<div class="capacity-badge">&#128101; Maximaal ${room.capacity} personen${room.notes ? ' · '+room.notes : ''}</div>`;
+  } else {
+    info.innerHTML = '';
+  }
+  checkConflict();
+}
+
+function checkConflict() {
+  const roomId = document.getElementById('f-room').value;
+  const date = document.getElementById('f-date').value;
+  const start = document.getElementById('f-start').value;
+  const end = document.getElementById('f-end').value;
+  const warn = document.getElementById('conflict-warning');
+  const btn = document.getElementById('submit-btn');
+
+  if (!roomId || !date || !start || !end) { warn.classList.remove('show'); btn.disabled = false; return; }
+  if (start >= end) {
+    warn.textContent = 'Eindtijd moet na begintijd liggen.';
+    warn.classList.add('show');
+    btn.disabled = true;
+    return;
+  }
+
+  const conflicts = bookings.filter(b =>
+    b.roomId === roomId && b.date === date &&
+    b.start < end && b.end > start
+  );
+
+  if (conflicts.length > 0) {
+    const c = conflicts[0];
+    warn.innerHTML = `&#9888; Deze ruimte is al gereserveerd van <strong>${c.start}</strong> tot <strong>${c.end}</strong> door <strong>${c.name}</strong>.`;
+    warn.classList.add('show');
+    btn.disabled = true;
+  } else {
+    warn.classList.remove('show');
+    btn.disabled = false;
+  }
+}
+
+function submitBooking() {
+  const name = document.getElementById('f-name').value.trim();
+  const roomId = document.getElementById('f-room').value;
+  const date = document.getElementById('f-date').value;
+  const start = document.getElementById('f-start').value;
+  const end = document.getElementById('f-end').value;
+  const persons = document.getElementById('f-persons').value;
+  const desc = document.getElementById('f-desc').value.trim();
+
+  if (!name || !roomId || !date || !start || !end) {
+    alert('Vul alle verplichte velden in.');
+    return;
+  }
+
+  const room = rooms.find(r => r.id === roomId);
+  if (room && room.capacity && persons && parseInt(persons) > room.capacity) {
+    if (!confirm(`Let op: je voert ${persons} personen in maar de ruimte heeft een maximum van ${room.capacity}. Toch doorgaan?`)) return;
+  }
+
+  const booking = {
+    id: Date.now().toString(),
+    name, roomId,
+    roomName: room ? room.name : roomId,
+    date, start, end,
+    persons: persons || '',
+    desc,
+    created: new Date().toISOString()
+  };
+
+  bookings.push(booking);
+  saveBookings();
+
+  if (sheetUrl) pushToSheets(booking);
+
+  const msg = document.getElementById('success-msg');
+  msg.textContent = `✓ Reservering bevestigd: ${room ? room.name : roomId} op ${date} van ${start} tot ${end}.`;
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 5000);
+
+  document.getElementById('f-room').value = '';
+  document.getElementById('f-persons').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('capacity-info').innerHTML = '';
+  document.getElementById('conflict-warning').classList.remove('show');
+  document.getElementById('submit-btn').disabled = false;
+}
+
+// ============================================================
+// MIJN RESERVERINGEN
+// ============================================================
+function renderMyBookings() {
+  const name = document.getElementById('search-name').value.trim().toLowerCase();
+  const list = document.getElementById('my-bookings-list');
+  if (!name) { list.innerHTML = '<div class="empty-state">Vul je naam in om je reserveringen te zien.</div>'; return; }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const mine = bookings
+    .filter(b => b.name.toLowerCase().includes(name) && new Date(b.date) >= today)
+    .sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
+
+  if (mine.length === 0) {
+    list.innerHTML = '<div class="empty-state">Geen aankomende reserveringen gevonden.</div>';
+    return;
+  }
+
+  list.innerHTML = mine.map(b => {
+    const d = new Date(b.date + 'T00:00:00');
+    const dateLabel = d.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+    return `<div class="booking-card">
+      <div>
+        <div class="bk-room">${b.roomName || b.roomId}</div>
+        <div class="bk-details">${dateLabel} · ${b.start}–${b.end}${b.persons ? ' · '+b.persons+' pers.' : ''}</div>
+        ${b.desc ? `<div class="bk-who">${b.desc}</div>` : ''}
+      </div>
+      <button class="cancel-btn" onclick="cancelBooking('${b.id}')">Annuleren</button>
+    </div>`;
+  }).join('');
+}
+
+function cancelBooking(id) {
+  if (!confirm('Wil je deze reservering annuleren?')) return;
+  bookings = bookings.filter(b => b.id !== id);
+  saveBookings();
+  if (sheetUrl) deleteFromSheets(id);
+  renderMyBookings();
+  renderOverview();
+  renderAllBookingsAdmin();
+}
+
+// ============================================================
+// BEHEER
+// ============================================================
+function renderAdminRooms() {
+  const list = document.getElementById('admin-rooms-list');
+  list.innerHTML = rooms.map((r, i) => `
+    <div class="admin-room-row">
+      <input class="num" type="text" value="${r.id}" placeholder="ID" onchange="updateRoom(${i},'id',this.value)">
+      <input type="text" value="${r.name}" placeholder="Naam" onchange="updateRoom(${i},'name',this.value)">
+      <input class="num" type="number" value="${r.capacity || ''}" placeholder="Max" onchange="updateRoom(${i},'capacity',this.value)" style="width:70px">
+      <input type="text" value="${r.notes || ''}" placeholder="Opmerking (opt.)" onchange="updateRoom(${i},'notes',this.value)">
+      <button class="del-btn" onclick="deleteRoom(${i})">&#215;</button>
+    </div>`).join('');
+}
+
+function updateRoom(i, field, val) {
+  rooms[i][field] = field === 'capacity' ? (val ? parseInt(val) : null) : val;
+}
+
+function deleteRoom(i) {
+  if (!confirm('Ruimte verwijderen?')) return;
+  rooms.splice(i, 1);
+  renderAdminRooms();
+}
+
+function addAdminRoom() {
+  rooms.push({ id: '', name: '', capacity: null, notes: '' });
+  renderAdminRooms();
+}
+
+function saveRooms() {
+  localStorage.setItem('rooms', JSON.stringify(rooms));
+  populateRoomSelect();
+  renderOverview();
+  alert('Ruimtes opgeslagen!');
+}
+
+function renderAllBookingsAdmin() {
+  const div = document.getElementById('all-bookings-admin');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = bookings
+    .filter(b => new Date(b.date) >= today)
+    .sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
+
+  if (upcoming.length === 0) {
+    div.innerHTML = '<div class="empty-state">Geen aankomende reserveringen.</div>';
+    return;
+  }
+
+  div.innerHTML = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead><tr style="border-bottom:1px solid var(--border)">
+      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Datum</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Tijd</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Ruimte</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Naam</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Pers.</th>
+      <th style="padding:8px 6px"></th>
+    </tr></thead>
+    <tbody>${upcoming.map(b => {
+      const d = new Date(b.date+'T00:00:00');
+      const dl = d.toLocaleDateString('nl-NL',{day:'numeric',month:'short'});
+      return `<tr style="border-bottom:0.5px solid var(--border)">
+        <td style="padding:8px 6px">${dl}</td>
+        <td style="padding:8px 6px;font-family:'DM Mono',monospace">${b.start}–${b.end}</td>
+        <td style="padding:8px 6px">${b.roomName||b.roomId}</td>
+        <td style="padding:8px 6px">${b.name}</td>
+        <td style="padding:8px 6px">${b.persons||'—'}</td>
+        <td style="padding:8px 6px"><button class="cancel-btn" onclick="cancelBooking('${b.id}')">&#215;</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+}
+
+function saveSheetUrl() {
+  sheetUrl = document.getElementById('sheets-url').value.trim();
+  localStorage.setItem('sheetUrl', sheetUrl);
+  if (sheetUrl) fetchRemoteBookings();
+  alert('URL opgeslagen!');
+}
+
+// ============================================================
+// OPSLAG
+// ============================================================
+function saveBookings() {
+  localStorage.setItem('bookings', JSON.stringify(bookings));
+  renderOverview();
+  renderAllBookingsAdmin();
+}
+
+// ============================================================
+// GOOGLE SHEETS BACKEND (optioneel)
+// ============================================================
+async function fetchRemoteBookings() {
+  if (!sheetUrl) return;
+  try {
+    const res = await fetch(sheetUrl + '?action=get');
+    const data = await res.json();
+    if (data.bookings) {
+      bookings = data.bookings;
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      renderOverview();
+      renderAllBookingsAdmin();
+    }
+  } catch(e) { console.warn('Sheets ophalen mislukt:', e); }
+}
+
+async function pushToSheets(booking) {
+  if (!sheetUrl) return;
+  try {
+    await fetch(sheetUrl + '?action=add', {
+      method: 'POST',
+      body: JSON.stringify(booking)
+    });
+  } catch(e) { console.warn('Sheets opslaan mislukt:', e); }
+}
+
+async function deleteFromSheets(id) {
+  if (!sheetUrl) return;
+  try {
+    await fetch(sheetUrl + '?action=delete&id=' + id);
+  } catch(e) { console.warn('Sheets verwijderen mislukt:', e); }
+}
+</script>
+</body>
+</html>
