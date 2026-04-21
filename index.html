@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOverview();
   populateRoomSelect();
   document.getElementById('f-date').valueAsDate = new Date();
-  document.getElementById('date-picker').valueAsDate = new Date();
+  document.getElementById('date-picker').value = dateStr(currentDate);
   document.getElementById('sheets-url').value = sheetUrl;
   if (sheetUrl) fetchRemoteBookings();
   // Geheime URL: index.html?beheer=open
@@ -831,7 +831,7 @@ function switchTabDirect(name) {
 // ============================================================
 function changeDay(delta) {
   currentDate.setDate(currentDate.getDate() + delta);
-  document.getElementById('date-picker').valueAsDate = new Date(currentDate);
+  document.getElementById('date-picker').value = dateStr(currentDate);
   renderOverview();
 }
 
@@ -848,7 +848,10 @@ function formatDate(d) {
 }
 
 function dateStr(d) {
-  return d.toISOString().split('T')[0];
+  const y = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return y + "-" + mo + "-" + dd;
 }
 
 // ============================================================
