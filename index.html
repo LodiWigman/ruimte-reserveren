@@ -3,42 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ruimtereservering</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Ruimtereservering — HAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface2: #f0efe9;
-    --border: #e2e0d8;
-    --text: #1a1916;
-    --text-muted: #7a7870;
-    --accent: #2d5a3d;
-    --accent-light: #e8f0eb;
-    --accent-hover: #234830;
-    --danger: #c0392b;
-    --danger-light: #fdf0ee;
-    --warning: #d4830a;
-    --warning-light: #fef6e4;
-    --radius: 10px;
-    --radius-lg: 16px;
+    --magenta: #E5007D;
+    --magenta-dark: #b8005f;
+    --magenta-light: #fce8f3;
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray-50: #fafafa;
+    --gray-100: #f4f4f4;
+    --gray-200: #e8e8e8;
+    --gray-400: #a0a0a0;
+    --gray-600: #555555;
+    --gray-800: #222222;
+    --danger: #cc2200;
+    --danger-light: #fff0ed;
+    --success: #006e3c;
+    --success-light: #e6f4ed;
+    --radius: 8px;
+    --radius-lg: 14px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-100);
+    color: var(--black);
     min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   header {
-    background: var(--accent);
-    color: white;
-    padding: 1.25rem 2rem;
+    background: var(--black);
+    color: var(--white);
+    padding: 0 2rem;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -47,133 +52,152 @@
     z-index: 100;
   }
 
-  header h1 {
-    font-size: 18px;
-    font-weight: 600;
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .han-mark {
+    width: 34px;
+    height: 34px;
+    background: var(--magenta);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    flex-shrink: 0;
+  }
+
+  .header-brand h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
     letter-spacing: -0.3px;
   }
 
-  header span {
-    font-size: 13px;
-    opacity: 0.7;
-    font-family: 'DM Mono', monospace;
+  .header-brand h1 span { color: var(--magenta); }
+
+  #header-date {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-weight: 400;
   }
 
   .container {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
   }
 
   .tabs {
     display: flex;
-    gap: 4px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 4px;
+    gap: 2px;
     margin-bottom: 2rem;
-    width: fit-content;
+    border-bottom: 2px solid var(--gray-200);
   }
 
   .tab-btn {
-    padding: 8px 20px;
+    padding: 10px 20px;
     border: none;
     background: none;
-    border-radius: 7px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--gray-400);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
     transition: all 0.15s;
   }
 
-  .tab-btn.active {
-    background: var(--surface);
-    color: var(--text);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  }
+  .tab-btn:hover { color: var(--black); }
+  .tab-btn.active { color: var(--magenta); border-bottom-color: var(--magenta); }
 
   .section { display: none; }
   .section.active { display: block; }
 
-  /* OVERZICHT */
   .date-nav {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 1.5rem;
   }
 
   .date-nav button {
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid var(--gray-200);
+    background: var(--white);
+    border-radius: var(--radius);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text);
-    transition: background 0.15s;
+    color: var(--black);
+    transition: all 0.15s;
+    line-height: 1;
   }
 
-  .date-nav button:hover { background: var(--surface2); }
+  .date-nav button:hover { border-color: var(--magenta); color: var(--magenta); }
 
   .date-nav h2 {
-    font-size: 17px;
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
   }
 
   .date-nav input[type="date"] {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    padding: 6px 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--black);
     cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
   }
 
-  .rooms-grid {
-    display: grid;
-    gap: 10px;
-  }
+  .date-nav input[type="date"]:focus { border-color: var(--magenta); }
+
+  .rooms-grid { display: grid; gap: 8px; }
 
   .room-row {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-lg);
     padding: 1rem 1.25rem;
     display: grid;
-    grid-template-columns: 200px 1fr auto;
+    grid-template-columns: 210px 1fr auto;
     gap: 1rem;
     align-items: center;
-    transition: box-shadow 0.15s;
+    transition: box-shadow 0.15s, border-color 0.15s;
   }
 
-  .room-row:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .room-row:hover { box-shadow: var(--shadow); border-color: var(--gray-400); }
 
   .room-info .room-name {
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
     font-size: 14px;
   }
 
   .room-info .room-meta {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .timeline {
     position: relative;
-    height: 36px;
-    background: var(--surface2);
+    height: 32px;
+    background: var(--gray-100);
     border-radius: 6px;
     overflow: visible;
   }
@@ -182,27 +206,25 @@
     display: flex;
     justify-content: space-between;
     font-size: 10px;
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
+    color: var(--gray-400);
     margin-top: 3px;
-    padding: 0 0;
   }
 
   .booking-block {
     position: absolute;
-    top: 4px;
-    height: 28px;
-    background: var(--accent);
+    top: 3px;
+    height: 26px;
+    background: var(--magenta);
     border-radius: 5px;
     display: flex;
     align-items: center;
-    padding: 0 6px;
+    padding: 0 7px;
     overflow: hidden;
     cursor: pointer;
     transition: opacity 0.15s;
   }
 
-  .booking-block:hover { opacity: 0.85; }
+  .booking-block:hover { opacity: 0.8; }
 
   .booking-block span {
     font-size: 11px;
@@ -215,95 +237,92 @@
 
   .reserve-btn-small {
     padding: 7px 14px;
-    background: var(--accent);
+    background: var(--black);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     transition: background 0.15s;
   }
 
-  .reserve-btn-small:hover { background: var(--accent-hover); }
+  .reserve-btn-small:hover { background: var(--magenta); }
 
-  /* FORMULIER */
   .form-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-lg);
     padding: 2rem;
     max-width: 560px;
   }
 
   .form-card h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
     margin-bottom: 1.5rem;
+    letter-spacing: -0.4px;
   }
 
-  .form-group {
-    margin-bottom: 1.25rem;
-  }
+  .form-group { margin-bottom: 1.1rem; }
 
   .form-group label {
     display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
   }
 
   .form-group input,
   .form-group select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--gray-200);
     border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    background: var(--surface);
-    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background: var(--white);
+    color: var(--black);
     transition: border-color 0.15s;
     appearance: none;
+    outline: none;
   }
 
   .form-group input:focus,
   .form-group select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(45,90,61,0.1);
+    border-color: var(--magenta);
+    box-shadow: 0 0 0 3px rgba(229,0,125,0.08);
   }
 
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
   .capacity-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: var(--accent-light);
-    color: var(--accent);
-    padding: 6px 12px;
+    gap: 5px;
+    background: var(--magenta-light);
+    color: var(--magenta);
+    padding: 5px 11px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    margin-top: 8px;
+    margin-top: 7px;
   }
 
   .conflict-warning {
     background: var(--danger-light);
-    border: 1px solid #f5c6c2;
+    border: 1.5px solid #ffcfc6;
     border-radius: var(--radius);
-    padding: 12px 16px;
-    font-size: 14px;
+    padding: 11px 14px;
+    font-size: 13px;
     color: var(--danger);
     margin-bottom: 1rem;
     display: none;
@@ -314,109 +333,111 @@
   .submit-btn {
     width: 100%;
     padding: 13px;
-    background: var(--accent);
+    background: var(--magenta);
     color: white;
     border: none;
     border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     cursor: pointer;
     transition: background 0.15s;
     margin-top: 0.5rem;
   }
 
-  .submit-btn:hover { background: var(--accent-hover); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .submit-btn:hover { background: var(--magenta-dark); }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .success-msg {
-    background: var(--accent-light);
-    border: 1px solid #b8d4c0;
+    background: var(--success-light);
+    border: 1.5px solid #a3d4bc;
     border-radius: var(--radius);
-    padding: 16px;
-    color: var(--accent);
+    padding: 14px;
+    color: var(--success);
     font-weight: 500;
     text-align: center;
     display: none;
     margin-top: 1rem;
+    font-size: 13px;
   }
 
   .success-msg.show { display: block; }
 
-  /* MIJN RESERVERINGEN */
-  .my-bookings-list {
-    display: grid;
-    gap: 10px;
+  .my-bookings-list { display: grid; gap: 8px; }
+
+  .search-bar { margin-bottom: 1.5rem; }
+
+  .search-bar input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    width: 300px;
+    background: var(--white);
+    color: var(--black);
+    outline: none;
+    transition: border-color 0.15s;
   }
 
+  .search-bar input:focus { border-color: var(--magenta); }
+
   .booking-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-lg);
     padding: 1rem 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: box-shadow 0.15s;
   }
 
-  .booking-card .bk-room {
-    font-weight: 600;
-    font-size: 15px;
-  }
-
-  .booking-card .bk-details {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .booking-card .bk-who {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
+  .booking-card:hover { box-shadow: var(--shadow); }
+  .booking-card .bk-room { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+  .booking-card .bk-details { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+  .booking-card .bk-who { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
 
   .cancel-btn {
     padding: 6px 14px;
     background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
     cursor: pointer;
     color: var(--danger);
+    font-weight: 500;
     transition: all 0.15s;
   }
 
-  .cancel-btn:hover {
-    background: var(--danger-light);
-    border-color: var(--danger);
-  }
+  .cancel-btn:hover { background: var(--danger-light); border-color: var(--danger); }
 
-  /* BEHEER */
   .admin-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-lg);
     padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .admin-card h3 {
-    font-size: 16px;
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     margin-bottom: 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--gray-200);
   }
 
   .admin-room-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 8px 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--gray-100);
   }
 
   .admin-room-row:last-child { border-bottom: none; }
@@ -424,27 +445,24 @@
   .admin-room-row input {
     flex: 1;
     padding: 7px 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    background: var(--surface);
-    color: var(--text);
-  }
-
-  .admin-room-row input:focus {
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    background: var(--white);
+    color: var(--black);
     outline: none;
-    border-color: var(--accent);
   }
 
-  .admin-room-row input.num { width: 80px; flex: none; }
+  .admin-room-row input:focus { border-color: var(--magenta); }
+  .admin-room-row input.num { width: 75px; flex: none; }
 
   .del-btn {
     width: 30px;
     height: 30px;
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--gray-200);
     background: none;
-    border-radius: 7px;
+    border-radius: var(--radius);
     cursor: pointer;
     color: var(--danger);
     font-size: 16px;
@@ -459,60 +477,63 @@
 
   .add-room-btn {
     padding: 8px 16px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border: 1px solid #b8d4c0;
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    background: var(--gray-100);
+    color: var(--black);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     cursor: pointer;
     margin-top: 0.75rem;
-    transition: background 0.15s;
+    transition: all 0.15s;
   }
 
-  .add-room-btn:hover { background: #d4e8d8; }
+  .add-room-btn:hover { background: var(--gray-200); }
 
   .save-btn {
-    padding: 10px 24px;
-    background: var(--accent);
+    padding: 10px 22px;
+    background: var(--black);
     color: white;
     border: none;
     border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     cursor: pointer;
     margin-top: 1rem;
     transition: background 0.15s;
   }
 
-  .save-btn:hover { background: var(--accent-hover); }
+  .save-btn:hover { background: var(--magenta); }
 
   .setup-notice {
-    background: var(--warning-light);
-    border: 1px solid #f5d99a;
+    background: #fff8f0;
+    border: 1.5px solid #ffd6a0;
     border-radius: var(--radius);
     padding: 14px 16px;
-    font-size: 14px;
-    color: #7a4f00;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    font-size: 13px;
+    color: #7a4400;
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
   }
 
-  .setup-notice a { color: var(--accent); font-weight: 500; }
   .setup-notice code {
-    background: rgba(0,0,0,0.07);
+    background: rgba(0,0,0,0.06);
     padding: 1px 5px;
     border-radius: 4px;
-    font-family: 'DM Mono', monospace;
+    font-family: monospace;
     font-size: 12px;
   }
 
   .spinner {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border: 2px solid rgba(255,255,255,0.4);
     border-top-color: white;
     border-radius: 50%;
@@ -526,29 +547,30 @@
   .empty-state {
     text-align: center;
     padding: 3rem;
-    color: var(--text-muted);
+    color: var(--gray-400);
     font-size: 14px;
   }
 
   .tag {
     display: inline-block;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-    background: var(--surface2);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-200);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
 
   .tooltip {
     position: fixed;
-    background: var(--text);
+    background: var(--black);
     color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 13px;
+    padding: 7px 11px;
+    border-radius: 7px;
+    font-size: 12px;
     pointer-events: none;
     z-index: 999;
     max-width: 220px;
@@ -559,7 +581,7 @@
   @media (max-width: 700px) {
     .room-row { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
-    header { padding: 1rem; }
+    header { padding: 0 1rem; }
     .container { padding: 1rem; }
   }
 </style>
@@ -567,7 +589,10 @@
 <body>
 
 <header>
-  <h1>&#x1F3E2; Ruimtereservering</h1>
+  <div class="header-brand">
+    <div class="han-mark"></div>
+    <h1>Ruimte<span>reservering</span></h1>
+  </div>
   <span id="header-date"></span>
 </header>
 
@@ -580,17 +605,17 @@
   </div>
 
   <!-- PINCODE MODAL -->
-  <div id="pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;">
-    <div style="background:var(--surface);border-radius:var(--radius-lg);padding:2rem;width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.15);">
-      <h2 style="font-size:17px;font-weight:600;margin-bottom:0.5rem">Beheer toegang</h2>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.25rem">Voer de beheercode in om door te gaan.</p>
+  <div id="pin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:var(--white);border-radius:var(--radius-lg);padding:2rem;width:320px;box-shadow:var(--shadow-lg);">
+      <h2 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:0.4rem;letter-spacing:-0.3px">Beheer toegang</h2>
+      <p style="font-size:13px;color:var(--gray-600);margin-bottom:1.2rem">Voer de beheercode in om door te gaan.</p>
       <input type="password" id="pin-input" placeholder="••••••" maxlength="20"
-        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:18px;letter-spacing:4px;text-align:center;background:var(--surface);color:var(--text);margin-bottom:0.75rem"
-        onkeydown="if(event.key==='Enter')checkPin()">
+        style="width:100%;padding:11px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:20px;letter-spacing:6px;text-align:center;background:var(--white);color:var(--black);margin-bottom:0.75rem;outline:none;"
+        onkeydown="if(event.key==='Enter')checkPin()" onfocus="this.style.borderColor='var(--magenta)'" onblur="this.style.borderColor='var(--gray-200)'">
       <div id="pin-error" style="color:var(--danger);font-size:13px;margin-bottom:0.75rem;display:none">Onjuiste code. Probeer opnieuw.</div>
       <div style="display:flex;gap:8px">
-        <button onclick="closePinModal()" style="flex:1;padding:10px;border:1px solid var(--border);background:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;color:var(--text)">Annuleren</button>
-        <button onclick="checkPin()" style="flex:1;padding:10px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Inloggen</button>
+        <button onclick="closePinModal()" style="flex:1;padding:10px;border:1.5px solid var(--gray-200);background:none;border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:14px;cursor:pointer;color:var(--black);">Annuleren</button>
+        <button onclick="checkPin()" style="flex:1;padding:10px;background:var(--magenta);color:white;border:none;border-radius:var(--radius);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;cursor:pointer;">Inloggen</button>
       </div>
     </div>
   </div>
@@ -629,7 +654,7 @@
           <input type="date" id="f-date" onchange="checkConflict()">
         </div>
         <div class="form-group">
-          <label>Beginttijd</label>
+          <label>Begintijd</label>
           <input type="time" id="f-start" value="09:00" onchange="checkConflict()">
         </div>
       </div>
@@ -655,8 +680,8 @@
 
   <!-- MIJN RESERVERINGEN -->
   <div id="tab-mijn" class="section">
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.5rem;">
-      <input type="text" id="search-name" placeholder="Zoek op naam..." style="padding:9px 12px; border:1px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; width:280px; background:var(--surface); color:var(--text);" oninput="renderMyBookings()">
+    <div class="search-bar">
+      <input type="text" id="search-name" placeholder="Zoek op naam..." oninput="renderMyBookings()">
     </div>
     <div id="my-bookings-list" class="my-bookings-list">
       <div class="empty-state">Vul je naam in om je reserveringen te zien.</div>
@@ -674,24 +699,22 @@
       5. Plak de URL hieronder en klik Opslaan
     </div>
     <div class="admin-card">
-      <h3>&#128279; Google Sheets koppeling</h3>
+      <h3>🔗 Google Sheets koppeling</h3>
       <div class="form-group">
         <label>Apps Script Web App URL</label>
-        <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius); font-family:'DM Sans',sans-serif; font-size:14px; background:var(--surface); color:var(--text);">
+        <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." style="width:100%;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:14px;background:var(--white);color:var(--black);outline:none;">
       </div>
       <button class="save-btn" onclick="saveSheetUrl()">URL opslaan</button>
     </div>
-
     <div class="admin-card">
-      <h3>&#127968; Ruimtes beheren</h3>
+      <h3>🏫 Ruimtes beheren</h3>
       <div id="admin-rooms-list"></div>
       <button class="add-room-btn" onclick="addAdminRoom()">+ Ruimte toevoegen</button>
       <br>
       <button class="save-btn" onclick="saveRooms()">Ruimtes opslaan</button>
     </div>
-
     <div class="admin-card">
-      <h3>&#128197; Alle reserveringen</h3>
+      <h3>📅 Alle reserveringen</h3>
       <div id="all-bookings-admin"></div>
     </div>
   </div>
@@ -700,9 +723,6 @@
 <div class="tooltip" id="tooltip"></div>
 
 <script>
-// ============================================================
-// CONFIGURATIE — pas dit aan als nodig
-// ============================================================
 const DEFAULT_ROOMS = [
   { id: "0.03", name: "Vergaderruimte 1", capacity: 8, notes: "" },
   { id: "0.05", name: "ABE", capacity: 4, notes: "" },
@@ -726,18 +746,11 @@ const DEFAULT_ROOMS = [
   { id: "1.12", name: "Circulaire Economie 1.12", capacity: 11, notes: "" },
 ];
 
-const DAY_START = 7;  // uur dat de tijdlijn begint
-const DAY_END = 22;   // uur dat de tijdlijn eindigt
+const DAY_START = 7;
+const DAY_END = 22;
+const BEHEER_PIN = "1234";
+const BEHEER_SECRET = "beheer";
 
-// ============================================================
-// BEHEER PINCODE — verander dit naar jouw eigen code!
-// ============================================================
-const BEHEER_PIN = "1234";       // <-- VERANDER DIT
-const BEHEER_SECRET = "beheer";  // geheime URL: index.html?beheer=open
-
-// ============================================================
-// STATE
-// ============================================================
 let rooms = JSON.parse(localStorage.getItem('rooms') || 'null') || DEFAULT_ROOMS;
 let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
 let sheetUrl = localStorage.getItem('sheetUrl') || '';
@@ -745,18 +758,14 @@ let currentDate = new Date();
 currentDate.setHours(0,0,0,0);
 let adminUnlocked = false;
 
-// ============================================================
-// INIT
-// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   updateHeaderDate();
   renderOverview();
   populateRoomSelect();
-  document.getElementById('f-date').valueAsDate = new Date();
-  document.getElementById('date-picker').valueAsDate = new Date();
+  document.getElementById('f-date').value = dateStr(new Date());
+  document.getElementById('date-picker').value = dateStr(currentDate);
   document.getElementById('sheets-url').value = sheetUrl;
   if (sheetUrl) fetchRemoteBookings();
-  // Geheime URL: index.html?beheer=open
   const params = new URLSearchParams(window.location.search);
   if (params.get('beheer') === BEHEER_SECRET) openPinModal();
 });
@@ -767,9 +776,6 @@ function updateHeaderDate() {
     now.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
-// ============================================================
-// PINCODE FUNCTIES
-// ============================================================
 function openPinModal() {
   document.getElementById('pin-overlay').style.display = 'flex';
   document.getElementById('pin-input').value = '';
@@ -799,14 +805,8 @@ function checkPin() {
   }
 }
 
-// ============================================================
-// TABS
-// ============================================================
 function switchTab(name) {
-  if (name === 'beheer' && !adminUnlocked) {
-    openPinModal();
-    return;
-  }
+  if (name === 'beheer' && !adminUnlocked) { openPinModal(); return; }
   if (name === 'beheer') { renderAdminRooms(); renderAllBookingsAdmin(); }
   switchTabDirect(name);
 }
@@ -826,12 +826,9 @@ function switchTabDirect(name) {
   if (name === 'mijn') renderMyBookings();
 }
 
-// ============================================================
-// DATUM NAVIGATIE
-// ============================================================
 function changeDay(delta) {
   currentDate.setDate(currentDate.getDate() + delta);
-  document.getElementById('date-picker').valueAsDate = new Date(currentDate);
+  document.getElementById('date-picker').value = dateStr(currentDate);
   renderOverview();
 }
 
@@ -848,12 +845,12 @@ function formatDate(d) {
 }
 
 function dateStr(d) {
-  return d.toISOString().split('T')[0];
+  const y = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return y + "-" + mo + "-" + dd;
 }
 
-// ============================================================
-// OVERZICHT
-// ============================================================
 function renderOverview() {
   document.getElementById('overview-date-label').textContent = formatDate(currentDate);
   const grid = document.getElementById('rooms-grid');
@@ -869,8 +866,7 @@ function renderOverview() {
     const rb = todayBookings.filter(b => b.roomId === room.id);
     const timelineBlocks = rb.map(b => {
       const left = timeToPercent(b.start);
-      const right = timeToPercent(b.end);
-      const width = right - left;
+      const width = timeToPercent(b.end) - left;
       return `<div class="booking-block" style="left:${left}%;width:${width}%"
         onmouseenter="showTooltip(event,'${b.name} · ${b.start}–${b.end}${b.desc ? ' · '+b.desc : ''}')"
         onmouseleave="hideTooltip()">
@@ -880,7 +876,6 @@ function renderOverview() {
 
     const hours = [];
     for (let h = DAY_START; h <= DAY_END; h += 3) hours.push(h + ':00');
-
     const cap = room.capacity ? `max ${room.capacity} pers.` : '';
     const notes = room.notes ? ` · ${room.notes}` : '';
 
@@ -914,9 +909,6 @@ function quickReserve(roomId) {
   document.getElementById('f-name').focus();
 }
 
-// ============================================================
-// TOOLTIP
-// ============================================================
 function showTooltip(e, text) {
   const t = document.getElementById('tooltip');
   t.textContent = text;
@@ -925,13 +917,8 @@ function showTooltip(e, text) {
   t.style.top = (e.clientY - 10) + 'px';
 }
 
-function hideTooltip() {
-  document.getElementById('tooltip').style.display = 'none';
-}
+function hideTooltip() { document.getElementById('tooltip').style.display = 'none'; }
 
-// ============================================================
-// FORMULIER
-// ============================================================
 function populateRoomSelect() {
   const sel = document.getElementById('f-room');
   const current = sel.value;
@@ -947,9 +934,7 @@ function onRoomSelect() {
   const room = rooms.find(r => r.id === roomId);
   if (room && room.capacity) {
     info.innerHTML = `<div class="capacity-badge">&#128101; Maximaal ${room.capacity} personen${room.notes ? ' · '+room.notes : ''}</div>`;
-  } else {
-    info.innerHTML = '';
-  }
+  } else { info.innerHTML = ''; }
   checkConflict();
 }
 
@@ -964,25 +949,15 @@ function checkConflict() {
   if (!roomId || !date || !start || !end) { warn.classList.remove('show'); btn.disabled = false; return; }
   if (start >= end) {
     warn.textContent = 'Eindtijd moet na begintijd liggen.';
-    warn.classList.add('show');
-    btn.disabled = true;
-    return;
+    warn.classList.add('show'); btn.disabled = true; return;
   }
 
-  const conflicts = bookings.filter(b =>
-    b.roomId === roomId && b.date === date &&
-    b.start < end && b.end > start
-  );
-
+  const conflicts = bookings.filter(b => b.roomId === roomId && b.date === date && b.start < end && b.end > start);
   if (conflicts.length > 0) {
     const c = conflicts[0];
-    warn.innerHTML = `&#9888; Deze ruimte is al gereserveerd van <strong>${c.start}</strong> tot <strong>${c.end}</strong> door <strong>${c.name}</strong>.`;
-    warn.classList.add('show');
-    btn.disabled = true;
-  } else {
-    warn.classList.remove('show');
-    btn.disabled = false;
-  }
+    warn.innerHTML = `&#9888; Al gereserveerd van <strong>${c.start}</strong> tot <strong>${c.end}</strong> door <strong>${c.name}</strong>.`;
+    warn.classList.add('show'); btn.disabled = true;
+  } else { warn.classList.remove('show'); btn.disabled = false; }
 }
 
 function submitBooking() {
@@ -994,29 +969,22 @@ function submitBooking() {
   const persons = document.getElementById('f-persons').value;
   const desc = document.getElementById('f-desc').value.trim();
 
-  if (!name || !roomId || !date || !start || !end) {
-    alert('Vul alle verplichte velden in.');
-    return;
-  }
+  if (!name || !roomId || !date || !start || !end) { alert('Vul alle verplichte velden in.'); return; }
 
   const room = rooms.find(r => r.id === roomId);
   if (room && room.capacity && persons && parseInt(persons) > room.capacity) {
-    if (!confirm(`Let op: je voert ${persons} personen in maar de ruimte heeft een maximum van ${room.capacity}. Toch doorgaan?`)) return;
+    if (!confirm(`Let op: ${persons} personen maar max ${room.capacity}. Toch doorgaan?`)) return;
   }
 
   const booking = {
-    id: Date.now().toString(),
-    name, roomId,
+    id: Date.now().toString(), name, roomId,
     roomName: room ? room.name : roomId,
-    date, start, end,
-    persons: persons || '',
-    desc,
+    date, start, end, persons: persons || '', desc,
     created: new Date().toISOString()
   };
 
   bookings.push(booking);
   saveBookings();
-
   if (sheetUrl) pushToSheets(booking);
 
   const msg = document.getElementById('success-msg');
@@ -1032,9 +1000,6 @@ function submitBooking() {
   document.getElementById('submit-btn').disabled = false;
 }
 
-// ============================================================
-// MIJN RESERVERINGEN
-// ============================================================
 function renderMyBookings() {
   const name = document.getElementById('search-name').value.trim().toLowerCase();
   const list = document.getElementById('my-bookings-list');
@@ -1045,10 +1010,7 @@ function renderMyBookings() {
     .filter(b => b.name.toLowerCase().includes(name) && new Date(b.date) >= today)
     .sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
 
-  if (mine.length === 0) {
-    list.innerHTML = '<div class="empty-state">Geen aankomende reserveringen gevonden.</div>';
-    return;
-  }
+  if (mine.length === 0) { list.innerHTML = '<div class="empty-state">Geen aankomende reserveringen gevonden.</div>'; return; }
 
   list.innerHTML = mine.map(b => {
     const d = new Date(b.date + 'T00:00:00');
@@ -1069,14 +1031,9 @@ function cancelBooking(id) {
   bookings = bookings.filter(b => b.id !== id);
   saveBookings();
   if (sheetUrl) deleteFromSheets(id);
-  renderMyBookings();
-  renderOverview();
-  renderAllBookingsAdmin();
+  renderMyBookings(); renderOverview(); renderAllBookingsAdmin();
 }
 
-// ============================================================
-// BEHEER
-// ============================================================
 function renderAdminRooms() {
   const list = document.getElementById('admin-rooms-list');
   list.innerHTML = rooms.map((r, i) => `
@@ -1095,20 +1052,16 @@ function updateRoom(i, field, val) {
 
 function deleteRoom(i) {
   if (!confirm('Ruimte verwijderen?')) return;
-  rooms.splice(i, 1);
-  renderAdminRooms();
+  rooms.splice(i, 1); renderAdminRooms();
 }
 
 function addAdminRoom() {
-  rooms.push({ id: '', name: '', capacity: null, notes: '' });
-  renderAdminRooms();
+  rooms.push({ id: '', name: '', capacity: null, notes: '' }); renderAdminRooms();
 }
 
 function saveRooms() {
   localStorage.setItem('rooms', JSON.stringify(rooms));
-  populateRoomSelect();
-  renderOverview();
-  alert('Ruimtes opgeslagen!');
+  populateRoomSelect(); renderOverview(); alert('Ruimtes opgeslagen!');
 }
 
 function renderAllBookingsAdmin() {
@@ -1118,28 +1071,25 @@ function renderAllBookingsAdmin() {
     .filter(b => new Date(b.date) >= today)
     .sort((a,b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start));
 
-  if (upcoming.length === 0) {
-    div.innerHTML = '<div class="empty-state">Geen aankomende reserveringen.</div>';
-    return;
-  }
+  if (upcoming.length === 0) { div.innerHTML = '<div class="empty-state">Geen aankomende reserveringen.</div>'; return; }
 
   div.innerHTML = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
-    <thead><tr style="border-bottom:1px solid var(--border)">
-      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Datum</th>
-      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Tijd</th>
-      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Ruimte</th>
-      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Naam</th>
-      <th style="text-align:left;padding:8px 6px;color:var(--text-muted);font-weight:500">Pers.</th>
+    <thead><tr style="border-bottom:1.5px solid var(--gray-200)">
+      <th style="text-align:left;padding:8px 6px;color:var(--gray-600);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Syne',sans-serif">Datum</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--gray-600);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Syne',sans-serif">Tijd</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--gray-600);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Syne',sans-serif">Ruimte</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--gray-600);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Syne',sans-serif">Naam</th>
+      <th style="text-align:left;padding:8px 6px;color:var(--gray-600);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'Syne',sans-serif">Pers.</th>
       <th style="padding:8px 6px"></th>
     </tr></thead>
     <tbody>${upcoming.map(b => {
       const d = new Date(b.date+'T00:00:00');
       const dl = d.toLocaleDateString('nl-NL',{day:'numeric',month:'short'});
-      return `<tr style="border-bottom:0.5px solid var(--border)">
+      return `<tr style="border-bottom:1px solid var(--gray-100)">
         <td style="padding:8px 6px">${dl}</td>
-        <td style="padding:8px 6px;font-family:'DM Mono',monospace">${b.start}–${b.end}</td>
+        <td style="padding:8px 6px">${b.start}–${b.end}</td>
         <td style="padding:8px 6px">${b.roomName||b.roomId}</td>
-        <td style="padding:8px 6px">${b.name}</td>
+        <td style="padding:8px 6px;font-weight:500">${b.name}</td>
         <td style="padding:8px 6px">${b.persons||'—'}</td>
         <td style="padding:8px 6px"><button class="cancel-btn" onclick="cancelBooking('${b.id}')">&#215;</button></td>
       </tr>`;
@@ -1154,18 +1104,11 @@ function saveSheetUrl() {
   alert('URL opgeslagen!');
 }
 
-// ============================================================
-// OPSLAG
-// ============================================================
 function saveBookings() {
   localStorage.setItem('bookings', JSON.stringify(bookings));
-  renderOverview();
-  renderAllBookingsAdmin();
+  renderOverview(); renderAllBookingsAdmin();
 }
 
-// ============================================================
-// GOOGLE SHEETS BACKEND (optioneel)
-// ============================================================
 async function fetchRemoteBookings() {
   if (!sheetUrl) return;
   try {
@@ -1174,8 +1117,7 @@ async function fetchRemoteBookings() {
     if (data.bookings) {
       bookings = data.bookings;
       localStorage.setItem('bookings', JSON.stringify(bookings));
-      renderOverview();
-      renderAllBookingsAdmin();
+      renderOverview(); renderAllBookingsAdmin();
     }
   } catch(e) { console.warn('Sheets ophalen mislukt:', e); }
 }
@@ -1183,10 +1125,7 @@ async function fetchRemoteBookings() {
 async function pushToSheets(booking) {
   if (!sheetUrl) return;
   try {
-    await fetch(sheetUrl + '?action=add', {
-      method: 'POST',
-      body: JSON.stringify(booking)
-    });
+    await fetch(sheetUrl + '?action=add', { method: 'POST', body: JSON.stringify(booking) });
   } catch(e) { console.warn('Sheets opslaan mislukt:', e); }
 }
 
