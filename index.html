@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOverview();
   populateRoomSelect();
   document.getElementById('f-date').valueAsDate = new Date();
-  document.getElementById('date-picker').value = dateStr(currentDate);
+  document.getElementById('date-picker').valueAsDate = new Date();
   document.getElementById('sheets-url').value = sheetUrl;
   if (sheetUrl) fetchRemoteBookings();
   // Geheime URL: index.html?beheer=open
@@ -831,7 +831,7 @@ function switchTabDirect(name) {
 // ============================================================
 function changeDay(delta) {
   currentDate.setDate(currentDate.getDate() + delta);
-  document.getElementById('date-picker').value = dateStr(currentDate);
+  document.getElementById('date-picker').valueAsDate = new Date(currentDate);
   renderOverview();
 }
 
@@ -848,10 +848,7 @@ function formatDate(d) {
 }
 
 function dateStr(d) {
-  const y = d.getFullYear();
-  const mo = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return y + "-" + mo + "-" + dd;
+  return d.toISOString().split('T')[0];
 }
 
 // ============================================================
@@ -911,7 +908,7 @@ function timeToPercent(timeStr) {
 function quickReserve(roomId) {
   switchTabDirect('reserveren');
   document.getElementById('f-room').value = roomId;
-  document.getElementById('f-date').valueAsDate = new Date(currentDate);
+  document.getElementById('f-date').value = dateStr(currentDate);
   onRoomSelect();
   checkConflict();
   document.getElementById('f-name').focus();
