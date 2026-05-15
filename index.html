@@ -511,24 +511,48 @@
 
   .save-btn:hover { background: var(--magenta); }
 
-  .setup-notice {
-    background: #fff8f0;
-    border: 1.5px solid #ffd6a0;
-    border-radius: var(--radius);
-    padding: 14px 16px;
+  /* Supabase status badge */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 20px;
     font-size: 13px;
-    color: #7a4400;
-    margin-bottom: 1.25rem;
-    line-height: 1.7;
+    font-weight: 500;
+    margin-bottom: 1rem;
   }
 
-  .setup-notice code {
-    background: rgba(0,0,0,0.06);
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 12px;
+  .status-badge.connected {
+    background: var(--success-light);
+    color: var(--success);
+    border: 1.5px solid #a3d4bc;
   }
+
+  .status-badge.error {
+    background: var(--danger-light);
+    color: var(--danger);
+    border: 1.5px solid #ffcfc6;
+  }
+
+  .status-badge.checking {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: 1.5px solid var(--gray-200);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-dot.green { background: var(--success); }
+  .status-dot.red { background: var(--danger); }
+  .status-dot.gray { background: var(--gray-400); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
   .spinner {
     display: inline-block;
@@ -690,21 +714,19 @@
 
   <!-- BEHEER -->
   <div id="tab-beheer" class="section">
-    <div class="setup-notice">
-      <strong>&#9888; Backend instellen:</strong> Om reserveringen op te slaan zodat iedereen ze ziet, moet je eenmalig een Google Sheet koppelen.<br><br>
-      1. Maak een nieuw Google Sheet aan<br>
-      2. Ga naar <strong>Extensies → Apps Script</strong> en plak het script uit <code>apps-script.gs</code><br>
-      3. Klik op <strong>Implementeren → Nieuwe implementatie → Webtoepassing</strong><br>
-      4. Stel in: <em>Iedereen kan toegang</em> → kopieer de URL<br>
-      5. Plak de URL hieronder en klik Opslaan
-    </div>
     <div class="admin-card">
-      <h3>🔗 Google Sheets koppeling</h3>
-      <div class="form-group">
-        <label>Apps Script Web App URL</label>
-        <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/..." style="width:100%;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:14px;background:var(--white);color:var(--black);outline:none;">
+      <h3>🔌 Supabase verbinding</h3>
+      <div id="supabase-status">
+        <div class="status-badge checking">
+          <div class="status-dot gray"></div>
+          Verbinding controleren...
+        </div>
       </div>
-      <button class="save-btn" onclick="saveSheetUrl()">URL opslaan</button>
+      <p style="font-size:13px;color:var(--gray-600);line-height:1.7">
+        Deze app maakt verbinding met Supabase via de credentials in de broncode.
+        Gebruik de knop hieronder om de verbinding te testen.
+      </p>
+      <button class="save-btn" onclick="testSupabaseConnection()" style="margin-top:1rem">Verbinding testen</button>
     </div>
     <div class="admin-card">
       <h3>🏫 Ruimtes beheren</h3>
@@ -722,7 +744,19 @@
 
 <div class="tooltip" id="tooltip"></div>
 
+<!-- Supabase JS SDK via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+// ============================================================
+// SUPABASE CONFIGURATIE — vervang de waarden hieronder
+// ============================================================
+const SUPABASE_URL = 'https://oappvdfjyvbmvqrjvnmv.supabase.co/rest/v1/';        // bijv. https://xyzabc.supabase.co
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hcHB2ZGZqeXZibXZxcmp2bm12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTM4OTEsImV4cCI6MjA5MzcyOTg5MX0.Q-cL-Z9jDlY1Uw3khnS3yLAMteM-xjhyR9SGuJ_Qq8g'; // uit Supabase → Settings → API
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ============================================================
+
 const DEFAULT_ROOMS = [
   { id: "0.03", name: "Vergaderruimte 1", capacity: 8, notes: "" },
   { id: "0.05", name: "ABE", capacity: 4, notes: "" },
@@ -748,24 +782,25 @@ const DEFAULT_ROOMS = [
 
 const DAY_START = 7;
 const DAY_END = 22;
-const BEHEER_PIN = "268347";
+const BEHEER_PIN = "268347";   // ← verander dit naar jouw gewenste code
 const BEHEER_SECRET = "x9kQm7pL";
 
 let rooms = JSON.parse(localStorage.getItem('rooms') || 'null') || DEFAULT_ROOMS;
-let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-let sheetUrl = localStorage.getItem('sheetUrl') || '';
+let bookings = []; // altijd vanuit Supabase geladen, niet meer uit localStorage
 let currentDate = new Date();
 currentDate.setHours(0,0,0,0);
 let adminUnlocked = false;
 
+// ============================================================
+// INIT
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   updateHeaderDate();
-  renderOverview();
   populateRoomSelect();
   document.getElementById('f-date').value = dateStr(new Date());
   document.getElementById('date-picker').value = dateStr(currentDate);
-  document.getElementById('sheets-url').value = sheetUrl;
-  if (sheetUrl) fetchRemoteBookings();
+  loadBookings(); // laad altijd vanuit Supabase
+
   const params = new URLSearchParams(window.location.search);
   if (params.get('beheer') === BEHEER_SECRET) openPinModal();
 });
@@ -776,6 +811,97 @@ function updateHeaderDate() {
     now.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
+// ============================================================
+// SUPABASE — LEES RESERVERINGEN
+// ============================================================
+async function loadBookings() {
+  const grid = document.getElementById('rooms-grid');
+  try {
+    const { data, error } = await supabase
+      .from('reserveringen')
+      .select('*')
+      .order('date', { ascending: true })
+      .order('start_time', { ascending: true });
+
+    if (error) throw error;
+
+    // Zet Supabase kolomnamen om naar de interne structuur
+    bookings = (data || []).map(row => ({
+      id: row.id,
+      name: row.name,
+      roomId: row.room_id,
+      roomName: row.room_name,
+      date: row.date,
+      start: row.start_time,
+      end: row.end_time,
+      persons: row.persons || '',
+      desc: row.description || '',
+      created: row.created_at
+    }));
+
+    renderOverview();
+    if (adminUnlocked) renderAllBookingsAdmin();
+  } catch (err) {
+    console.error('Supabase laad fout:', err);
+    if (grid) grid.innerHTML = '<div class="empty-state">⚠️ Kon reserveringen niet laden. Controleer de Supabase verbinding.</div>';
+  }
+}
+
+// ============================================================
+// SUPABASE — VOEG RESERVERING TOE
+// ============================================================
+async function pushToSupabase(booking) {
+  const { error } = await supabase
+    .from('reserveringen')
+    .insert([{
+      name: booking.name,
+      room_id: booking.roomId,
+      room_name: booking.roomName,
+      date: booking.date,
+      start_time: booking.start,
+      end_time: booking.end,
+      persons: booking.persons || null,
+      description: booking.desc || null
+    }]);
+
+  if (error) throw error;
+}
+
+// ============================================================
+// SUPABASE — VERWIJDER RESERVERING
+// ============================================================
+async function deleteFromSupabase(id) {
+  const { error } = await supabase
+    .from('reserveringen')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+// ============================================================
+// SUPABASE — VERBINDING TESTEN (beheer)
+// ============================================================
+async function testSupabaseConnection() {
+  const statusDiv = document.getElementById('supabase-status');
+  statusDiv.innerHTML = `<div class="status-badge checking"><div class="status-dot gray"></div>Verbinding testen...</div>`;
+
+  try {
+    const { data, error } = await supabase
+      .from('reserveringen')
+      .select('id', { count: 'exact', head: true });
+
+    if (error) throw error;
+
+    statusDiv.innerHTML = `<div class="status-badge connected"><div class="status-dot green"></div>✓ Verbonden met Supabase — tabel 'reserveringen' bereikbaar</div>`;
+  } catch (err) {
+    statusDiv.innerHTML = `<div class="status-badge error"><div class="status-dot red"></div>⚠️ Verbinding mislukt: ${err.message}</div>`;
+  }
+}
+
+// ============================================================
+// PINCODE & TABS
+// ============================================================
 function openPinModal() {
   document.getElementById('pin-overlay').style.display = 'flex';
   document.getElementById('pin-input').value = '';
@@ -797,7 +923,7 @@ function checkPin() {
     switchTabDirect('beheer');
     renderAdminRooms();
     renderAllBookingsAdmin();
-    document.getElementById('sheets-url').value = sheetUrl;
+    testSupabaseConnection();
   } else {
     document.getElementById('pin-error').style.display = 'block';
     document.getElementById('pin-input').value = '';
@@ -822,10 +948,13 @@ function switchTabDirect(name) {
     if (name === 'mijn' && t === 'mijn reserveringen') b.classList.add('active');
     if (name === 'beheer' && b.id === 'beheer-tab-btn') b.classList.add('active');
   });
-  if (name === 'overzicht') renderOverview();
+  if (name === 'overzicht') { loadBookings(); }
   if (name === 'mijn') renderMyBookings();
 }
 
+// ============================================================
+// DATUM NAVIGATIE
+// ============================================================
 function changeDay(delta) {
   currentDate.setDate(currentDate.getDate() + delta);
   document.getElementById('date-picker').value = dateStr(currentDate);
@@ -851,6 +980,9 @@ function dateStr(d) {
   return y + "-" + mo + "-" + dd;
 }
 
+// ============================================================
+// OVERZICHT RENDEREN
+// ============================================================
 function renderOverview() {
   document.getElementById('overview-date-label').textContent = formatDate(currentDate);
   const grid = document.getElementById('rooms-grid');
@@ -919,6 +1051,9 @@ function showTooltip(e, text) {
 
 function hideTooltip() { document.getElementById('tooltip').style.display = 'none'; }
 
+// ============================================================
+// RESERVERINGSFORMULIER
+// ============================================================
 function populateRoomSelect() {
   const sel = document.getElementById('f-room');
   const current = sel.value;
@@ -960,7 +1095,7 @@ function checkConflict() {
   } else { warn.classList.remove('show'); btn.disabled = false; }
 }
 
-function submitBooking() {
+async function submitBooking() {
   const name = document.getElementById('f-name').value.trim();
   const roomId = document.getElementById('f-room').value;
   const date = document.getElementById('f-date').value;
@@ -976,30 +1111,43 @@ function submitBooking() {
     if (!confirm(`Let op: ${persons} personen maar max ${room.capacity}. Toch doorgaan?`)) return;
   }
 
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Opslaan...';
+
   const booking = {
-    id: Date.now().toString(), name, roomId,
+    name, roomId,
     roomName: room ? room.name : roomId,
-    date, start, end, persons: persons || '', desc,
-    created: new Date().toISOString()
+    date, start, end,
+    persons: persons || '',
+    desc
   };
 
-  bookings.push(booking);
-  saveBookings();
-  if (sheetUrl) pushToSheets(booking);
+  try {
+    await pushToSupabase(booking);
+    await loadBookings(); // herlaad vanuit Supabase zodat iedereen hetzelfde ziet
 
-  const msg = document.getElementById('success-msg');
-  msg.textContent = `✓ Reservering bevestigd: ${room ? room.name : roomId} op ${date} van ${start} tot ${end}.`;
-  msg.classList.add('show');
-  setTimeout(() => msg.classList.remove('show'), 5000);
+    const msg = document.getElementById('success-msg');
+    msg.textContent = `✓ Reservering bevestigd: ${room ? room.name : roomId} op ${date} van ${start} tot ${end}.`;
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 5000);
 
-  document.getElementById('f-room').value = '';
-  document.getElementById('f-persons').value = '';
-  document.getElementById('f-desc').value = '';
-  document.getElementById('capacity-info').innerHTML = '';
-  document.getElementById('conflict-warning').classList.remove('show');
-  document.getElementById('submit-btn').disabled = false;
+    document.getElementById('f-room').value = '';
+    document.getElementById('f-persons').value = '';
+    document.getElementById('f-desc').value = '';
+    document.getElementById('capacity-info').innerHTML = '';
+    document.getElementById('conflict-warning').classList.remove('show');
+  } catch (err) {
+    alert('Opslaan mislukt: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Reservering plaatsen';
+  }
 }
 
+// ============================================================
+// MIJN RESERVERINGEN
+// ============================================================
 function renderMyBookings() {
   const name = document.getElementById('search-name').value.trim().toLowerCase();
   const list = document.getElementById('my-bookings-list');
@@ -1026,14 +1174,20 @@ function renderMyBookings() {
   }).join('');
 }
 
-function cancelBooking(id) {
+async function cancelBooking(id) {
   if (!confirm('Wil je deze reservering annuleren?')) return;
-  bookings = bookings.filter(b => b.id !== id);
-  saveBookings();
-  if (sheetUrl) deleteFromSheets(id);
-  renderMyBookings(); renderOverview(); renderAllBookingsAdmin();
+  try {
+    await deleteFromSupabase(id);
+    await loadBookings();
+    renderMyBookings();
+  } catch (err) {
+    alert('Annuleren mislukt: ' + err.message);
+  }
 }
 
+// ============================================================
+// BEHEER — RUIMTES
+// ============================================================
 function renderAdminRooms() {
   const list = document.getElementById('admin-rooms-list');
   list.innerHTML = rooms.map((r, i) => `
@@ -1064,8 +1218,13 @@ function saveRooms() {
   populateRoomSelect(); renderOverview(); alert('Ruimtes opgeslagen!');
 }
 
+// ============================================================
+// BEHEER — ALLE RESERVERINGEN
+// ============================================================
 function renderAllBookingsAdmin() {
   const div = document.getElementById('all-bookings-admin');
+  if (!div) return;
+
   const today = new Date(); today.setHours(0,0,0,0);
   const upcoming = bookings
     .filter(b => new Date(b.date) >= today)
@@ -1095,45 +1254,6 @@ function renderAllBookingsAdmin() {
       </tr>`;
     }).join('')}</tbody>
   </table></div>`;
-}
-
-function saveSheetUrl() {
-  sheetUrl = document.getElementById('sheets-url').value.trim();
-  localStorage.setItem('sheetUrl', sheetUrl);
-  if (sheetUrl) fetchRemoteBookings();
-  alert('URL opgeslagen!');
-}
-
-function saveBookings() {
-  localStorage.setItem('bookings', JSON.stringify(bookings));
-  renderOverview(); renderAllBookingsAdmin();
-}
-
-async function fetchRemoteBookings() {
-  if (!sheetUrl) return;
-  try {
-    const res = await fetch(sheetUrl + '?action=get');
-    const data = await res.json();
-    if (data.bookings) {
-      bookings = data.bookings;
-      localStorage.setItem('bookings', JSON.stringify(bookings));
-      renderOverview(); renderAllBookingsAdmin();
-    }
-  } catch(e) { console.warn('Sheets ophalen mislukt:', e); }
-}
-
-async function pushToSheets(booking) {
-  if (!sheetUrl) return;
-  try {
-    await fetch(sheetUrl + '?action=add', { method: 'POST', body: JSON.stringify(booking) });
-  } catch(e) { console.warn('Sheets opslaan mislukt:', e); }
-}
-
-async function deleteFromSheets(id) {
-  if (!sheetUrl) return;
-  try {
-    await fetch(sheetUrl + '?action=delete&id=' + id);
-  } catch(e) { console.warn('Sheets verwijderen mislukt:', e); }
 }
 </script>
 </body>
