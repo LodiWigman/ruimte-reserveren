@@ -754,7 +754,7 @@
 const SUPABASE_URL = 'https://oappvdfjyvbmvqrjvnmv.supabase.co';        // bijv. https://xyzabc.supabase.co
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hcHB2ZGZqeXZibXZxcmp2bm12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTM4OTEsImV4cCI6MjA5MzcyOTg5MX0.Q-cL-Z9jDlY1Uw3khnS3yLAMteM-xjhyR9SGuJ_Qq8g'; // uit Supabase → Settings → API
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ============================================================
 
 const DEFAULT_ROOMS = [
@@ -817,7 +817,7 @@ function updateHeaderDate() {
 async function loadBookings() {
   const grid = document.getElementById('rooms-grid');
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('reserveringen')
       .select('*')
       .order('date', { ascending: true })
@@ -851,7 +851,7 @@ async function loadBookings() {
 // SUPABASE — VOEG RESERVERING TOE
 // ============================================================
 async function pushToSupabase(booking) {
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from('reserveringen')
     .insert([{
       name: booking.name,
@@ -871,7 +871,7 @@ async function pushToSupabase(booking) {
 // SUPABASE — VERWIJDER RESERVERING
 // ============================================================
 async function deleteFromSupabase(id) {
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from('reserveringen')
     .delete()
     .eq('id', id);
@@ -887,7 +887,7 @@ async function testSupabaseConnection() {
   statusDiv.innerHTML = `<div class="status-badge checking"><div class="status-dot gray"></div>Verbinding testen...</div>`;
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('reserveringen')
       .select('id', { count: 'exact', head: true });
 
