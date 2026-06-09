@@ -172,3 +172,19 @@ INSERT INTO rooms (id, name, capacity, notes) VALUES
 
 -- Maak jezelf admin nadat je bent ingelogd via Supabase Auth:
 -- UPDATE profiles SET role = 'admin' WHERE id = 'jouw-auth-user-uuid';
+
+-- Voeg recurrence_id kolom toe aan de reserveringen tabel
+ALTER TABLE reserveringen
+  ADD COLUMN IF NOT EXISTS recurrence_id uuid DEFAULT NULL;
+
+-- Index zodat het snel zoeken op reeks mogelijk is
+CREATE INDEX IF NOT EXISTS idx_reserveringen_recurrence_id
+  ON reserveringen (recurrence_id)
+  WHERE recurrence_id IS NOT NULL;
+
+-- Admins mogen ook hele reeksen verwijderen
+CREATE POLICY "Admins can delete reservation series"
+ON reserveringen
+FOR DELETE
+TO authenticated
+USING (public.is_admin());
