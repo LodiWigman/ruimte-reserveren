@@ -15,7 +15,7 @@
   <div class="brand"><div class="mark"></div><h1>Ruimte<span>reservering</span></h1></div>
   <div class="header-actions">
     <span id="header-date"></span>
-    <div id="auth-signed-out" class="auth-form"><input type="email" id="auth-email" placeholder="E-mailadres" autocomplete="email"><button class="auth-btn" id="login-btn" onclick="sendMagicLink()">Login link</button></div>
+    <div id="auth-signed-out" class="auth-form"><input type="email" id="auth-email" placeholder="E-mailadres" autocomplete="email"><input type="password" id="auth-password" placeholder="Wachtwoord" autocomplete="current-password"><button class="auth-btn" id="login-btn" onclick="signInWithPassword()">Inloggen</button><button class="auth-btn secondary" id="register-btn" onclick="signUpWithPassword()">Registreren</button></div>
     <div id="auth-signed-in" class="auth-user"><span class="role-badge" id="role-badge">extern</span><span id="auth-user-label"></span><button class="auth-btn secondary" onclick="signOut()">Uitloggen</button></div>
   </div>
 </header>
@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', async()=>{
   document.getElementById('f-date').value=dateStr(new Date());
   document.getElementById('date-picker').value=dateStr(currentDate);
   document.getElementById('overview-date-label').textContent=formatDate(currentDate);
-  document.getElementById('auth-email').addEventListener('keydown', e=>{ if(e.key==='Enter') sendMagicLink(); });
+  document.getElementById('auth-email').addEventListener('keydown', e=>{ if(e.key==='Enter') signInWithPassword(); });
+  document.getElementById('auth-password').addEventListener('keydown', e=>{ if(e.key==='Enter') signInWithPassword(); });
   toggleRecurrence();
   const {data,error}=await supabaseClient.auth.getSession();
   if(error) showNotice('Sessie ophalen mislukt: '+error.message,'error');
@@ -115,14 +116,38 @@ function updateBookingMode(){
   ext.style.display=requestMode?'':'none';
   roleBox.style.display=requestMode?'block':'none';
 }
-function renderGuestState(){ showNotice('Log in met je e-mailadres om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
-async function sendMagicLink(){
-  const email=document.getElementById('auth-email').value.trim(), btn=document.getElementById('login-btn');
-  if(!email){ showNotice('Vul eerst je e-mailadres in.','error'); return; }
-  btn.disabled=true; btn.textContent='Versturen...';
-  const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+window.location.pathname}});
-  btn.disabled=false; btn.textContent='Login link';
-  showNotice(error?'Login link versturen mislukt: '+error.message:'Login link verstuurd. Open je mail en klik op de link.',error?'error':'success');
+function renderGuestState(){ showNotice('Log in met je e-mailadres en wachtwoord om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
+function getAuthCredentials(){
+  const email=document.getElementById('auth-email').value.trim();
+  const password=document.getElementById('auth-password').value;
+  if(!email){ showNotice('Vul eerst je e-mailadres in.','error'); return null; }
+  if(!password){ showNotice('Vul eerst je wachtwoord in.','error'); return null; }
+  if(password.length<6){ showNotice('Gebruik een wachtwoord van minimaal 6 tekens.','error'); return null; }
+  return {email,password};
+}
+function setAuthBusy(isBusy, label){
+  const loginBtn=document.getElementById('login-btn'), registerBtn=document.getElementById('register-btn');
+  loginBtn.disabled=isBusy; registerBtn.disabled=isBusy;
+  loginBtn.textContent=isBusy&&label==='login'?'Inloggen...':'Inloggen';
+  registerBtn.textContent=isBusy&&label==='register'?'Registreren...':'Registreren';
+}
+async function signInWithPassword(){
+  const credentials=getAuthCredentials();
+  if(!credentials) return;
+  setAuthBusy(true,'login');
+  const {error}=await supabaseClient.auth.signInWithPassword(credentials);
+  setAuthBusy(false);
+  if(error) showNotice('Inloggen mislukt: '+error.message,'error');
+}
+async function signUpWithPassword(){
+  const credentials=getAuthCredentials();
+  if(!credentials) return;
+  setAuthBusy(true,'register');
+  const {data,error}=await supabaseClient.auth.signUp(credentials);
+  setAuthBusy(false);
+  if(error){ showNotice('Registreren mislukt: '+error.message,'error'); return; }
+  if(data&&data.session) showNotice('Registratie gelukt. Je bent nu ingelogd.','success');
+  else showNotice('Registratie gelukt. Controleer je Supabase email-instellingen als je nog niet direct bent ingelogd.','success');
 }
 async function signOut(){ await supabaseClient.auth.signOut(); currentUser=null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi(); clearState(); renderGuestState(); }
 async function loadProfile(){
