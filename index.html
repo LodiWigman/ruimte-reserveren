@@ -24,7 +24,7 @@
   <div class="tabs"><button class="tab-btn active" onclick="switchTab('overzicht')">Overzicht</button><button class="tab-btn" onclick="switchTab('reserveren')">Reserveren</button><button class="tab-btn" onclick="switchTab('mijn')">Mijn reserveringen</button><button class="tab-btn" onclick="switchTab('vragen')">Vragen/klachten</button><button class="tab-btn" id="beheer-tab-btn" onclick="switchTab('beheer')" style="display:none">Beheer</button></div>
   <div id="app-notice" class="notice"></div>
 
-  <div id="tab-overzicht" class="section active"><div class="date-nav"><button onclick="changeDay(-1)">&#8249;</button><h2 id="overview-date-label"></h2><span class="muted">Reserveer bewust.</span><button onclick="changeDay(1)">&#8250;</button><input type="date" id="date-picker" onchange="onDatePick()"></div><div id="rooms-grid" class="rooms-grid"><div class="empty-state">Laden...</div></div></div>
+  <div id="tab-overzicht" class="section active"><div class="date-nav"><button onclick="changeDay(-1)">&#8249;</button><h2 id="overview-date-label"></h2><button onclick="changeDay(1)">&#8250;</button><input type="date" id="date-picker" onchange="onDatePick()"><span class="muted">Reserveer bewust.</span></div><div id="rooms-grid" class="rooms-grid"><div class="empty-state">Laden...</div></div></div>
 
   <div id="tab-reserveren" class="section"><div class="form-card">
     <h2 id="booking-title">Nieuwe reservering</h2>
