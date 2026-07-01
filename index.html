@@ -8,6 +8,7 @@
 <style>
 :root{--magenta:#E5007D;--magenta-dark:#b8005f;--magenta-light:#fce8f3;--green:#008f5a;--green-dark:#006e45;--green-light:#e6f4ed;--black:#0a0a0a;--white:#fff;--gray-100:#f4f4f4;--gray-200:#e8e8e8;--gray-400:#9a9a9a;--gray-600:#555;--danger:#cc2200;--danger-light:#fff0ed;--radius:8px;--radius-lg:14px;--shadow:0 2px 12px rgba(0,0,0,.07)}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--black);min-height:100vh;font-size:14px;line-height:1.6}button,input,select,textarea{font-family:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}header{background:var(--black);color:var(--white);padding:10px 2rem;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:100}.brand{display:flex;align-items:center;gap:14px}.mark{width:34px;height:34px;background:var(--magenta);clip-path:polygon(50% 0%,100% 100%,0% 100%)}.brand h1{font-family:Syne,sans-serif;font-size:17px;font-weight:700;letter-spacing:0}.brand span{color:var(--magenta)}.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}#header-date{font-size:12px;color:var(--gray-400)}.auth-form,.auth-user{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}.auth-user{display:none;color:var(--gray-200);font-size:12px}.auth-form input{width:220px;padding:8px 10px;border:1.5px solid #333;border-radius:var(--radius);background:#151515;color:white;outline:none}.auth-form input:focus{border-color:var(--magenta)}.role-badge{display:none;padding:2px 7px;border-radius:4px;background:var(--magenta);color:white;font-family:Syne,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase}.container{max-width:1140px;margin:0 auto;padding:2rem 1.5rem}.tabs{display:flex;gap:2px;margin-bottom:1.25rem;border-bottom:2px solid var(--gray-200);flex-wrap:wrap}.tab-btn{padding:10px 20px;border:0;background:none;font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:var(--gray-400);letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid transparent;margin-bottom:-2px}.tab-btn.active{color:var(--magenta);border-bottom-color:var(--magenta)}.section{display:none}.section.active{display:block}.notice{display:none;background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:13px 15px;margin-bottom:1.25rem;color:var(--gray-600);box-shadow:var(--shadow)}.notice.show{display:block}.notice.error{color:var(--danger);background:var(--danger-light);border-color:#ffcfc6}.notice.success{color:var(--green-dark);background:var(--green-light);border-color:#a3d4bc}.date-nav{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}.date-nav button{width:34px;height:34px;border:1.5px solid var(--gray-200);background:white;border-radius:var(--radius);font-size:18px}.date-nav button:hover{border-color:var(--magenta);color:var(--magenta)}.date-nav h2{font-family:Syne,sans-serif;font-size:18px;letter-spacing:0}.date-nav input,.form-group input,.form-group select,.form-group textarea,.admin-room-row input,.admin-note{border:1.5px solid var(--gray-200);border-radius:var(--radius);background:white;color:var(--black);outline:none}.date-nav input{font-size:13px;padding:7px 10px}.form-group input:focus,.form-group select:focus,.form-group textarea:focus,.date-nav input:focus,.admin-room-row input:focus,.admin-note:focus{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(229,0,125,.08)}.rooms-grid,.my-bookings-list,.request-list{display:grid;gap:8px}.room-row{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:grid;grid-template-columns:210px 1fr auto;gap:1rem;align-items:center}.room-row:hover,.booking-card:hover,.request-card:hover{box-shadow:var(--shadow)}.room-name{font-family:Syne,sans-serif;font-weight:700}.room-meta{font-size:11px;color:var(--gray-400);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200);text-transform:uppercase}.timeline{position:relative;height:32px;background:var(--gray-100);border-radius:6px;overflow:visible}.timeline-hours{display:flex;justify-content:space-between;font-size:10px;color:var(--gray-400);margin-top:3px}.booking-block{position:absolute;top:3px;height:26px;background:var(--magenta);border-radius:5px;display:flex;align-items:center;padding:0 7px;overflow:hidden;cursor:pointer}.booking-block.request{background:var(--green)}.booking-block span{font-size:11px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}.form-card,.admin-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:2rem;max-width:680px}.admin-card{max-width:none;padding:1.5rem;margin-bottom:1.25rem}.form-card h2{font-family:Syne,sans-serif;font-size:20px;margin-bottom:1rem}.admin-card h3{font-family:Syne,sans-serif;font-size:15px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1.5px solid var(--gray-200)}.form-group{margin-bottom:1.1rem}.form-group label{display:block;font-size:11px;font-weight:600;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;font-size:14px}.form-group textarea,.admin-note{min-height:74px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.capacity-badge,.mode-badge{display:inline-flex;background:var(--magenta-light);color:var(--magenta);padding:5px 11px;border-radius:20px;font-size:12px;font-weight:500;margin-top:7px}.mode-badge.request{background:var(--green-light);color:var(--green-dark);border:1px solid #a3d4bc;margin:0 0 1rem}.warning{background:var(--danger-light);border:1.5px solid #ffcfc6;border-radius:var(--radius);padding:11px 14px;color:var(--danger);margin-bottom:1rem;display:none}.warning.show{display:block}.auth-btn,.submit-btn,.save-btn,.reserve-btn-small,.add-room-btn,.approve-btn,.reject-btn{border:0;border-radius:var(--radius);font-family:Syne,sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .15s,opacity .15s}.auth-btn{padding:8px 11px;background:var(--magenta);color:white;font-size:10px}.auth-btn.secondary{background:transparent;border:1.5px solid #333;color:var(--gray-200)}.submit-btn{width:100%;padding:13px;background:var(--magenta);color:white;font-size:13px;margin-top:.5rem}.submit-btn.request{background:var(--green)}.save-btn,.reserve-btn-small{padding:9px 16px;background:var(--black);color:white;font-size:11px}.reserve-btn-small{padding:7px 14px}.add-room-btn{padding:8px 16px;background:var(--gray-100);color:var(--black);border:1.5px solid var(--gray-200);font-size:11px;margin-top:.75rem}.approve-btn{padding:7px 12px;background:var(--green);color:white;font-size:10px}.reject-btn{padding:7px 12px;background:var(--danger);color:white;font-size:10px}.auth-btn:hover,.submit-btn:hover{background:var(--magenta-dark)}.submit-btn.request:hover,.approve-btn:hover{background:var(--green-dark)}.save-btn:hover,.reserve-btn-small:hover{background:var(--magenta)}.booking-card,.request-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.request-card{display:block}.bk-room{font-family:Syne,sans-serif;font-weight:700}.bk-details,.bk-who,.muted{font-size:12px;color:var(--gray-600);margin-top:2px}.bk-who,.muted{color:var(--gray-400)}.cancel-btn,.del-btn{border:1.5px solid var(--gray-200);background:none;border-radius:var(--radius);color:var(--danger)}.cancel-btn{padding:6px 14px;font-size:12px;font-weight:500}.cancel-btn:hover,.del-btn:hover{background:var(--danger-light);border-color:var(--danger)}.admin-room-row{display:grid;grid-template-columns:100px 1fr 90px 1fr 36px;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);align-items:center}.admin-room-row input{width:100%;padding:8px 10px;font-size:13px}.admin-room-row input:disabled{background:var(--gray-100);color:var(--gray-600)}.del-btn{width:32px;height:32px;font-size:16px}.empty-state{text-align:center;padding:3rem;color:var(--gray-400)}.tooltip{position:fixed;background:var(--black);color:white;padding:7px 11px;border-radius:7px;font-size:12px;pointer-events:none;z-index:999;max-width:260px;display:none}.status-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;margin-bottom:1rem}.status-badge.connected{background:var(--green-light);color:var(--green-dark);border:1.5px solid #a3d4bc}.status-badge.error{background:var(--danger-light);color:var(--danger);border:1.5px solid #ffcfc6}.status-badge.checking{background:var(--gray-100);color:var(--gray-600);border:1.5px solid var(--gray-200)}.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-400)}.dot.green{background:var(--green)}.dot.red{background:var(--danger)}.recurrence-box{border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:12px 14px;margin-bottom:1.1rem;background:var(--gray-100)}.recurrence-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray-600);user-select:none}.recurrence-toggle input[type=checkbox]{width:15px;height:15px;accent-color:var(--magenta);cursor:pointer}.recurrence-fields{display:none;margin-top:12px;gap:10px}.recurrence-fields.open{display:grid}.recurrence-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.recurrence-days{display:flex;gap:6px;flex-wrap:wrap}.day-btn{padding:5px 10px;border:1.5px solid var(--gray-200);border-radius:5px;background:white;font-size:11px;font-weight:600;font-family:Syne,sans-serif;text-transform:uppercase;color:var(--gray-600);cursor:pointer}.day-btn.selected{background:var(--magenta);border-color:var(--magenta);color:white}.recurrence-preview{font-size:11px;color:var(--gray-600);background:white;border:1px solid var(--gray-200);border-radius:5px;padding:7px 10px;line-height:1.7}.role-info{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:12px 14px;margin:1rem 0}.role-info ul{margin-left:1.2rem}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.admin-note{width:100%;padding:9px 11px;margin-top:10px;font-size:13px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid var(--gray-200);padding:8px;vertical-align:top}@media(max-width:760px){header{padding:12px 1rem;align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:flex-start}.auth-form input{width:min(100%,260px)}.container{padding:1rem}.room-row,.form-row,.admin-room-row,.recurrence-row{grid-template-columns:1fr}.booking-card{flex-direction:column}}
+.edit-btn{border:1.5px solid var(--gray-200);background:white;border-radius:var(--radius);color:var(--black);padding:6px 14px;font-size:12px;font-weight:500}.edit-btn:hover{background:var(--gray-100);border-color:var(--black)}
 </style>
 </head>
 <body>
@@ -20,14 +21,15 @@
   </div>
 </header>
 <div class="container">
-  <div class="tabs"><button class="tab-btn active" onclick="switchTab('overzicht')">Overzicht</button><button class="tab-btn" onclick="switchTab('reserveren')">Reserveren</button><button class="tab-btn" onclick="switchTab('mijn')">Mijn reserveringen</button><button class="tab-btn" id="beheer-tab-btn" onclick="switchTab('beheer')" style="display:none">Beheer</button></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab('overzicht')">Overzicht</button><button class="tab-btn" onclick="switchTab('reserveren')">Reserveren</button><button class="tab-btn" onclick="switchTab('mijn')">Mijn reserveringen</button><button class="tab-btn" onclick="switchTab('vragen')">Vragen/klachten</button><button class="tab-btn" id="beheer-tab-btn" onclick="switchTab('beheer')" style="display:none">Beheer</button></div>
   <div id="app-notice" class="notice"></div>
 
-  <div id="tab-overzicht" class="section active"><div class="date-nav"><button onclick="changeDay(-1)">&#8249;</button><h2 id="overview-date-label"></h2><button onclick="changeDay(1)">&#8250;</button><input type="date" id="date-picker" onchange="onDatePick()"></div><div id="rooms-grid" class="rooms-grid"><div class="empty-state">Laden...</div></div></div>
+  <div id="tab-overzicht" class="section active"><div class="date-nav"><button onclick="changeDay(-1)">&#8249;</button><h2 id="overview-date-label"></h2><span class="muted">Reserveer bewust.</span><button onclick="changeDay(1)">&#8250;</button><input type="date" id="date-picker" onchange="onDatePick()"></div><div id="rooms-grid" class="rooms-grid"><div class="empty-state">Laden...</div></div></div>
 
   <div id="tab-reserveren" class="section"><div class="form-card">
     <h2 id="booking-title">Nieuwe reservering</h2>
     <div id="booking-mode" class="mode-badge"></div>
+    <p class="muted" style="margin-bottom:1rem">Reserveer bewust: kies alleen de tijd die je echt nodig hebt. Kun je toch niet komen? Annuleer of wijzig je reservering op tijd, zodat iemand anders de ruimte kan gebruiken.</p>
     <div class="form-group"><label>Jouw naam</label><input type="text" id="f-name" placeholder="Voornaam Achternaam" maxlength="120"></div>
     <div id="external-fields" style="display:none">
       <div class="form-row"><div class="form-group"><label>Organisatie</label><input type="text" id="f-organization" placeholder="Bijv. organisatie of bedrijf" maxlength="120"></div><div class="form-group"><label>Gelegenheid</label><input type="text" id="f-occasion" placeholder="Bijv. workshop, overleg, event" maxlength="120"></div></div>
@@ -40,6 +42,7 @@
     <div class="recurrence-box"><label class="recurrence-toggle"><input type="checkbox" id="f-recur-toggle" onchange="toggleRecurrence()"> Herhalen</label><div class="recurrence-fields" id="recurrence-fields"><div class="recurrence-row"><div class="form-group" style="margin:0"><label>Elke</label><input type="number" id="f-recur-n" min="1" max="99" value="1" oninput="updateRecurrencePreview()"></div><div class="form-group" style="margin:0"><label>Eenheid</label><select id="f-recur-unit" onchange="toggleWeekdays(); updateRecurrencePreview()"><option value="dag">dag</option><option value="week" selected>week</option><option value="maand">maand</option><option value="jaar">jaar</option></select></div></div><div class="form-group" id="weekday-group" style="margin:0"><label>Op welke dagen</label><div class="recurrence-days" id="recurrence-days"><button type="button" class="day-btn" data-day="1" onclick="toggleDay(this)">ma</button><button type="button" class="day-btn" data-day="2" onclick="toggleDay(this)">di</button><button type="button" class="day-btn" data-day="3" onclick="toggleDay(this)">wo</button><button type="button" class="day-btn" data-day="4" onclick="toggleDay(this)">do</button><button type="button" class="day-btn" data-day="5" onclick="toggleDay(this)">vr</button><button type="button" class="day-btn" data-day="6" onclick="toggleDay(this)">za</button><button type="button" class="day-btn" data-day="0" onclick="toggleDay(this)">zo</button></div></div><div class="form-group" style="margin:0"><label>Herhalen tot</label><input type="date" id="f-recur-until" oninput="updateRecurrencePreview()"></div><div id="recurrence-preview" class="recurrence-preview" style="display:none"></div></div></div>
     <div id="conflict-warning" class="warning"></div>
     <button class="submit-btn" id="submit-btn" onclick="submitBooking()">Reservering plaatsen</button>
+    <button class="edit-btn" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;margin-top:8px;width:100%">Wijzigen annuleren</button>
     <div id="role-request-box" style="display:none" class="role-info">
       <strong>Interne rol aanvragen</strong>
       <p>Een interne rol is alleen voor personen die werkzaam zijn bij han@connectr.</p>
@@ -52,12 +55,21 @@
     </div>
   </div></div>
 
-  <div id="tab-mijn" class="section"><div id="my-bookings-list" class="my-bookings-list"><div class="empty-state">Laden...</div></div></div>
+  <div id="tab-mijn" class="section"><p class="muted" style="margin-bottom:1rem">Plannen gewijzigd? Wijzig of annuleer je reservering zodat de ruimte beschikbaar blijft voor anderen.</p><div id="my-bookings-list" class="my-bookings-list"><div class="empty-state">Laden...</div></div></div>
+
+  <div id="tab-vragen" class="section"><div class="form-card">
+    <h2>Vragen, klachten of tips</h2>
+    <p class="muted" style="margin-bottom:1rem">Beschrijf je probleem, vraag of klacht. Heb je een verbetertip, dan kun je die hier ook invoeren.</p>
+    <div class="form-group"><label>Bericht</label><textarea id="support-message" placeholder="Typ hier je vraag, klacht, probleem of verbetertip..." maxlength="1500"></textarea></div>
+    <button class="submit-btn" id="support-submit-btn" onclick="submitSupportMessage()">Indienen</button>
+    <div id="my-support-messages" class="request-list" style="margin-top:1.25rem"></div>
+  </div></div>
 
   <div id="tab-beheer" class="section">
     <div class="admin-card"><h3>Supabase verbinding</h3><div id="supabase-status"><div class="status-badge checking"><div class="dot"></div>Nog niet getest</div></div><p class="muted">Alleen gebruikers met role = admin in profiles krijgen deze tab te zien.</p><button class="save-btn" onclick="testSupabaseConnection()">Verbinding testen</button></div>
     <div class="admin-card"><h3>Rolverzoeken</h3><div id="admin-role-requests" class="request-list"></div></div>
     <div class="admin-card"><h3>Reserveringsverzoeken</h3><div id="admin-booking-requests" class="request-list"></div></div>
+    <div class="admin-card"><h3>Vragen, klachten en tips</h3><div id="admin-support-messages" class="request-list"></div></div>
     <div class="admin-card"><h3>Ruimtes beheren</h3><div id="admin-rooms-list"></div><button class="add-room-btn" onclick="addAdminRoom()">+ Ruimte toevoegen</button><br><button class="save-btn" onclick="saveRooms()">Ruimtes opslaan</button></div>
     <div class="admin-card"><h3>Alle reserveringen</h3><div id="all-bookings-admin"></div></div>
   </div>
@@ -69,9 +81,10 @@ const SUPABASE_URL = 'https://oappvdfjyvbmvqrjvnmv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hcHB2ZGZqeXZibXZxcmp2bm12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTM4OTEsImV4cCI6MjA5MzcyOTg5MX0.Q-cL-Z9jDlY1Uw3khnS3yLAMteM-xjhyR9SGuJ_Qq8g';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
 const DAY_START=7, DAY_END=22;
-let rooms=[], bookings=[], publicRequests=[], myBookingRequests=[], roleRequests=[], adminBookingRequests=[], adminRoleRequests=[];
+let rooms=[], bookings=[], publicRequests=[], myBookingRequests=[], roleRequests=[], adminBookingRequests=[], adminRoleRequests=[], supportMessages=[], adminSupportMessages=[];
 let currentUser=null, currentProfile=null, currentRole='extern', isAdmin=false;
 let currentDate=new Date(); currentDate.setHours(0,0,0,0);
+let editState=null;
 
 document.addEventListener('DOMContentLoaded', async()=>{
   updateHeaderDate();
@@ -91,12 +104,12 @@ async function handleSession(session){
   currentUser=session ? session.user : null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi();
   if(!currentUser){ clearState(); renderGuestState(); return; }
   await loadProfile();
-  await Promise.all([loadRooms(), loadBookings(), loadPublicRequests(), loadMyBookingRequests(), loadMyRoleRequests()]);
-  if(isAdmin) await Promise.all([loadAdminRoleRequests(), loadAdminBookingRequests()]);
-  updateAuthUi(); updateBookingMode(); renderOverview(); renderMyBookings(); renderMyRoleRequests();
+  await Promise.all([loadRooms(), loadBookings(), loadPublicRequests(), loadMyBookingRequests(), loadMyRoleRequests(), loadMySupportMessages()]);
+  if(isAdmin) await Promise.all([loadAdminRoleRequests(), loadAdminBookingRequests(), loadAdminSupportMessages()]);
+  updateAuthUi(); updateBookingMode(); renderOverview(); renderMyBookings(); renderMyRoleRequests(); renderSupportMessages();
   if(isAdmin) renderAdmin();
 }
-function clearState(){ rooms=[]; bookings=[]; publicRequests=[]; myBookingRequests=[]; roleRequests=[]; adminBookingRequests=[]; adminRoleRequests=[]; }
+function clearState(){ rooms=[]; bookings=[]; publicRequests=[]; myBookingRequests=[]; roleRequests=[]; adminBookingRequests=[]; adminRoleRequests=[]; supportMessages=[]; adminSupportMessages=[]; }
 function userIsIntern(){ return currentRole==='intern'||currentRole==='admin'; }
 function userIsExtern(){ return currentRole==='extern'; }
 function updateHeaderDate(){ document.getElementById('header-date').textContent=new Date().toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'}); }
@@ -107,6 +120,18 @@ function updateAuthUi(){
 }
 function updateBookingMode(){
   const mode=document.getElementById('booking-mode'), title=document.getElementById('booking-title'), btn=document.getElementById('submit-btn'), ext=document.getElementById('external-fields'), roleBox=document.getElementById('role-request-box');
+  if(editState){
+    const isRequest=editState.type==='request';
+    title.textContent=isRequest?'Reserveringsverzoek wijzigen':'Reservering wijzigen';
+    mode.textContent=editState.scope==='series'?'Je wijzigt deze en alle opvolgende gebeurtenissen.':'Je wijzigt alleen deze gebeurtenis.';
+    mode.className='mode-badge'+(isRequest?' request':'');
+    btn.textContent='Wijzigingen opslaan';
+    btn.className='submit-btn'+(isRequest?' request':'');
+    ext.style.display=isRequest?'':'none';
+    roleBox.style.display='none';
+    document.getElementById('cancel-edit-btn').style.display='block';
+    return;
+  }
   const requestMode=userIsExtern();
   title.textContent=requestMode?'Nieuw reserveringsverzoek':'Nieuwe reservering';
   mode.textContent=requestMode?'Dit wordt een verzoek en moet eerst worden goedgekeurd.':'Vrije tijden worden direct gereserveerd. Bij conflict maak je een verzoek.';
@@ -115,8 +140,9 @@ function updateBookingMode(){
   btn.className='submit-btn'+(requestMode?' request':'');
   ext.style.display=requestMode?'':'none';
   roleBox.style.display=requestMode?'block':'none';
+  document.getElementById('cancel-edit-btn').style.display='none';
 }
-function renderGuestState(){ showNotice('Log in met je e-mailadres en wachtwoord om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
+function renderGuestState(){ showNotice('Log in met je e-mailadres en wachtwoord om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; document.getElementById('my-support-messages').innerHTML='<div class="empty-state">Log in om een vraag, klacht of tip in te dienen.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
 function getAuthCredentials(){
   const email=document.getElementById('auth-email').value.trim();
   const password=document.getElementById('auth-password').value;
@@ -175,14 +201,16 @@ async function loadMyBookingRequests(){
 async function loadMyRoleRequests(){ const {data,error}=await supabaseClient.from('role_requests').select('id, full_name, job_title, motivation, status, created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}); roleRequests=error?[]:(data||[]); }
 async function loadAdminRoleRequests(){ const {data,error}=await supabaseClient.from('role_requests').select('id, user_id, full_name, job_title, motivation, status, handled_at, created_at').eq('status','pending').order('created_at',{ascending:true}); adminRoleRequests=error?[]:(data||[]); }
 async function loadAdminBookingRequests(){ const {data,error}=await supabaseClient.from('reserveringsverzoeken').select('id, user_id, name, room_id, date, start_time, end_time, persons, description, motivation, organization, occasion, recurrence_id, status, conflict, admin_note, created_at').eq('status','pending').order('date',{ascending:true}).order('start_time',{ascending:true}); adminBookingRequests=error?[]:(data||[]).map(mapBookingRequest); }
+async function loadMySupportMessages(){ const {data,error}=await supabaseClient.from('support_messages').select('id, message, status, admin_note, created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(10); supportMessages=error?[]:(data||[]); }
+async function loadAdminSupportMessages(){ const {data,error}=await supabaseClient.from('support_messages').select('id, user_id, message, status, admin_note, created_at').order('created_at',{ascending:false}).limit(50); adminSupportMessages=error?[]:(data||[]); }
 function mapBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',recurrenceId:row.recurrence_id||null,created:row.created_at}; }
 function mapBookingRequest(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',motivation:row.motivation||'',organization:row.organization||'',occasion:row.occasion||'',recurrenceId:row.recurrence_id||null,status:row.status,conflict:!!row.conflict,adminNote:row.admin_note||'',created:row.created_at}; }
 async function insertBooking(booking){ const {error}=await supabaseClient.from('reserveringen').insert([{user_id:currentUser.id,name:booking.name,room_id:booking.roomId,date:booking.date,start_time:booking.start,end_time:booking.end,persons:booking.persons?Number(booking.persons):null,description:booking.desc||null,recurrence_id:booking.recurrenceId||null}]); if(error) throw error; }
 async function insertBookingRequest(booking){ const {error}=await supabaseClient.from('reserveringsverzoeken').insert([{user_id:currentUser.id,name:booking.name,room_id:booking.roomId,date:booking.date,start_time:booking.start,end_time:booking.end,persons:booking.persons?Number(booking.persons):null,description:booking.desc||null,motivation:booking.motivation||null,organization:booking.organization||null,occasion:booking.occasion||null,recurrence_id:booking.recurrenceId||null,conflict:!!booking.conflict}]); if(error) throw error; }
 async function deleteFromSupabase(id){ const {error}=await supabaseClient.from('reserveringen').delete().eq('id',id); if(error) throw error; }
 async function testSupabaseConnection(){ const status=document.getElementById('supabase-status'); status.innerHTML='<div class="status-badge checking"><div class="dot"></div>Verbinding testen...</div>'; try{ const {error}=await supabaseClient.from('rooms').select('id',{count:'exact',head:true}); if(error) throw error; status.innerHTML='<div class="status-badge connected"><div class="dot green"></div>Verbonden met Supabase</div>'; }catch(err){ status.innerHTML='<div class="status-badge error"><div class="dot red"></div>Verbinding mislukt: '+esc(err.message)+'</div>'; } }
-function switchTab(name){ if(!currentUser && name!=='overzicht'){ showNotice('Log eerst in om deze tab te gebruiken.','error'); return; } if(name==='beheer'&&!isAdmin){ showNotice('Alleen admins kunnen beheer openen.','error'); return; } if(name==='mijn') renderMyBookings(); if(name==='beheer') renderAdmin(); switchTabDirect(name); }
-function switchTabDirect(name){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.getElementById('tab-'+name).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>{ const t=b.textContent.trim().toLowerCase(); if(name==='overzicht'&&t==='overzicht') b.classList.add('active'); if(name==='reserveren'&&t==='reserveren') b.classList.add('active'); if(name==='mijn'&&t==='mijn reserveringen') b.classList.add('active'); if(name==='beheer'&&b.id==='beheer-tab-btn') b.classList.add('active'); }); }
+function switchTab(name){ if(!currentUser && name!=='overzicht'){ showNotice('Log eerst in om deze tab te gebruiken.','error'); return; } if(name==='beheer'&&!isAdmin){ showNotice('Alleen admins kunnen beheer openen.','error'); return; } if(name==='mijn') renderMyBookings(); if(name==='vragen') renderSupportMessages(); if(name==='beheer') renderAdmin(); switchTabDirect(name); }
+function switchTabDirect(name){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.getElementById('tab-'+name).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>{ const t=b.textContent.trim().toLowerCase(); if(name==='overzicht'&&t==='overzicht') b.classList.add('active'); if(name==='reserveren'&&t==='reserveren') b.classList.add('active'); if(name==='mijn'&&t==='mijn reserveringen') b.classList.add('active'); if(name==='vragen'&&t==='vragen/klachten') b.classList.add('active'); if(name==='beheer'&&b.id==='beheer-tab-btn') b.classList.add('active'); }); }
 function changeDay(delta){ currentDate.setDate(currentDate.getDate()+delta); document.getElementById('date-picker').value=dateStr(currentDate); renderOverview(); }
 function onDatePick(){ const val=document.getElementById('date-picker').value; if(val){ currentDate=new Date(val+'T00:00:00'); renderOverview(); } }
 function renderOverview(){
@@ -201,12 +229,13 @@ function timelineBlock(item,type,tip){ const left=timeToPercent(item.start), wid
 function quickReserve(roomId){ if(!currentUser){ showNotice('Log eerst in om te reserveren.','error'); return; } switchTabDirect('reserveren'); document.getElementById('f-room').value=roomId; document.getElementById('f-date').value=dateStr(currentDate); onRoomSelect(); checkConflict(); document.getElementById('f-name').focus(); }
 function populateRoomSelect(){ const sel=document.getElementById('f-room'), current=sel.value; sel.innerHTML='<option value="">Kies een ruimte</option>'+rooms.map(r=>'<option value="'+escAttr(r.id)+'">'+esc(r.id+' - '+r.name+(r.capacity?' (max '+r.capacity+')':''))+'</option>').join(''); if(current) sel.value=current; }
 function onRoomSelect(){ const roomId=document.getElementById('f-room').value, info=document.getElementById('capacity-info'); if(!roomId){ info.innerHTML=''; return; } const room=rooms.find(r=>r.id===roomId); info.innerHTML=(room&&room.capacity)?'<div class="capacity-badge">Maximaal '+room.capacity+' personen'+(room.notes?' - '+esc(room.notes):'')+'</div>':''; checkConflict(); }
-function findConflicts(date){ const roomId=document.getElementById('f-room').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value; return bookings.filter(b=>b.roomId===roomId&&b.date===date&&b.start<end&&b.end>start); }
-function checkConflict(){ const roomId=document.getElementById('f-room').value,date=document.getElementById('f-date').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value,warn=document.getElementById('conflict-warning'),btn=document.getElementById('submit-btn'); if(!roomId||!date||!start||!end){ warn.classList.remove('show'); btn.disabled=false; return; } if(start>=end){ warn.textContent='Eindtijd moet na begintijd liggen.'; warn.classList.add('show'); btn.disabled=true; return; } const conflicts=findConflicts(date); if(conflicts.length){ const c=conflicts[0]; warn.innerHTML='Al gereserveerd van <strong>'+c.start+'</strong> tot <strong>'+c.end+'</strong>. Je kunt hiervoor een verzoek indienen.'; warn.classList.add('show'); btn.disabled=false; btn.textContent='Verzoek indienen'; btn.classList.add('request'); } else { warn.classList.remove('show'); btn.disabled=false; updateBookingMode(); } }
+function findConflicts(date){ const roomId=document.getElementById('f-room').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value; return findConflictsFor(roomId,date,start,end,editState); }
+function checkConflict(){ const roomId=document.getElementById('f-room').value,date=document.getElementById('f-date').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value,warn=document.getElementById('conflict-warning'),btn=document.getElementById('submit-btn'); if(!roomId||!date||!start||!end){ warn.classList.remove('show'); btn.disabled=false; return; } if(start>=end){ warn.textContent='Eindtijd moet na begintijd liggen.'; warn.classList.add('show'); btn.disabled=true; return; } const conflicts=findConflicts(date); if(conflicts.length){ const c=conflicts[0]; warn.innerHTML='Al gereserveerd van <strong>'+c.start+'</strong> tot <strong>'+c.end+'</strong>. Je kunt hiervoor een verzoek indienen.'; warn.classList.add('show'); btn.disabled=false; if(!editState||editState.type!=='request'){ btn.textContent='Verzoek indienen'; btn.classList.add('request'); } } else { warn.classList.remove('show'); btn.disabled=false; updateBookingMode(); } }
 async function submitBooking(){
   if(!currentUser){ showNotice('Log eerst in om te reserveren.','error'); return; }
   const form=readBookingForm(); if(!form) return;
   const room=rooms.find(r=>r.id===form.roomId); if(room&&room.capacity&&form.persons&&Number(form.persons)>room.capacity&&!confirm('Let op: '+form.persons+' personen maar max '+room.capacity+'. Toch doorgaan?')) return;
+  if(editState){ await submitBookingEdit(form); return; }
   const dates=getRecurrenceDates(); if(dates.length>50&&!confirm('Dit maakt '+dates.length+' items aan. Doorgaan?')) return;
   const btn=document.getElementById('submit-btn'); btn.disabled=true; btn.textContent='Opslaan...';
   try{
@@ -229,16 +258,123 @@ function readBookingForm(){
   if(userIsExtern()&&(!organization||!occasion||!motivation)){ showNotice('Vul organisatie, gelegenheid en toelichting in.','error'); return null; }
   return {name,roomId,date,start,end,persons,desc,organization,occasion,motivation};
 }
-function findConflictsFor(roomId,date,start,end){ return bookings.filter(b=>b.roomId===roomId&&b.date===date&&b.start<end&&b.end>start); }
-async function refreshAfterChange(){ await Promise.all([loadBookings(), loadPublicRequests(), loadMyBookingRequests(), loadMyRoleRequests()]); if(isAdmin) await Promise.all([loadAdminRoleRequests(), loadAdminBookingRequests()]); renderOverview(); renderMyBookings(); renderMyRoleRequests(); if(isAdmin) renderAdmin(); }
-function resetBookingForm(){ ['f-room','f-persons','f-desc','f-organization','f-occasion','f-motivation'].forEach(id=>document.getElementById(id).value=''); document.getElementById('capacity-info').innerHTML=''; document.getElementById('conflict-warning').classList.remove('show'); document.getElementById('f-recur-toggle').checked=false; toggleRecurrence(); }
+function findConflictsFor(roomId,date,start,end,exclude){ return bookings.filter(b=>{ if(exclude&&exclude.type==='booking'){ if(exclude.scope==='single'&&b.id===exclude.id) return false; if(exclude.scope==='series'&&b.recurrenceId&&b.recurrenceId===exclude.recurrenceId&&b.date>=exclude.originalDate) return false; } return b.roomId===roomId&&b.date===date&&b.start<end&&b.end>start; }); }
+async function refreshAfterChange(){ await Promise.all([loadBookings(), loadPublicRequests(), loadMyBookingRequests(), loadMyRoleRequests(), loadMySupportMessages()]); if(isAdmin) await Promise.all([loadAdminRoleRequests(), loadAdminBookingRequests(), loadAdminSupportMessages()]); renderOverview(); renderMyBookings(); renderMyRoleRequests(); renderSupportMessages(); if(isAdmin) renderAdmin(); }
+function resetBookingForm(){ editState=null; ['f-room','f-persons','f-desc','f-organization','f-occasion','f-motivation'].forEach(id=>document.getElementById(id).value=''); document.getElementById('capacity-info').innerHTML=''; document.getElementById('conflict-warning').classList.remove('show'); document.getElementById('f-recur-toggle').checked=false; toggleRecurrence(); updateBookingMode(); }
+function canEditBooking(b){ return currentUser&&b&&b.userId===currentUser.id&&userIsIntern(); }
+function canEditRequest(r){ return currentUser&&r&&r.status==='pending'&&(r.userId===currentUser.id||isAdmin); }
+function startEdit(type,id,scope){
+  const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests);
+  const item=source.find(x=>x.id===id);
+  if(!item){ showNotice('Item niet gevonden om te wijzigen.','error'); return; }
+  if(type==='booking'&&!canEditBooking(item)){ showNotice('Je kunt alleen je eigen reserveringen wijzigen.','error'); return; }
+  if(type==='request'&&!canEditRequest(item)){ showNotice('Je kunt alleen openstaande verzoeken wijzigen waar je rechten op hebt.','error'); return; }
+  editState={type,id,scope:scope||'single',recurrenceId:item.recurrenceId||null,originalDate:item.date,original:item};
+  fillBookingForm(item,type);
+  switchTabDirect('reserveren');
+  updateBookingMode();
+  checkConflict();
+  document.getElementById('f-name').focus();
+}
+function chooseEditScope(type,id){
+  const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests);
+  const item=source.find(x=>x.id===id);
+  if(!item) return;
+  if(!item.recurrenceId){ startEdit(type,id,'single'); return; }
+  const series=confirm('Wil je deze en alle opvolgende gebeurtenissen in de reeks wijzigen?\n\nOK = deze en opvolgende\nAnnuleren = alleen deze');
+  startEdit(type,id,series?'series':'single');
+}
+function fillBookingForm(item,type){
+  document.getElementById('f-name').value=item.name||'';
+  document.getElementById('f-room').value=item.roomId||'';
+  document.getElementById('f-date').value=item.date||dateStr(new Date());
+  document.getElementById('f-start').value=item.start||'09:00';
+  document.getElementById('f-end').value=item.end||'10:00';
+  document.getElementById('f-persons').value=item.persons||'';
+  document.getElementById('f-desc').value=item.desc||'';
+  document.getElementById('f-organization').value=item.organization||'';
+  document.getElementById('f-occasion').value=item.occasion||'';
+  document.getElementById('f-motivation').value=item.motivation||'';
+  document.getElementById('f-recur-toggle').checked=false;
+  toggleRecurrence();
+  onRoomSelect();
+}
+function cancelEdit(){ editState=null; resetBookingForm(); showNotice('Wijzigen geannuleerd.',''); }
+function bookingPayload(form){ return {name:form.name,room_id:form.roomId,date:form.date,start_time:form.start,end_time:form.end,persons:form.persons?Number(form.persons):null,description:form.desc||null}; }
+function requestPayload(form,conflict){ return {...bookingPayload(form),motivation:form.motivation||null,organization:form.organization||null,occasion:form.occasion||null,conflict:!!conflict}; }
+async function submitBookingEdit(form){
+  const btn=document.getElementById('submit-btn'); btn.disabled=true; btn.textContent='Opslaan...';
+  try{
+    const returnTab=editState.type==='request'&&isAdmin?'beheer':'mijn';
+    if(editState.type==='booking') await updateBookingEdit(form);
+    else await updateRequestEdit(form);
+    await refreshAfterChange();
+    resetBookingForm();
+    showNotice('Wijzigingen opgeslagen.','success');
+    switchTabDirect(returnTab);
+  } catch(err){ showNotice('Wijzigen mislukt: '+explainError(err),'error'); }
+  finally{ btn.disabled=false; updateBookingMode(); checkConflict(); }
+}
+async function updateBookingEdit(form){
+  const seriesItems=(editState.scope==='series'&&editState.recurrenceId)?bookings.filter(b=>b.recurrenceId===editState.recurrenceId&&b.date>=editState.originalDate&&b.userId===currentUser.id).sort(sortBookings):[];
+  const conflict=seriesItems.length?seriesHasBookingConflicts(seriesItems,form):findConflictsFor(form.roomId,form.date,form.start,form.end,editState).length>0;
+  if(conflict){
+    if(!confirm('Er is een conflict. Wil je de reservering omzetten naar een reserveringsverzoek?')) throw new Error('wijziging geannuleerd.');
+    await convertBookingEditToRequest(form);
+    return;
+  }
+  if(editState.scope==='series'&&editState.recurrenceId){
+    await updateSeries('reserveringen',seriesItems,form,bookingPayload);
+  } else {
+    const {error}=await supabaseClient.from('reserveringen').update(bookingPayload(form)).eq('id',editState.id).eq('user_id',currentUser.id);
+    if(error) throw error;
+  }
+}
+async function convertBookingEditToRequest(form){
+  const items=(editState.scope==='series'&&editState.recurrenceId)?bookings.filter(b=>b.recurrenceId===editState.recurrenceId&&b.date>=editState.originalDate&&b.userId===currentUser.id).sort(sortBookings):[editState.original];
+  const delta=dayDiff(editState.originalDate,form.date), recurrenceId=editState.scope==='series'?editState.recurrenceId:null;
+  for(const item of items){
+    const next={...form,date:shiftDate(item.date,delta),recurrenceId,conflict:true};
+    await insertBookingRequest(next);
+  }
+  if(editState.scope==='series'&&editState.recurrenceId){
+    const {error}=await supabaseClient.from('reserveringen').delete().eq('recurrence_id',editState.recurrenceId).gte('date',editState.originalDate).eq('user_id',currentUser.id);
+    if(error) throw error;
+  } else await deleteFromSupabase(editState.id);
+}
+async function updateRequestEdit(form){
+  const conflict=findConflictsFor(form.roomId,form.date,form.start,form.end,null).length>0;
+  if(editState.scope==='series'&&editState.recurrenceId){
+    const items=myBookingRequests.concat(adminBookingRequests).filter(r=>r.recurrenceId===editState.recurrenceId&&r.date>=editState.originalDate&&r.status==='pending').sort(sortBookings);
+    await updateSeries('reserveringsverzoeken',items,form,(next)=>requestPayload(next,findConflictsFor(next.roomId,next.date,next.start,next.end,null).length>0));
+  } else {
+    let query=supabaseClient.from('reserveringsverzoeken').update(requestPayload(form,conflict)).eq('id',editState.id).eq('status','pending');
+    if(!isAdmin) query=query.eq('user_id',currentUser.id);
+    const {error}=await query;
+    if(error) throw error;
+  }
+}
+async function updateSeries(table,items,form,payloadFn){
+  const delta=dayDiff(editState.originalDate,form.date);
+  for(const item of items){
+    const next={...form,date:shiftDate(item.date,delta)};
+    const {error}=await supabaseClient.from(table).update(payloadFn(next)).eq('id',item.id);
+    if(error) throw error;
+  }
+}
+function seriesHasBookingConflicts(items,form){
+  const delta=dayDiff(editState.originalDate,form.date);
+  return items.some(item=>findConflictsFor(form.roomId,shiftDate(item.date,delta),form.start,form.end,editState).length>0);
+}
+function dayDiff(from,to){ return Math.round((new Date(to+'T00:00:00')-new Date(from+'T00:00:00'))/(24*3600*1000)); }
+function shiftDate(date,delta){ const d=new Date(date+'T00:00:00'); d.setDate(d.getDate()+delta); return dateStr(d); }
 function renderMyBookings(){
   const list=document.getElementById('my-bookings-list'); if(!currentUser){ list.innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; return; }
   const today=new Date(); today.setHours(0,0,0,0); const mine=bookings.filter(b=>b.userId===currentUser.id&&new Date(b.date+'T00:00:00')>=today).sort(sortBookings); const req=myBookingRequests.filter(r=>new Date(r.date+'T00:00:00')>=today).sort(sortBookings);
   list.innerHTML=(mine.length||req.length)?mine.map(renderBookingCard).join('')+req.map(renderRequestCard).join(''):'<div class="empty-state">Geen aankomende reserveringen of verzoeken gevonden.</div>';
 }
-function renderBookingCard(b){ const label=new Date(b.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); const cancelBtn=b.recurrenceId?'<button class="cancel-btn" onclick="cancelBookingSeries(\''+escAttr(b.recurrenceId)+'\')">Reeks annuleren</button><button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Alleen deze</button>':'<button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Annuleren</button>'; return '<div class="booking-card"><div><div class="bk-room">'+esc(b.roomName||b.roomId)+'</div><div class="bk-details">'+esc(label+' - '+b.start+'-'+b.end+(b.persons?' - '+b.persons+' pers.':''))+'</div>'+(b.recurrenceId?'<div class="bk-who">Herhalende reservering</div>':'')+(b.desc?'<div class="bk-who">'+esc(b.desc)+'</div>':'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+cancelBtn+'</div></div>'; }
-function renderRequestCard(r){ const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); const cancelBtn=r.status==='pending'?'<button class="cancel-btn" onclick="cancelBookingRequest(\''+escAttr(r.id)+'\')">Verzoek intrekken</button>':''; return '<div class="booking-card"><div><div class="bk-room">Verzoek: '+esc(r.roomName||r.roomId)+'</div><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+' - '+r.status)+'</div><div class="bk-who">'+esc((r.organization? r.organization+' - ':'')+(r.occasion||'')+(r.adminNote?' - Admin: '+r.adminNote:''))+'</div></div>'+cancelBtn+'</div>'; }
+function renderBookingCard(b){ const label=new Date(b.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); const editBtn=canEditBooking(b)?'<button class="edit-btn" onclick="chooseEditScope(\'booking\',\''+escAttr(b.id)+'\')">Wijzigen</button>':''; const cancelBtn=b.recurrenceId?'<button class="cancel-btn" onclick="cancelBookingSeries(\''+escAttr(b.recurrenceId)+'\')">Reeks annuleren</button><button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Alleen deze</button>':'<button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Annuleren</button>'; return '<div class="booking-card"><div><div class="bk-room">'+esc(b.roomName||b.roomId)+'</div><div class="bk-details">'+esc(label+' - '+b.start+'-'+b.end+(b.persons?' - '+b.persons+' pers.':''))+'</div>'+(b.recurrenceId?'<div class="bk-who">Herhalende reservering</div>':'')+(b.desc?'<div class="bk-who">'+esc(b.desc)+'</div>':'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+editBtn+cancelBtn+'</div></div>'; }
+function renderRequestCard(r){ const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); const editBtn=canEditRequest(r)?'<button class="edit-btn" onclick="chooseEditScope(\'request\',\''+escAttr(r.id)+'\')">Wijzigen</button>':''; const cancelBtn=r.status==='pending'?'<button class="cancel-btn" onclick="cancelBookingRequest(\''+escAttr(r.id)+'\')">Verzoek intrekken</button>':''; return '<div class="booking-card"><div><div class="bk-room">Verzoek: '+esc(r.roomName||r.roomId)+'</div><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+' - '+r.status)+'</div><div class="bk-who">'+esc((r.organization? r.organization+' - ':'')+(r.occasion||'')+(r.adminNote?' - Admin: '+r.adminNote:''))+'</div></div><div style="display:flex;gap:6px;flex-wrap:wrap">'+editBtn+cancelBtn+'</div></div>'; }
 async function cancelBookingRequest(id){ if(!confirm('Wil je dit verzoek intrekken?')) return; try{ const {error}=await supabaseClient.from('reserveringsverzoeken').delete().eq('id',id); if(error) throw error; await refreshAfterChange(); showNotice('Verzoek ingetrokken.','success'); }catch(err){ showNotice('Intrekken mislukt: '+err.message,'error'); } }
 async function cancelBookingSeries(recurrenceId){ if(!confirm('Wil je alle herhalingen van deze reservering annuleren?')) return; try{ const {error}=await supabaseClient.from('reserveringen').delete().eq('recurrence_id',recurrenceId).eq('user_id',currentUser.id); if(error) throw error; await refreshAfterChange(); showNotice('Alle herhalingen geannuleerd.','success'); } catch(err){ showNotice('Annuleren mislukt: '+err.message,'error'); } }
 async function cancelBooking(id){ if(!confirm('Wil je deze reservering annuleren?')) return; try{ await deleteFromSupabase(id); await refreshAfterChange(); showNotice('Reservering geannuleerd.','success'); } catch(err){ showNotice('Annuleren mislukt: '+err.message,'error'); } }
@@ -250,10 +386,43 @@ function getRecurrenceDates(){ const toggle=document.getElementById('f-recur-tog
 function updateRecurrencePreview(){ const preview=document.getElementById('recurrence-preview'), dates=getRecurrenceDates(), until=document.getElementById('f-recur-until').value; if(!document.getElementById('f-recur-toggle').checked||!until){ preview.style.display='none'; return; } preview.style.display='block'; const shown=dates.slice(0,5).map(d=>new Date(d+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'})); preview.textContent=dates.length+' items: '+shown.join(', ')+(dates.length>5?' ... +'+(dates.length-5)+' meer':''); }
 async function submitRoleRequest(){ const fullName=document.getElementById('rr-name').value.trim(), jobTitle=document.getElementById('rr-job').value.trim(), motivation=document.getElementById('rr-motivation').value.trim(); if(!fullName||!jobTitle||!motivation){ showNotice('Vul naam, functie en reden in.','error'); return; } try{ const {error}=await supabaseClient.from('role_requests').insert([{user_id:currentUser.id,full_name:fullName,job_title:jobTitle,motivation}]); if(error) throw error; await loadMyRoleRequests(); renderMyRoleRequests(); showNotice('Rolverzoek ingediend.','success'); }catch(err){ showNotice('Rolverzoek mislukt: '+err.message,'error'); } }
 function renderMyRoleRequests(){ const box=document.getElementById('my-role-requests'); if(!box) return; const pending=roleRequests.find(r=>r.status==='pending'); box.textContent=pending?'Je hebt al een openstaand intern-rolverzoek.':''; }
-function renderAdmin(){ renderAdminRooms(); renderAllBookingsAdmin(); renderAdminRoleRequests(); renderAdminBookingRequests(); }
+async function submitSupportMessage(){
+  if(!currentUser){ showNotice('Log eerst in om een vraag, klacht of tip in te dienen.','error'); return; }
+  const message=document.getElementById('support-message').value.trim();
+  if(message.length<5){ showNotice('Beschrijf je vraag, klacht, probleem of tip iets uitgebreider.','error'); return; }
+  const btn=document.getElementById('support-submit-btn'); btn.disabled=true; btn.textContent='Indienen...';
+  try{
+    const {error}=await supabaseClient.from('support_messages').insert([{user_id:currentUser.id,message}]);
+    if(error) throw error;
+    document.getElementById('support-message').value='';
+    await loadMySupportMessages();
+    if(isAdmin) await loadAdminSupportMessages();
+    renderSupportMessages();
+    if(isAdmin) renderAdminSupportMessages();
+    showNotice('Je bericht is ingediend.','success');
+  }catch(err){ showNotice('Indienen mislukt: '+err.message,'error'); }
+  finally{ btn.disabled=false; btn.textContent='Indienen'; }
+}
+function renderSupportMessages(){
+  const div=document.getElementById('my-support-messages'); if(!div) return;
+  if(!currentUser){ div.innerHTML='<div class="empty-state">Log in om een vraag, klacht of tip in te dienen.</div>'; return; }
+  if(!supportMessages.length){ div.innerHTML='<div class="empty-state">Je hebt nog geen vragen, klachten of tips ingediend.</div>'; return; }
+  div.innerHTML=supportMessages.map(renderSupportCard).join('');
+}
+function renderSupportCard(m){
+  const label=new Date(m.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  return '<div class="request-card"><strong>'+esc(label)+' - '+esc(m.status||'open')+'</strong><div class="bk-who">'+esc(m.message)+'</div>'+(m.admin_note?'<div class="bk-details">Reactie: '+esc(m.admin_note)+'</div>':'')+'</div>';
+}
+function renderAdmin(){ renderAdminRooms(); renderAllBookingsAdmin(); renderAdminRoleRequests(); renderAdminBookingRequests(); renderAdminSupportMessages(); }
+function renderAdminSupportMessages(){
+  const div=document.getElementById('admin-support-messages'); if(!div) return;
+  if(!isAdmin){ div.innerHTML='<div class="empty-state">Alleen admins kunnen vragen, klachten en tips bekijken.</div>'; return; }
+  if(!adminSupportMessages.length){ div.innerHTML='<div class="empty-state">Geen vragen, klachten of tips ingediend.</div>'; return; }
+  div.innerHTML=adminSupportMessages.map(m=>{ const label=new Date(m.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); return '<div class="request-card"><strong>'+esc(label)+' - '+esc(m.status||'open')+'</strong><div class="bk-details">Gebruiker: '+esc(m.user_id)+'</div><div class="bk-who">'+esc(m.message)+'</div>'+(m.admin_note?'<div class="bk-details">Notitie: '+esc(m.admin_note)+'</div>':'')+'</div>'; }).join('');
+}
 function renderAdminRoleRequests(){ const div=document.getElementById('admin-role-requests'); if(!adminRoleRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande rolverzoeken.</div>'; return; } div.innerHTML=adminRoleRequests.map(r=>'<div class="request-card"><strong>'+esc(r.full_name)+'</strong><div class="bk-details">'+esc(r.job_title)+'</div><div class="bk-who">'+esc(r.motivation)+'</div><div class="admin-actions"><button class="approve-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',true)">Goedkeuren</button><button class="reject-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',false)">Afwijzen</button></div></div>').join(''); }
 async function handleRoleRequest(id,approve){ try{ const {error}=await supabaseClient.rpc(approve?'approve_role_request':'reject_role_request',{request_id:id}); if(error) throw error; await refreshAfterChange(); showNotice('Rolverzoek verwerkt.','success'); }catch(err){ showNotice('Verwerken mislukt: '+err.message,'error'); } }
-function renderAdminBookingRequests(){ const div=document.getElementById('admin-booking-requests'); if(!adminBookingRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande reserveringsverzoeken.</div>'; return; } div.innerHTML=adminBookingRequests.map(r=>{ const noteId='note-'+r.id; const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); return '<div class="request-card"><strong>'+esc(r.name)+' - '+esc(r.roomName||r.roomId)+'</strong><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+(r.persons?' - '+r.persons+' pers.':''))+'</div><div class="bk-who">Organisatie: '+esc(r.organization||'-')+' | Gelegenheid: '+esc(r.occasion||'-')+' | Conflict: '+(r.conflict?'ja':'nee')+'</div><div class="bk-who">'+esc(r.desc||'')+'</div><div class="bk-who">'+esc(r.motivation||'')+'</div><textarea class="admin-note" id="'+escAttr(noteId)+'" placeholder="Adminnotitie"></textarea><div class="admin-actions"><button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,true)">Goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,false)">Afwijzen</button>'+(r.recurrenceId?'<button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,true)">Reeks goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,false)">Reeks afwijzen</button>':'')+'</div></div>'; }).join(''); }
+function renderAdminBookingRequests(){ const div=document.getElementById('admin-booking-requests'); if(!adminBookingRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande reserveringsverzoeken.</div>'; return; } div.innerHTML=adminBookingRequests.map(r=>{ const noteId='note-'+r.id; const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); return '<div class="request-card"><strong>'+esc(r.name)+' - '+esc(r.roomName||r.roomId)+'</strong><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+(r.persons?' - '+r.persons+' pers.':''))+'</div><div class="bk-who">Organisatie: '+esc(r.organization||'-')+' | Gelegenheid: '+esc(r.occasion||'-')+' | Conflict: '+(r.conflict?'ja':'nee')+'</div><div class="bk-who">'+esc(r.desc||'')+'</div><div class="bk-who">'+esc(r.motivation||'')+'</div><textarea class="admin-note" id="'+escAttr(noteId)+'" placeholder="Adminnotitie"></textarea><div class="admin-actions"><button class="edit-btn" onclick="chooseEditScope(\'request\',\''+escAttr(r.id)+'\')">Wijzigen</button><button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,true)">Goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,false)">Afwijzen</button>'+(r.recurrenceId?'<button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,true)">Reeks goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,false)">Reeks afwijzen</button>':'')+'</div></div>'; }).join(''); }
 async function handleBookingRequest(id,series,approve){ const noteEl=document.getElementById('note-'+id), note=noteEl?noteEl.value.trim():''; const fn=series?(approve?'approve_reserveringsverzoek_reeks':'reject_reserveringsverzoek_reeks'):(approve?'approve_reserveringsverzoek':'reject_reserveringsverzoek'); try{ const {error}=await supabaseClient.rpc(fn,{verzoek_id:id,note}); if(error) throw error; await refreshAfterChange(); showNotice('Reserveringsverzoek verwerkt.','success'); }catch(err){ showNotice('Verwerken mislukt: '+err.message,'error'); } }
 function renderAdminRooms(){ const list=document.getElementById('admin-rooms-list'); if(!isAdmin){ list.innerHTML='<div class="empty-state">Alleen admins kunnen ruimtes beheren.</div>'; return; } list.innerHTML=rooms.map((r,i)=>renderAdminRoomRow(r,i,false)).join(''); }
 function renderAdminRoomRow(r,i,isNew){ return '<div class="admin-room-row" data-original-id="'+escAttr(isNew?'':r.id)+'"><input type="text" value="'+escAttr(r.id||'')+'" placeholder="ID" '+(isNew?'':'disabled')+'><input type="text" value="'+escAttr(r.name||'')+'" placeholder="Naam"><input type="number" min="1" value="'+escAttr(r.capacity||'')+'" placeholder="Max"><input type="text" value="'+escAttr(r.notes||'')+'" placeholder="Opmerking"><button class="del-btn" onclick="deleteRoom('+i+')">&#215;</button></div>'; }
