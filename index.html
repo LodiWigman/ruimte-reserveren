@@ -16,7 +16,7 @@
   <div class="brand"><div class="mark"></div><h1>Ruimte<span>reservering</span></h1></div>
   <div class="header-actions">
     <span id="header-date"></span>
-    <div id="auth-signed-out" class="auth-form"><input type="email" id="auth-email" placeholder="E-mailadres" autocomplete="email"><input type="password" id="auth-password" placeholder="Wachtwoord" autocomplete="current-password"><button class="auth-btn" id="login-btn" onclick="signInWithPassword()">Inloggen</button><button class="auth-btn secondary" id="register-btn" onclick="signUpWithPassword()">Registreren</button></div>
+    <div id="auth-signed-out" class="auth-form"><button class="auth-btn" id="login-btn" onclick="signInWithPassword()">Inloggen</button><button class="auth-btn secondary" id="register-btn" onclick="signUpWithPassword()">Registreren</button></div>
     <div id="auth-signed-in" class="auth-user"><span class="role-badge" id="role-badge">extern</span><span id="auth-user-label"></span><button class="auth-btn secondary" onclick="signOut()">Uitloggen</button></div>
   </div>
 </header>
@@ -79,7 +79,12 @@
 <script>
 const SUPABASE_URL = 'https://oappvdfjyvbmvqrjvnmv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hcHB2ZGZqeXZibXZxcmp2bm12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTM4OTEsImV4cCI6MjA5MzcyOTg5MX0.Q-cL-Z9jDlY1Uw3khnS3yLAMteM-xjhyR9SGuJ_Qq8g';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+const CLERK_PUBLISHABLE_KEY = 'pk_test_YWxlcnQtYmF0LTUwLmNsZXJrLmFjY291bnRzLmRldiQ';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  async accessToken(){
+    return window.Clerk && window.Clerk.session ? window.Clerk.session.getToken() : null;
+  }
+});
 const DAY_START=7, DAY_END=22;
 let rooms=[], bookings=[], publicRequests=[], myBookingRequests=[], roleRequests=[], adminBookingRequests=[], adminRoleRequests=[], supportMessages=[], adminSupportMessages=[];
 let currentUser=null, currentProfile=null, currentRole='extern', isAdmin=false;
@@ -91,24 +96,49 @@ document.addEventListener('DOMContentLoaded', async()=>{
   document.getElementById('f-date').value=dateStr(new Date());
   document.getElementById('date-picker').value=dateStr(currentDate);
   document.getElementById('overview-date-label').textContent=formatDate(currentDate);
-  document.getElementById('auth-email').addEventListener('keydown', e=>{ if(e.key==='Enter') signInWithPassword(); });
-  document.getElementById('auth-password').addEventListener('keydown', e=>{ if(e.key==='Enter') signInWithPassword(); });
   toggleRecurrence();
-  const {data,error}=await supabaseClient.auth.getSession();
-  if(error) showNotice('Sessie ophalen mislukt: '+error.message,'error');
-  await handleSession(data ? data.session : null);
-  supabaseClient.auth.onAuthStateChange(async (_event, session)=>{ await handleSession(session); });
+  await initClerk();
 });
 
-async function handleSession(session){
-  currentUser=session ? session.user : null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi();
+async function initClerk(){
+  if(!CLERK_PUBLISHABLE_KEY || CLERK_PUBLISHABLE_KEY.includes('PASTE_')){
+    showNotice('Vul eerst je Clerk publishable key in bij CLERK_PUBLISHABLE_KEY.','error');
+    await handleClerkUser(null);
+    return;
+  }
+  try{
+    const clerkDomain=atob(CLERK_PUBLISHABLE_KEY.split('_')[2]).slice(0,-1);
+    await loadScript('https://'+clerkDomain+'/npm/@clerk/ui@1/dist/ui.browser.js');
+    await loadScript('https://'+clerkDomain+'/npm/@clerk/clerk-js@6/dist/clerk.browser.js', {'data-clerk-publishable-key':CLERK_PUBLISHABLE_KEY});
+    await window.Clerk.load({ui:{ClerkUI:window.__internal_ClerkUICtor}});
+    window.Clerk.addListener(({user})=>{ handleClerkUser(user||null); });
+    await handleClerkUser(window.Clerk.user||null);
+  }catch(err){
+    showNotice('Clerk laden mislukt: '+err.message,'error');
+    await handleClerkUser(null);
+  }
+}
+function loadScript(src,attrs){
+  return new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src=src; script.defer=true; script.crossOrigin='anonymous';
+    Object.entries(attrs||{}).forEach(([key,value])=>script.setAttribute(key,value));
+    script.onload=resolve;
+    script.onerror=()=>reject(new Error('Script kon niet laden: '+src));
+    document.head.appendChild(script);
+  });
+}
+async function handleClerkUser(user){
+  currentUser=user ? {id:user.id,email:getClerkEmail(user),displayName:user.fullName||user.username||''} : null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi();
   if(!currentUser){ clearState(); renderGuestState(); return; }
+  await ensureProfile();
   await loadProfile();
   await Promise.all([loadRooms(), loadBookings(), loadPublicRequests(), loadMyBookingRequests(), loadMyRoleRequests(), loadMySupportMessages()]);
   if(isAdmin) await Promise.all([loadAdminRoleRequests(), loadAdminBookingRequests(), loadAdminSupportMessages()]);
   updateAuthUi(); updateBookingMode(); renderOverview(); renderMyBookings(); renderMyRoleRequests(); renderSupportMessages();
   if(isAdmin) renderAdmin();
 }
+function getClerkEmail(user){ return user&&user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : ''; }
 function clearState(){ rooms=[]; bookings=[]; publicRequests=[]; myBookingRequests=[]; roleRequests=[]; adminBookingRequests=[]; adminRoleRequests=[]; supportMessages=[]; adminSupportMessages=[]; }
 function userIsIntern(){ return currentRole==='intern'||currentRole==='admin'; }
 function userIsExtern(){ return currentRole==='extern'; }
@@ -143,14 +173,6 @@ function updateBookingMode(){
   document.getElementById('cancel-edit-btn').style.display='none';
 }
 function renderGuestState(){ showNotice('Log in met je e-mailadres en wachtwoord om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; document.getElementById('my-support-messages').innerHTML='<div class="empty-state">Log in om een vraag, klacht of tip in te dienen.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
-function getAuthCredentials(){
-  const email=document.getElementById('auth-email').value.trim();
-  const password=document.getElementById('auth-password').value;
-  if(!email){ showNotice('Vul eerst je e-mailadres in.','error'); return null; }
-  if(!password){ showNotice('Vul eerst je wachtwoord in.','error'); return null; }
-  if(password.length<6){ showNotice('Gebruik een wachtwoord van minimaal 6 tekens.','error'); return null; }
-  return {email,password};
-}
 function setAuthBusy(isBusy, label){
   const loginBtn=document.getElementById('login-btn'), registerBtn=document.getElementById('register-btn');
   loginBtn.disabled=isBusy; registerBtn.disabled=isBusy;
@@ -158,24 +180,22 @@ function setAuthBusy(isBusy, label){
   registerBtn.textContent=isBusy&&label==='register'?'Registreren...':'Registreren';
 }
 async function signInWithPassword(){
-  const credentials=getAuthCredentials();
-  if(!credentials) return;
-  setAuthBusy(true,'login');
-  const {error}=await supabaseClient.auth.signInWithPassword(credentials);
-  setAuthBusy(false);
-  if(error) showNotice('Inloggen mislukt: '+error.message,'error');
+  if(!window.Clerk){ showNotice('Clerk is nog niet geladen.','error'); return; }
+  window.Clerk.openSignIn();
 }
 async function signUpWithPassword(){
-  const credentials=getAuthCredentials();
-  if(!credentials) return;
-  setAuthBusy(true,'register');
-  const {data,error}=await supabaseClient.auth.signUp(credentials);
-  setAuthBusy(false);
-  if(error){ showNotice('Registreren mislukt: '+error.message,'error'); return; }
-  if(data&&data.session) showNotice('Registratie gelukt. Je bent nu ingelogd.','success');
-  else showNotice('Registratie gelukt. Controleer je Supabase email-instellingen als je nog niet direct bent ingelogd.','success');
+  if(!window.Clerk){ showNotice('Clerk is nog niet geladen.','error'); return; }
+  window.Clerk.openSignUp();
 }
-async function signOut(){ await supabaseClient.auth.signOut(); currentUser=null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi(); clearState(); renderGuestState(); }
+async function signOut(){ if(window.Clerk) await window.Clerk.signOut(); currentUser=null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi(); clearState(); renderGuestState(); }
+async function ensureProfile(){
+  const displayName=currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Gebruiker');
+  const {data:existing,error:selectError}=await supabaseClient.from('profiles').select('id').eq('id',currentUser.id).maybeSingle();
+  if(selectError){ showNotice('Profiel controleren mislukt: '+selectError.message,'error'); return; }
+  if(existing) return;
+  const {error}=await supabaseClient.from('profiles').insert([{id:currentUser.id,display_name:displayName}]);
+  if(error) showNotice('Profiel aanmaken mislukt: '+error.message,'error');
+}
 async function loadProfile(){
   const {data,error}=await supabaseClient.from('profiles').select('id, display_name, role').eq('id',currentUser.id).maybeSingle();
   if(error){ showNotice('Profiel laden mislukt: '+error.message,'error'); return; }
