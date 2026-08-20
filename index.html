@@ -205,9 +205,18 @@ async function loadProfile(){
 }
 async function loadRooms(){ const {data,error}=await supabaseClient.from('rooms').select('id, name, capacity, notes, active').eq('active',true).order('id',{ascending:true}); if(error){ showNotice('Ruimtes laden mislukt: '+error.message,'error'); rooms=[]; return; } rooms=data||[]; populateRoomSelect(); }
 async function loadBookings(){
-  const {data,error}=await supabaseClient.from('reserveringen').select('id, user_id, name, room_id, date, start_time, end_time, persons, description, recurrence_id, created_at').order('date',{ascending:true}).order('start_time',{ascending:true});
-  if(error){ showNotice('Reserveringen laden mislukt: '+error.message,'error'); bookings=[]; return; }
-  bookings=(data||[]).map(mapBooking);
+  if(isAdmin){
+    const {data,error}=await supabaseClient.from('reserveringen').select('id, user_id, name, room_id, date, start_time, end_time, persons, description, recurrence_id, created_at').order('date',{ascending:true}).order('start_time',{ascending:true});
+    if(error){ showNotice('Reserveringen laden mislukt: '+error.message,'error'); bookings=[]; return; }
+    bookings=(data||[]).map(mapBooking);
+    return;
+  }
+  const [{data:publicData,error:publicError},{data:ownData,error:ownError}]=await Promise.all([
+    supabaseClient.rpc('public_reserveringen_overzicht'),
+    supabaseClient.from('reserveringen').select('id, user_id, name, room_id, date, start_time, end_time, persons, description, recurrence_id, created_at').eq('user_id',currentUser.id).order('date',{ascending:true}).order('start_time',{ascending:true})
+  ]);
+  if(publicError||ownError){ showNotice('Reserveringen laden mislukt: '+(publicError||ownError).message,'error'); bookings=[]; return; }
+  bookings=[...(publicData||[]).map(mapPublicBooking), ...(ownData||[]).map(mapBooking)].sort(sortBookings);
 }
 async function loadPublicRequests(){
   const {data,error}=await supabaseClient.rpc('public_reserveringsverzoeken');
@@ -224,6 +233,7 @@ async function loadAdminBookingRequests(){ const {data,error}=await supabaseClie
 async function loadMySupportMessages(){ const {data,error}=await supabaseClient.from('support_messages').select('id, message, status, admin_note, created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(10); supportMessages=error?[]:(data||[]); }
 async function loadAdminSupportMessages(){ const {data,error}=await supabaseClient.from('support_messages').select('id, user_id, message, status, admin_note, created_at').order('created_at',{ascending:false}).limit(50); adminSupportMessages=error?[]:(data||[]); }
 function mapBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',recurrenceId:row.recurrence_id||null,created:row.created_at}; }
+function mapPublicBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:null,userId:null,name:'Gereserveerd',roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:'',desc:'',recurrenceId:null,status:row.status||'confirmed'}; }
 function mapBookingRequest(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',motivation:row.motivation||'',organization:row.organization||'',occasion:row.occasion||'',recurrenceId:row.recurrence_id||null,status:row.status,conflict:!!row.conflict,adminNote:row.admin_note||'',created:row.created_at}; }
 async function insertBooking(booking){ const {error}=await supabaseClient.from('reserveringen').insert([{user_id:currentUser.id,name:booking.name,room_id:booking.roomId,date:booking.date,start_time:booking.start,end_time:booking.end,persons:booking.persons?Number(booking.persons):null,description:booking.desc||null,recurrence_id:booking.recurrenceId||null}]); if(error) throw error; }
 async function insertBookingRequest(booking){ const {error}=await supabaseClient.from('reserveringsverzoeken').insert([{user_id:currentUser.id,name:booking.name,room_id:booking.roomId,date:booking.date,start_time:booking.start,end_time:booking.end,persons:booking.persons?Number(booking.persons):null,description:booking.desc||null,motivation:booking.motivation||null,organization:booking.organization||null,occasion:booking.occasion||null,recurrence_id:booking.recurrenceId||null,conflict:!!booking.conflict}]); if(error) throw error; }
@@ -238,14 +248,14 @@ function renderOverview(){
   if(!currentUser){ renderGuestState(); return; } if(!rooms.length){ grid.innerHTML='<div class="empty-state">Geen actieve ruimtes gevonden.</div>'; return; }
   const today=dateStr(currentDate), todayBookings=bookings.filter(b=>b.date===today), todayRequests=publicRequests.filter(r=>r.date===today&&r.status==='pending');
   grid.innerHTML=rooms.map(room=>{
-    const blocks=todayBookings.filter(b=>b.roomId===room.id).map(b=>timelineBlock(b,'',b.name+' - '+b.start+'-'+b.end+(b.desc?' - '+b.desc:''))).join('');
+    const blocks=todayBookings.filter(b=>b.roomId===room.id).map(b=>timelineBlock(b,'','Gereserveerd - '+b.start+'-'+b.end)).join('');
     const requests=todayRequests.filter(r=>r.roomId===room.id).map(r=>timelineBlock(r,'request','Verzoek - '+r.start+'-'+r.end)).join('');
     const hours=[]; for(let h=DAY_START;h<=DAY_END;h+=3) hours.push(h+':00');
     const cap=room.capacity?'max '+room.capacity+' pers.':''; const notes=room.notes?' - '+esc(room.notes):'';
     return '<div class="room-row"><div><div class="room-name">'+esc(room.name)+'</div><div class="room-meta"><span class="tag">'+esc(room.id)+'</span> '+cap+notes+'</div></div><div><div class="timeline">'+blocks+requests+'</div><div class="timeline-hours">'+hours.map(h=>'<span>'+h+'</span>').join('')+'</div></div><button class="reserve-btn-small" onclick="quickReserve(\''+escAttr(room.id)+'\')">Reserveer</button></div>';
   }).join('');
 }
-function timelineBlock(item,type,tip){ const left=timeToPercent(item.start), width=Math.max(2,timeToPercent(item.end)-left), label=type==='request'?'Verzoek':item.name; return '<div class="booking-block '+type+'" style="left:'+left+'%;width:'+width+'%" onmouseenter="showTooltip(event,\''+escAttr(tip)+'\')" onmouseleave="hideTooltip()"><span>'+esc(label)+'</span></div>'; }
+function timelineBlock(item,type,tip){ const left=timeToPercent(item.start), width=Math.max(2,timeToPercent(item.end)-left), label=type==='request'?'Verzoek':'Gereserveerd'; return '<div class="booking-block '+type+'" style="left:'+left+'%;width:'+width+'%" onmouseenter="showTooltip(event,\''+escAttr(tip)+'\')" onmouseleave="hideTooltip()"><span>'+esc(label)+'</span></div>'; }
 function quickReserve(roomId){ if(!currentUser){ showNotice('Log eerst in om te reserveren.','error'); return; } switchTabDirect('reserveren'); document.getElementById('f-room').value=roomId; document.getElementById('f-date').value=dateStr(currentDate); onRoomSelect(); checkConflict(); document.getElementById('f-name').focus(); }
 function populateRoomSelect(){ const sel=document.getElementById('f-room'), current=sel.value; sel.innerHTML='<option value="">Kies een ruimte</option>'+rooms.map(r=>'<option value="'+escAttr(r.id)+'">'+esc(r.id+' - '+r.name+(r.capacity?' (max '+r.capacity+')':''))+'</option>').join(''); if(current) sel.value=current; }
 function onRoomSelect(){ const roomId=document.getElementById('f-room').value, info=document.getElementById('capacity-info'); if(!roomId){ info.innerHTML=''; return; } const room=rooms.find(r=>r.id===roomId); info.innerHTML=(room&&room.capacity)?'<div class="capacity-badge">Maximaal '+room.capacity+' personen'+(room.notes?' - '+esc(room.notes):'')+'</div>':''; checkConflict(); }
@@ -441,9 +451,52 @@ function renderAdminSupportMessages(){
   div.innerHTML=adminSupportMessages.map(m=>{ const label=new Date(m.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); return '<div class="request-card"><strong>'+esc(label)+' - '+esc(m.status||'open')+'</strong><div class="bk-details">Gebruiker: '+esc(m.user_id)+'</div><div class="bk-who">'+esc(m.message)+'</div>'+(m.admin_note?'<div class="bk-details">Notitie: '+esc(m.admin_note)+'</div>':'')+'</div>'; }).join('');
 }
 function renderAdminRoleRequests(){ const div=document.getElementById('admin-role-requests'); if(!adminRoleRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande rolverzoeken.</div>'; return; } div.innerHTML=adminRoleRequests.map(r=>'<div class="request-card"><strong>'+esc(r.full_name)+'</strong><div class="bk-details">'+esc(r.job_title)+'</div><div class="bk-who">'+esc(r.motivation)+'</div><div class="admin-actions"><button class="approve-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',true)">Goedkeuren</button><button class="reject-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',false)">Afwijzen</button></div></div>').join(''); }
-async function handleRoleRequest(id,approve){ try{ const {error}=await supabaseClient.rpc(approve?'approve_role_request':'reject_role_request',{request_id:id}); if(error) throw error; await refreshAfterChange(); showNotice('Rolverzoek verwerkt.','success'); }catch(err){ showNotice('Verwerken mislukt: '+err.message,'error'); } }
+async function handleRoleRequest(id,approve){
+  if(!isAdmin){ showNotice('Alleen admins kunnen rolverzoeken verwerken.','error'); return; }
+  try{
+    const request=adminRoleRequests.find(r=>r.id===id);
+    if(!request) throw new Error('Rolverzoek niet gevonden.');
+    const handledAt=new Date().toISOString();
+    const {error:updateRequestError}=await supabaseClient.from('role_requests').update({status:approve?'approved':'rejected',handled_by:currentUser.id,handled_at:handledAt}).eq('id',id).eq('status','pending');
+    if(updateRequestError) throw updateRequestError;
+    if(approve){
+      const {error:updateProfileError}=await supabaseClient.from('profiles').update({role:'intern'}).eq('id',request.user_id);
+      if(updateProfileError) throw updateProfileError;
+    }
+    await refreshAfterChange();
+    showNotice('Rolverzoek verwerkt.','success');
+  }catch(err){ showNotice('Verwerken mislukt: '+err.message,'error'); }
+}
 function renderAdminBookingRequests(){ const div=document.getElementById('admin-booking-requests'); if(!adminBookingRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande reserveringsverzoeken.</div>'; return; } div.innerHTML=adminBookingRequests.map(r=>{ const noteId='note-'+r.id; const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); return '<div class="request-card"><strong>'+esc(r.name)+' - '+esc(r.roomName||r.roomId)+'</strong><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+(r.persons?' - '+r.persons+' pers.':''))+'</div><div class="bk-who">Organisatie: '+esc(r.organization||'-')+' | Gelegenheid: '+esc(r.occasion||'-')+' | Conflict: '+(r.conflict?'ja':'nee')+'</div><div class="bk-who">'+esc(r.desc||'')+'</div><div class="bk-who">'+esc(r.motivation||'')+'</div><textarea class="admin-note" id="'+escAttr(noteId)+'" placeholder="Adminnotitie"></textarea><div class="admin-actions"><button class="edit-btn" onclick="chooseEditScope(\'request\',\''+escAttr(r.id)+'\')">Wijzigen</button><button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,true)">Goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,false)">Afwijzen</button>'+(r.recurrenceId?'<button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,true)">Reeks goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,false)">Reeks afwijzen</button>':'')+'</div></div>'; }).join(''); }
-async function handleBookingRequest(id,series,approve){ const noteEl=document.getElementById('note-'+id), note=noteEl?noteEl.value.trim():''; const fn=series?(approve?'approve_reserveringsverzoek_reeks':'reject_reserveringsverzoek_reeks'):(approve?'approve_reserveringsverzoek':'reject_reserveringsverzoek'); try{ const {error}=await supabaseClient.rpc(fn,{verzoek_id:id,note}); if(error) throw error; await refreshAfterChange(); showNotice('Reserveringsverzoek verwerkt.','success'); }catch(err){ showNotice('Verwerken mislukt: '+err.message,'error'); } }
+async function handleBookingRequest(id,series,approve){
+  if(!isAdmin){ showNotice('Alleen admins kunnen reserveringsverzoeken verwerken.','error'); return; }
+  const noteEl=document.getElementById('note-'+id), note=noteEl?noteEl.value.trim():'';
+  try{
+    const first=adminBookingRequests.find(r=>r.id===id);
+    if(!first) throw new Error('Reserveringsverzoek niet gevonden.');
+    const requests=series&&first.recurrenceId ? adminBookingRequests.filter(r=>r.recurrenceId===first.recurrenceId&&r.status==='pending').sort(sortBookings) : [first];
+    for(const request of requests){
+      if(approve) await approveBookingRequestRow(request,note);
+      else await updateBookingRequestStatus(request.id,'rejected',note);
+    }
+    await refreshAfterChange();
+    showNotice('Reserveringsverzoek verwerkt.','success');
+  }catch(err){ showNotice('Verwerken mislukt: '+explainError(err),'error'); }
+}
+async function approveBookingRequestRow(request,note){
+  const {data:created,error:insertError}=await supabaseClient.from('reserveringen').insert([{user_id:request.userId,name:request.name,room_id:request.roomId,date:request.date,start_time:request.start,end_time:request.end,persons:request.persons?Number(request.persons):null,description:request.desc||null,recurrence_id:request.recurrenceId||null}]).select('id').single();
+  if(insertError) throw insertError;
+  try{
+    await updateBookingRequestStatus(request.id,'approved',note);
+  }catch(err){
+    if(created&&created.id) await supabaseClient.from('reserveringen').delete().eq('id',created.id);
+    throw err;
+  }
+}
+async function updateBookingRequestStatus(id,status,note){
+  const {error}=await supabaseClient.from('reserveringsverzoeken').update({status,handled_by:currentUser.id,handled_at:new Date().toISOString(),admin_note:note||null}).eq('id',id).eq('status','pending');
+  if(error) throw error;
+}
 function renderAdminRooms(){ const list=document.getElementById('admin-rooms-list'); if(!isAdmin){ list.innerHTML='<div class="empty-state">Alleen admins kunnen ruimtes beheren.</div>'; return; } list.innerHTML=rooms.map((r,i)=>renderAdminRoomRow(r,i,false)).join(''); }
 function renderAdminRoomRow(r,i,isNew){ return '<div class="admin-room-row" data-original-id="'+escAttr(isNew?'':r.id)+'"><input type="text" value="'+escAttr(r.id||'')+'" placeholder="ID" '+(isNew?'':'disabled')+'><input type="text" value="'+escAttr(r.name||'')+'" placeholder="Naam"><input type="number" min="1" value="'+escAttr(r.capacity||'')+'" placeholder="Max"><input type="text" value="'+escAttr(r.notes||'')+'" placeholder="Opmerking"><button class="del-btn" onclick="deleteRoom('+i+')">&#215;</button></div>'; }
 function addAdminRoom(){ if(!isAdmin) return; rooms.push({id:'',name:'',capacity:null,notes:'',active:true}); renderAdminRooms(); }
