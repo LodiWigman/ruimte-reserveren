@@ -4,51 +4,58 @@
 -- Run na: 03_indexes.sql
 -- ============================================================
 
-CREATE OR REPLACE FUNCTION public.is_admin()
+CREATE SCHEMA IF NOT EXISTS private;
+
+CREATE OR REPLACE FUNCTION private.is_admin()
 RETURNS boolean
 LANGUAGE sql
 STABLE
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
   SELECT EXISTS (
-    SELECT 1 FROM profiles
+    SELECT 1 FROM public.profiles
     WHERE id = auth.uid() AND role = 'admin'
   );
 $$;
 
-CREATE OR REPLACE FUNCTION public.is_intern()
+CREATE OR REPLACE FUNCTION private.is_intern()
 RETURNS boolean
 LANGUAGE sql
 STABLE
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
   SELECT EXISTS (
-    SELECT 1 FROM profiles
+    SELECT 1 FROM public.profiles
     WHERE id = auth.uid() AND role IN ('intern', 'admin')
   );
 $$;
 
-CREATE OR REPLACE FUNCTION public.assert_admin()
+CREATE OR REPLACE FUNCTION private.assert_admin()
 RETURNS void
 LANGUAGE plpgsql
 STABLE
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 BEGIN
-  IF NOT public.is_admin() THEN
+  IF NOT private.is_admin() THEN
     RAISE EXCEPTION 'Alleen admins mogen dit doen';
   END IF;
 END;
 $$;
 
+GRANT USAGE ON SCHEMA private TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION private.is_admin() TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION private.is_intern() TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION private.assert_admin() TO authenticated, service_role;
+
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 BEGIN
   INSERT INTO profiles (id, display_name)
@@ -62,34 +69,16 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.public_reserveringsverzoeken()
-RETURNS TABLE (
-  room_id text,
-  date date,
-  start_time time,
-  end_time time,
-  status text
-)
-LANGUAGE sql
-STABLE
-SECURITY DEFINER
-SET search_path = public
-AS $$
-  SELECT rv.room_id, rv.date, rv.start_time, rv.end_time, rv.status
-  FROM reserveringsverzoeken rv
-  WHERE rv.status = 'pending';
-$$;
-
 CREATE OR REPLACE FUNCTION public.approve_role_request(request_id uuid)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 DECLARE
   v_user_id uuid;
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   SELECT user_id INTO v_user_id
   FROM role_requests
@@ -115,10 +104,10 @@ CREATE OR REPLACE FUNCTION public.reject_role_request(request_id uuid)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   UPDATE role_requests
   SET status = 'rejected',
@@ -139,13 +128,13 @@ CREATE OR REPLACE FUNCTION public.approve_reserveringsverzoek(
 RETURNS uuid
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 DECLARE
   v reserveringsverzoeken%ROWTYPE;
   new_id uuid;
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   SELECT * INTO v
   FROM reserveringsverzoeken
@@ -182,10 +171,10 @@ CREATE OR REPLACE FUNCTION public.reject_reserveringsverzoek(
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   UPDATE reserveringsverzoeken
   SET status = 'rejected',
@@ -207,14 +196,14 @@ CREATE OR REPLACE FUNCTION public.approve_reserveringsverzoek_reeks(
 RETURNS integer
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 DECLARE
   v_recurrence_id uuid;
   v_count integer := 0;
   v_request record;
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   SELECT recurrence_id INTO v_recurrence_id
   FROM reserveringsverzoeken
@@ -246,13 +235,13 @@ CREATE OR REPLACE FUNCTION public.reject_reserveringsverzoek_reeks(
 RETURNS integer
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, private, extensions, auth, pg_temp
 AS $$
 DECLARE
   v_recurrence_id uuid;
   v_count integer;
 BEGIN
-  PERFORM public.assert_admin();
+  PERFORM private.assert_admin();
 
   SELECT recurrence_id INTO v_recurrence_id
   FROM reserveringsverzoeken
@@ -275,5 +264,18 @@ BEGIN
 END;
 $$;
 
-REVOKE EXECUTE ON FUNCTION public.public_reserveringsverzoeken() FROM anon;
-GRANT EXECUTE ON FUNCTION public.public_reserveringsverzoeken() TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.approve_role_request(uuid) FROM public, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.reject_role_request(uuid) FROM public, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.approve_reserveringsverzoek(uuid, text) FROM public, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.reject_reserveringsverzoek(uuid, text) FROM public, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.approve_reserveringsverzoek_reeks(uuid, text) FROM public, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.reject_reserveringsverzoek_reeks(uuid, text) FROM public, anon, authenticated;
+
+GRANT EXECUTE ON FUNCTION public.approve_role_request(uuid) TO service_role;
+GRANT EXECUTE ON FUNCTION public.reject_role_request(uuid) TO service_role;
+GRANT EXECUTE ON FUNCTION public.approve_reserveringsverzoek(uuid, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.reject_reserveringsverzoek(uuid, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.approve_reserveringsverzoek_reeks(uuid, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.reject_reserveringsverzoek_reeks(uuid, text) TO service_role;
+-- ARCHIEF: NIET UITVOEREN. Actuele installatie: SQL/README.md en SQL/basis.sql.
+-- Dit bestand bewaart historische ontwikkelstappen, inclusief bekende fouten.

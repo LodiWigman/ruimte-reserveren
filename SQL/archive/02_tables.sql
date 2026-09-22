@@ -85,3 +85,5 @@ CREATE TABLE reserveringsverzoeken (
 
   CHECK (start_time < end_time)
 );
+-- ARCHIEF: NIET UITVOEREN. Actuele installatie: SQL/README.md en SQL/basis.sql.
+-- Dit bestand bewaart historische ontwikkelstappen, inclusief bekende fouten.

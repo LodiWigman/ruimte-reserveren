@@ -22,3 +22,5 @@ CREATE INDEX idx_reserveringsverzoeken_user
 CREATE INDEX idx_reserveringsverzoeken_recurrence_id
   ON reserveringsverzoeken (recurrence_id)
   WHERE recurrence_id IS NOT NULL;
+-- ARCHIEF: NIET UITVOEREN. Actuele installatie: SQL/README.md en SQL/basis.sql.
+-- Dit bestand bewaart historische ontwikkelstappen, inclusief bekende fouten.

@@ -1,6 +1,792 @@
-<!doctype html>
-<html lang="nl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HAN ruimtereserveringen — onderhoud</title>
-<style>body{margin:0;background:#f4f4f4;color:#111;font:16px/1.6 system-ui}header{background:#0a0a0a;color:white;padding:20px}header span{color:#e5007d}main{max-width:620px;margin:10vh auto;padding:28px;background:white;border-radius:14px}h1{font-size:26px}</style>
-<header>HAN <span>Ruimtereserveringen</span></header>
-<main><h1>We werken aan het reserveringssysteem</h1><p>Reserveren is tijdelijk niet beschikbaar tijdens onderhoud. Probeer het later opnieuw en vernieuw dan deze pagina.</p></main></html>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruimtereservering - HAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--magenta:#E5007D;--magenta-dark:#b8005f;--magenta-light:#fce8f3;--green:#008f5a;--green-dark:#006e45;--green-light:#e6f4ed;--black:#0a0a0a;--white:#fff;--gray-100:#f4f4f4;--gray-200:#e8e8e8;--gray-400:#9a9a9a;--gray-600:#555;--danger:#cc2200;--danger-light:#fff0ed;--radius:8px;--radius-lg:14px;--shadow:0 2px 12px rgba(0,0,0,.07)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--black);min-height:100vh;font-size:14px;line-height:1.6}button,input,select,textarea{font-family:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}header{background:var(--black);color:var(--white);padding:10px 2rem;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:100}.brand{display:flex;align-items:center;gap:14px}.mark{width:34px;height:34px;background:var(--magenta);clip-path:polygon(50% 0%,100% 100%,0% 100%)}.brand h1{font-family:Syne,sans-serif;font-size:17px;font-weight:700;letter-spacing:0}.brand span{color:var(--magenta)}.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}#header-date{font-size:12px;color:var(--gray-400)}.auth-form,.auth-user{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}.auth-user{display:none;color:var(--gray-200);font-size:12px}.auth-form input{width:220px;padding:8px 10px;border:1.5px solid #333;border-radius:var(--radius);background:#151515;color:white;outline:none}.auth-form input:focus{border-color:var(--magenta)}.role-badge{display:none;padding:2px 7px;border-radius:4px;background:var(--magenta);color:white;font-family:Syne,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase}.container{max-width:1140px;margin:0 auto;padding:2rem 1.5rem}.tabs{display:flex;gap:2px;margin-bottom:1.25rem;border-bottom:2px solid var(--gray-200);flex-wrap:wrap}.tab-btn{padding:10px 20px;border:0;background:none;font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:var(--gray-400);letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid transparent;margin-bottom:-2px}.tab-btn.active{color:var(--magenta);border-bottom-color:var(--magenta)}.section{display:none}.section.active{display:block}.notice{display:none;background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:13px 15px;margin-bottom:1.25rem;color:var(--gray-600);box-shadow:var(--shadow)}.notice.show{display:block}.notice.error{color:var(--danger);background:var(--danger-light);border-color:#ffcfc6}.notice.success{color:var(--green-dark);background:var(--green-light);border-color:#a3d4bc}.date-nav{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}.date-nav button{width:34px;height:34px;border:1.5px solid var(--gray-200);background:white;border-radius:var(--radius);font-size:18px}.date-nav button:hover{border-color:var(--magenta);color:var(--magenta)}.date-nav h2{font-family:Syne,sans-serif;font-size:18px;letter-spacing:0}.date-nav input,.form-group input,.form-group select,.form-group textarea,.admin-room-row input,.admin-note{border:1.5px solid var(--gray-200);border-radius:var(--radius);background:white;color:var(--black);outline:none}.date-nav input{font-size:13px;padding:7px 10px}.form-group input:focus,.form-group select:focus,.form-group textarea:focus,.date-nav input:focus,.admin-room-row input:focus,.admin-note:focus{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(229,0,125,.08)}.rooms-grid,.my-bookings-list,.request-list{display:grid;gap:8px}.room-row{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:grid;grid-template-columns:210px 1fr auto;gap:1rem;align-items:center}.room-row:hover,.booking-card:hover,.request-card:hover{box-shadow:var(--shadow)}.room-name{font-family:Syne,sans-serif;font-weight:700}.room-meta{font-size:11px;color:var(--gray-400);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200);text-transform:uppercase}.timeline{position:relative;height:32px;background:var(--gray-100);border-radius:6px;overflow:visible}.timeline-hours{display:flex;justify-content:space-between;font-size:10px;color:var(--gray-400);margin-top:3px}.booking-block{position:absolute;top:3px;height:26px;background:var(--magenta);border-radius:5px;display:flex;align-items:center;padding:0 7px;overflow:hidden;cursor:pointer}.booking-block.request{background:var(--green)}.booking-block span{font-size:11px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}.form-card,.admin-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:2rem;max-width:680px}.admin-card{max-width:none;padding:1.5rem;margin-bottom:1.25rem}.form-card h2{font-family:Syne,sans-serif;font-size:20px;margin-bottom:1rem}.admin-card h3{font-family:Syne,sans-serif;font-size:15px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1.5px solid var(--gray-200)}.form-group{margin-bottom:1.1rem}.form-group label{display:block;font-size:11px;font-weight:600;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;font-size:14px}.form-group textarea,.admin-note{min-height:74px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.capacity-badge,.mode-badge{display:inline-flex;background:var(--magenta-light);color:var(--magenta);padding:5px 11px;border-radius:20px;font-size:12px;font-weight:500;margin-top:7px}.mode-badge.request{background:var(--green-light);color:var(--green-dark);border:1px solid #a3d4bc;margin:0 0 1rem}.warning{background:var(--danger-light);border:1.5px solid #ffcfc6;border-radius:var(--radius);padding:11px 14px;color:var(--danger);margin-bottom:1rem;display:none}.warning.show{display:block}.auth-btn,.submit-btn,.save-btn,.reserve-btn-small,.add-room-btn,.approve-btn,.reject-btn{border:0;border-radius:var(--radius);font-family:Syne,sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:background .15s,opacity .15s}.auth-btn{padding:8px 11px;background:var(--magenta);color:white;font-size:10px}.auth-btn.secondary{background:transparent;border:1.5px solid #333;color:var(--gray-200)}.submit-btn{width:100%;padding:13px;background:var(--magenta);color:white;font-size:13px;margin-top:.5rem}.submit-btn.request{background:var(--green)}.save-btn,.reserve-btn-small{padding:9px 16px;background:var(--black);color:white;font-size:11px}.reserve-btn-small{padding:7px 14px}.add-room-btn{padding:8px 16px;background:var(--gray-100);color:var(--black);border:1.5px solid var(--gray-200);font-size:11px;margin-top:.75rem}.approve-btn{padding:7px 12px;background:var(--green);color:white;font-size:10px}.reject-btn{padding:7px 12px;background:var(--danger);color:white;font-size:10px}.auth-btn:hover,.submit-btn:hover{background:var(--magenta-dark)}.submit-btn.request:hover,.approve-btn:hover{background:var(--green-dark)}.save-btn:hover,.reserve-btn-small:hover{background:var(--magenta)}.booking-card,.request-card{background:white;border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.request-card{display:block}.bk-room{font-family:Syne,sans-serif;font-weight:700}.bk-details,.bk-who,.muted{font-size:12px;color:var(--gray-600);margin-top:2px}.bk-who,.muted{color:var(--gray-400)}.cancel-btn,.del-btn{border:1.5px solid var(--gray-200);background:none;border-radius:var(--radius);color:var(--danger)}.cancel-btn{padding:6px 14px;font-size:12px;font-weight:500}.cancel-btn:hover,.del-btn:hover{background:var(--danger-light);border-color:var(--danger)}.admin-room-row{display:grid;grid-template-columns:100px 1fr 90px 1fr 36px;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);align-items:center}.admin-room-row input{width:100%;padding:8px 10px;font-size:13px}.admin-room-row input:disabled{background:var(--gray-100);color:var(--gray-600)}.del-btn{width:32px;height:32px;font-size:16px}.empty-state{text-align:center;padding:3rem;color:var(--gray-400)}.tooltip{position:fixed;background:var(--black);color:white;padding:7px 11px;border-radius:7px;font-size:12px;pointer-events:none;z-index:999;max-width:260px;display:none}.status-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;margin-bottom:1rem}.status-badge.connected{background:var(--green-light);color:var(--green-dark);border:1.5px solid #a3d4bc}.status-badge.error{background:var(--danger-light);color:var(--danger);border:1.5px solid #ffcfc6}.status-badge.checking{background:var(--gray-100);color:var(--gray-600);border:1.5px solid var(--gray-200)}.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-400)}.dot.green{background:var(--green)}.dot.red{background:var(--danger)}.recurrence-box{border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:12px 14px;margin-bottom:1.1rem;background:var(--gray-100)}.recurrence-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--gray-600);user-select:none}.recurrence-toggle input[type=checkbox]{width:15px;height:15px;accent-color:var(--magenta);cursor:pointer}.recurrence-fields{display:none;margin-top:12px;gap:10px}.recurrence-fields.open{display:grid}.recurrence-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.recurrence-days{display:flex;gap:6px;flex-wrap:wrap}.day-btn{padding:5px 10px;border:1.5px solid var(--gray-200);border-radius:5px;background:white;font-size:11px;font-weight:600;font-family:Syne,sans-serif;text-transform:uppercase;color:var(--gray-600);cursor:pointer}.day-btn.selected{background:var(--magenta);border-color:var(--magenta);color:white}.recurrence-preview{font-size:11px;color:var(--gray-600);background:white;border:1px solid var(--gray-200);border-radius:5px;padding:7px 10px;line-height:1.7}.role-info{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:12px 14px;margin:1rem 0}.role-info ul{margin-left:1.2rem}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.admin-note{width:100%;padding:9px 11px;margin-top:10px;font-size:13px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;border-bottom:1px solid var(--gray-200);padding:8px;vertical-align:top}@media(max-width:760px){header{padding:12px 1rem;align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:flex-start}.auth-form input{width:min(100%,260px)}.container{padding:1rem}.room-row,.form-row,.admin-room-row,.recurrence-row{grid-template-columns:1fr}.booking-card{flex-direction:column}}
+.edit-btn{border:1.5px solid var(--gray-200);background:white;border-radius:var(--radius);color:var(--black);padding:6px 14px;font-size:12px;font-weight:500}.edit-btn:hover{background:var(--gray-100);border-color:var(--black)}
+.import-grid{display:grid;grid-template-columns:1fr 180px;gap:12px;align-items:end}.import-help{font-size:12px;color:var(--gray-600);margin:.75rem 0 1rem}.import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.import-summary{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.import-pill{display:inline-flex;align-items:center;border:1px solid var(--gray-200);border-radius:20px;background:var(--gray-100);padding:5px 10px;font-size:12px;color:var(--gray-600)}.import-pill.ok{background:var(--green-light);border-color:#a3d4bc;color:var(--green-dark)}.import-pill.error{background:var(--danger-light);border-color:#ffcfc6;color:var(--danger)}.import-pill.warn{background:#fff8e6;border-color:#f0d48c;color:#7a5600}.import-table td,.import-table th{font-size:12px}.import-status-ok{color:var(--green-dark);font-weight:600}.import-status-error{color:var(--danger);font-weight:600}.import-status-warn{color:#7a5600;font-weight:600}
+@media(max-width:760px){.import-grid{grid-template-columns:1fr}.form-card{padding:1.25rem}.admin-card{padding:1rem}.admin-note{max-width:100%}.bk-who{overflow-wrap:anywhere}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark"></div><h1>Ruimte<span>reservering</span></h1></div>
+  <div class="header-actions">
+    <span id="header-date"></span>
+    <div id="auth-signed-out" class="auth-form"><button class="auth-btn" id="login-btn" onclick="signInWithPassword()">Inloggen</button><button class="auth-btn secondary" id="register-btn" onclick="signUpWithPassword()">Registreren</button></div>
+    <div id="auth-signed-in" class="auth-user"><span class="role-badge" id="role-badge">extern</span><span id="auth-user-label"></span><button class="auth-btn secondary" onclick="signOut()">Uitloggen</button></div>
+  </div>
+</header>
+<div class="container">
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab('overzicht')">Overzicht</button><button class="tab-btn" onclick="switchTab('reserveren')">Reserveren</button><button class="tab-btn" onclick="switchTab('mijn')">Mijn reserveringen</button><button class="tab-btn" onclick="switchTab('vragen')">Vragen/klachten</button><button class="tab-btn" id="beheer-tab-btn" onclick="switchTab('beheer')" style="display:none">Beheer</button></div>
+  <div id="app-notice" class="notice"></div>
+
+  <div id="tab-overzicht" class="section active"><div class="date-nav"><button onclick="changeDay(-1)">&#8249;</button><h2 id="overview-date-label"></h2><button onclick="changeDay(1)">&#8250;</button><input type="date" id="date-picker" onchange="onDatePick()"><span class="muted">Reserveer bewust.</span></div><div id="rooms-grid" class="rooms-grid"><div class="empty-state">Laden...</div></div></div>
+
+  <div id="tab-reserveren" class="section"><div class="form-card">
+    <h2 id="booking-title">Nieuwe reservering</h2>
+    <div id="booking-mode" class="mode-badge"></div>
+    <p class="muted" style="margin-bottom:1rem">Reserveer bewust: kies alleen de tijd die je echt nodig hebt. Kun je toch niet komen? Annuleer of wijzig je reservering op tijd, zodat iemand anders de ruimte kan gebruiken.</p>
+    <div class="form-group"><label for="f-name">Jouw naam</label><input type="text" id="f-name" placeholder="Voornaam Achternaam" maxlength="120"></div>
+    <div id="external-fields" style="display:none">
+      <div class="form-row"><div class="form-group"><label for="f-organization">Organisatie</label><input type="text" id="f-organization" placeholder="Bijv. organisatie of bedrijf" maxlength="120"></div><div class="form-group"><label for="f-occasion">Gelegenheid</label><input type="text" id="f-occasion" placeholder="Bijv. workshop, overleg, event" maxlength="120"></div></div>
+      <div class="form-group"><label for="f-motivation">Motivatie/toelichting</label><textarea id="f-motivation" placeholder="Leg kort uit waarvoor je de ruimte nodig hebt." maxlength="500"></textarea></div>
+    </div>
+    <div class="form-group"><label for="f-room">Ruimte</label><select id="f-room" onchange="onRoomSelect()"><option value="">Kies een ruimte</option></select><div id="capacity-info"></div></div>
+    <div class="form-row"><div class="form-group"><label for="f-date">Datum</label><input type="date" id="f-date" onchange="checkConflict()"></div><div class="form-group"><label for="f-start">Begintijd</label><input type="time" id="f-start" value="09:00" onchange="checkConflict()"></div></div>
+    <div class="form-row"><div class="form-group"><label for="f-end">Eindtijd</label><input type="time" id="f-end" value="10:00" onchange="checkConflict()"></div><div class="form-group"><label for="f-persons">Aantal personen</label><input type="number" id="f-persons" min="1" placeholder="bijv. 4"></div></div>
+    <div class="form-group"><label for="f-desc">Omschrijving (optioneel)</label><input type="text" id="f-desc" placeholder="Bijv. teamoverleg, workshop..." maxlength="500"></div>
+    <div class="recurrence-box"><label class="recurrence-toggle"><input type="checkbox" id="f-recur-toggle" onchange="toggleRecurrence()"> Herhalen</label><div class="recurrence-fields" id="recurrence-fields"><div class="recurrence-row"><div class="form-group" style="margin:0"><label for="f-recur-n">Elke</label><input type="number" id="f-recur-n" min="1" max="99" value="1" oninput="updateRecurrencePreview()"></div><div class="form-group" style="margin:0"><label for="f-recur-unit">Eenheid</label><select id="f-recur-unit" onchange="toggleWeekdays(); updateRecurrencePreview()"><option value="dag">dag</option><option value="week" selected>week</option><option value="maand">maand</option><option value="jaar">jaar</option></select></div></div><div class="form-group" id="weekday-group" style="margin:0"><label>Op welke dagen</label><div class="recurrence-days" id="recurrence-days"><button type="button" class="day-btn" data-day="1" onclick="toggleDay(this)">ma</button><button type="button" class="day-btn" data-day="2" onclick="toggleDay(this)">di</button><button type="button" class="day-btn" data-day="3" onclick="toggleDay(this)">wo</button><button type="button" class="day-btn" data-day="4" onclick="toggleDay(this)">do</button><button type="button" class="day-btn" data-day="5" onclick="toggleDay(this)">vr</button><button type="button" class="day-btn" data-day="6" onclick="toggleDay(this)">za</button><button type="button" class="day-btn" data-day="0" onclick="toggleDay(this)">zo</button></div></div><div class="form-group" style="margin:0"><label for="f-recur-until">Herhalen tot</label><input type="date" id="f-recur-until" oninput="updateRecurrencePreview()"></div><div id="recurrence-preview" class="recurrence-preview" style="display:none"></div></div></div>
+    <div id="conflict-warning" class="warning"></div>
+    <button class="submit-btn" id="submit-btn" onclick="submitBooking()">Reservering plaatsen</button>
+    <button class="edit-btn" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;margin-top:8px;width:100%">Wijzigen annuleren</button>
+    <div id="role-request-box" style="display:none" class="role-info">
+      <strong>Interne rol aanvragen</strong>
+      <p>Een interne rol is alleen voor personen die werkzaam zijn bij han@connectr.</p>
+      <p>Interne gebruikers kunnen direct reserveren als er geen conflict is en hun eigen reserveringen annuleren.</p>
+      <div class="form-group"><label for="rr-name">Naam</label><input type="text" id="rr-name" maxlength="120"></div>
+      <div class="form-group"><label for="rr-job">Functie</label><input type="text" id="rr-job" maxlength="120"></div>
+      <div class="form-group"><label for="rr-motivation">Korte reden</label><textarea id="rr-motivation" maxlength="500"></textarea></div>
+      <button class="save-btn" onclick="submitRoleRequest()">Interne rol aanvragen</button>
+      <div id="my-role-requests" class="muted" style="margin-top:10px"></div>
+    </div>
+  </div></div>
+
+  <div id="tab-mijn" class="section"><p class="muted" style="margin-bottom:1rem">Plannen gewijzigd? Wijzig of annuleer je reservering zodat de ruimte beschikbaar blijft voor anderen.</p><div id="my-bookings-list" class="my-bookings-list"><div class="empty-state">Laden...</div></div></div>
+
+  <div id="tab-vragen" class="section"><div class="form-card">
+    <h2>Vragen, klachten of tips</h2>
+    <p class="muted" style="margin-bottom:1rem">Beschrijf je probleem, vraag of klacht. Heb je een verbetertip, dan kun je die hier ook invoeren.</p>
+    <div class="form-group"><label for="support-message">Bericht</label><textarea id="support-message" placeholder="Typ hier je vraag, klacht, probleem of verbetertip..." maxlength="1500"></textarea></div>
+    <button class="submit-btn" id="support-submit-btn" onclick="submitSupportMessage()">Indienen</button>
+    <div id="my-support-messages" class="request-list" style="margin-top:1.25rem"></div>
+  </div></div>
+
+  <div id="tab-beheer" class="section">
+    <div class="admin-card"><h3>Supabase verbinding</h3><div id="supabase-status"><div class="status-badge checking"><div class="dot"></div>Nog niet getest</div></div><p class="muted">Alleen gebruikers met role = admin in profiles krijgen deze tab te zien.</p><button class="save-btn" onclick="testSupabaseConnection()">Verbinding testen</button></div>
+    <div class="admin-card"><h3>Rolverzoeken</h3><div id="admin-role-requests" class="request-list"></div></div>
+    <div class="admin-card"><h3>Reserveringsverzoeken</h3><div id="admin-booking-requests" class="request-list"></div></div>
+    <div class="admin-card"><h3>Vragen, klachten en tips</h3><div id="admin-support-messages" class="request-list"></div></div>
+    <div class="admin-card"><h3>Ruimtes beheren</h3><div id="admin-rooms-list"></div><button class="add-room-btn" onclick="addAdminRoom()">+ Ruimte toevoegen</button><br><button class="save-btn" onclick="saveRooms()">Ruimtes opslaan</button></div>
+    <div class="admin-card"><h3>Reserveringen importeren</h3><div class="import-grid"><div class="form-group" style="margin:0"><label for="import-file">Excel, CSV of Outlook ICS</label><input type="file" id="import-file" accept=".xlsx,.xls,.csv,.ics,text/csv,text/calendar" onchange="previewImportFile()"></div><button class="save-btn" onclick="previewImportFile()">Preview laden</button></div><p class="import-help">Ondersteunde kolommen voor Excel/CSV: ruimte, room, room_id, datum, date, start, starttijd, einde, eindtijd, end, naam, name, titel, title, omschrijving, description, personen, persons. Datums en tijden gelden voor Europe/Amsterdam. ICS vereist LOCATION met een eenduidige ruimte en UTC of Europe/Amsterdam als tijdzone. Hele dagen, meerdaagse afspraken en gewijzigde uitzonderingen worden afgewezen. Dag/week/maand/jaar, COUNT of UNTIL en EXDATE worden ondersteund. Maximaal 520 momenten en 5 MB; bij één fout wordt niets geïmporteerd.</p><div id="import-summary" class="import-summary"></div><div id="import-preview"></div><div class="import-actions"><button class="approve-btn" id="import-confirm-btn" onclick="confirmImportBookings()" disabled>Importeren</button><button class="reject-btn" onclick="clearImportPreview()">Leegmaken</button></div></div>
+    <div class="admin-card"><h3>Alle reserveringen</h3><div id="all-bookings-admin"></div></div>
+  </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://oappvdfjyvbmvqrjvnmv.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hcHB2ZGZqeXZibXZxcmp2bm12Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTM4OTEsImV4cCI6MjA5MzcyOTg5MX0.Q-cL-Z9jDlY1Uw3khnS3yLAMteM-xjhyR9SGuJ_Qq8g';
+const CLERK_PUBLISHABLE_KEY = 'pk_test_YWxlcnQtYmF0LTUwLmNsZXJrLmFjY291bnRzLmRldiQ';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  async accessToken(){
+    return window.Clerk && window.Clerk.session ? window.Clerk.session.getToken() : null;
+  }
+});
+const DAY_START=7, DAY_END=22;
+let rooms=[], bookings=[], publicRequests=[], myBookingRequests=[], roleRequests=[], adminBookingRequests=[], adminRoleRequests=[], supportMessages=[], adminSupportMessages=[];
+let currentUser=null, currentProfile=null, currentRole='extern', isAdmin=false;
+let currentDate=new Date(todayAmsterdam()+'T00:00:00');
+let editState=null;
+let importRows=[];
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  updateHeaderDate();
+  document.getElementById('f-date').value=todayAmsterdam();
+  document.getElementById('date-picker').value=dateStr(currentDate);
+  document.getElementById('overview-date-label').textContent=formatDate(currentDate);
+  toggleRecurrence();
+  await initClerk();
+});
+
+async function initClerk(){
+  if(!CLERK_PUBLISHABLE_KEY || CLERK_PUBLISHABLE_KEY.includes('PASTE_')){
+    showNotice('Vul eerst je Clerk publishable key in bij CLERK_PUBLISHABLE_KEY.','error');
+    await handleClerkUser(null);
+    return;
+  }
+  try{
+    const clerkDomain=atob(CLERK_PUBLISHABLE_KEY.split('_')[2]).slice(0,-1);
+    await loadScript('https://'+clerkDomain+'/npm/@clerk/ui@1.33.1/dist/ui.browser.js');
+    await loadScript('https://'+clerkDomain+'/npm/@clerk/clerk-js@6.32.1/dist/clerk.browser.js', {'data-clerk-publishable-key':CLERK_PUBLISHABLE_KEY});
+    await window.Clerk.load({ui:{ClerkUI:window.__internal_ClerkUICtor}});
+    await handleClerkUser(window.Clerk.user||null);
+    window.Clerk.addListener(({user})=>{if((user?.id||null)!==(currentUser?.id||null))handleClerkUser(user||null);});
+  }catch(err){
+    showNotice('Clerk laden mislukt: '+err.message,'error');
+    await handleClerkUser(null);
+  }
+}
+function loadScript(src,attrs){
+  return new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src=src; script.defer=true; script.crossOrigin='anonymous';
+    Object.entries(attrs||{}).forEach(([key,value])=>script.setAttribute(key,value));
+    script.onload=resolve;
+    script.onerror=()=>reject(new Error('Script kon niet laden: '+src));
+    document.head.appendChild(script);
+  });
+}
+let authQueue=Promise.resolve();
+function handleClerkUser(user){
+  authQueue=authQueue.then(async()=>{
+    currentUser=user?{id:user.id,email:getClerkEmail(user),displayName:user.fullName||user.username||''}:null;
+    currentProfile=null;currentRole='extern';isAdmin=false;clearState();updateAuthUi();
+    if(!currentUser){renderGuestState();return;}
+    try{
+      await ensureProfile();await loadProfile();await loadRooms();await refreshAfterChange();
+      updateAuthUi();updateBookingMode();
+    }catch(error){clearState();showNotice('Gegevens laden mislukt: '+error.message,'error');}
+  });
+  return authQueue;
+}
+function getClerkEmail(user){ return user&&user.primaryEmailAddress ? user.primaryEmailAddress.emailAddress : ''; }
+function clearState(){rooms=[];bookings=[];occupancy=[];publicRequests=[];myBookingRequests=[];roleRequests=[];adminBookingRequests=[];adminRoleRequests=[];supportMessages=[];adminSupportMessages=[];importRows=[];editState=null;overviewSequence++;conflictSequence++;}
+function userIsIntern(){ return currentRole==='intern'||currentRole==='admin'; }
+function userIsExtern(){ return currentRole==='extern'; }
+function updateHeaderDate(){ document.getElementById('header-date').textContent=new Date().toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'}); }
+function updateAuthUi(){
+  const out=document.getElementById('auth-signed-out'), inn=document.getElementById('auth-signed-in'), label=document.getElementById('auth-user-label'), badge=document.getElementById('role-badge'), beheer=document.getElementById('beheer-tab-btn');
+  if(!currentUser){ out.style.display='flex'; inn.style.display='none'; beheer.style.display='none'; badge.style.display='none'; return; }
+  out.style.display='none'; inn.style.display='flex'; label.textContent=currentUser.email || 'Ingelogd'; badge.textContent=currentRole; badge.style.display='inline-block'; beheer.style.display=isAdmin?'':'none';
+}
+function updateBookingMode(){
+  document.querySelector('.recurrence-box').style.display=editState?'none':'';
+  const mode=document.getElementById('booking-mode'), title=document.getElementById('booking-title'), btn=document.getElementById('submit-btn'), ext=document.getElementById('external-fields'), roleBox=document.getElementById('role-request-box');
+  if(editState){
+    const isRequest=editState.type==='request';
+    title.textContent=isRequest?'Reserveringsverzoek wijzigen':'Reservering wijzigen';
+    mode.textContent=editState.scope==='series'?'Je wijzigt deze en alle opvolgende gebeurtenissen.':'Je wijzigt alleen deze gebeurtenis.';
+    mode.className='mode-badge'+(isRequest?' request':'');
+    btn.textContent='Wijzigingen opslaan';
+    btn.className='submit-btn'+(isRequest?' request':'');
+    ext.style.display=isRequest?'':'none';
+    roleBox.style.display='none';
+    document.getElementById('cancel-edit-btn').style.display='block';
+    return;
+  }
+  const requestMode=userIsExtern();
+  title.textContent=requestMode?'Nieuw reserveringsverzoek':'Nieuwe reservering';
+  mode.textContent=requestMode?'Dit wordt een verzoek en moet eerst worden goedgekeurd.':'Vrije tijden worden direct gereserveerd. Bij conflict maak je een verzoek.';
+  mode.className='mode-badge'+(requestMode?' request':'');
+  btn.textContent=requestMode?'Verzoek indienen':'Reservering plaatsen';
+  btn.className='submit-btn'+(requestMode?' request':'');
+  ext.style.display=requestMode?'':'none';
+  roleBox.style.display=requestMode?'block':'none';
+  document.getElementById('cancel-edit-btn').style.display='none';
+}
+function renderGuestState(){ showNotice('Log in met je e-mailadres en wachtwoord om ruimtes en reserveringen te bekijken.',''); document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Log in om het overzicht te laden.</div>'; document.getElementById('my-bookings-list').innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; document.getElementById('my-support-messages').innerHTML='<div class="empty-state">Log in om een vraag, klacht of tip in te dienen.</div>'; populateRoomSelect(); switchTabDirect('overzicht'); }
+function setAuthBusy(isBusy, label){
+  const loginBtn=document.getElementById('login-btn'), registerBtn=document.getElementById('register-btn');
+  loginBtn.disabled=isBusy; registerBtn.disabled=isBusy;
+  loginBtn.textContent=isBusy&&label==='login'?'Inloggen...':'Inloggen';
+  registerBtn.textContent=isBusy&&label==='register'?'Registreren...':'Registreren';
+}
+async function signInWithPassword(){
+  if(!window.Clerk){ showNotice('Clerk is nog niet geladen.','error'); return; }
+  window.Clerk.openSignIn();
+}
+async function signUpWithPassword(){
+  if(!window.Clerk){ showNotice('Clerk is nog niet geladen.','error'); return; }
+  window.Clerk.openSignUp();
+}
+async function signOut(){ if(window.Clerk) await window.Clerk.signOut(); currentUser=null; currentProfile=null; currentRole='extern'; isAdmin=false; updateAuthUi(); clearState(); renderGuestState(); }
+async function ensureProfile(){
+  await rpc('han_ensure_profile',{display_name:currentUser.displayName||currentUser.email.split('@')[0]||'Gebruiker'});
+}
+async function rpc(name,args={}){
+  const {data,error}=await supabaseClient.rpc(name,args);
+  if(error)throw error;
+  if(data===null||data===undefined||data===0)throw new Error('Geen resultaat ontvangen; ververs en controleer de wijziging.');
+  return data;
+}
+async function readAll(table,filter=q=>q){
+  const rows=[];let after=null;
+  for(;;){
+    let query=filter(supabaseClient.from(table).select('*')).order('id').limit(500);
+    if(after)query=query.gt('id',after);
+    const {data,error}=await query;if(error)throw error;
+    if(!data?.length)break;
+    rows.push(...data);after=data[data.length-1].id;
+    if(rows.length>50000)throw new Error('Te veel resultaten; verklein de periode.');
+  }
+  return rows;
+}
+function todayAmsterdam(){
+  return new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Amsterdam',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+}
+let occupancy=[],overviewSequence=0,conflictSequence=0;
+async function loadOccupancy(){
+  const sequence=++overviewSequence,day=dateStr(currentDate),identity=currentUser?.id;
+  const data=await rpc('han_occupancy',{from_date:day,to_date:day});
+  if(sequence!==overviewSequence||identity!==currentUser?.id)return;
+  occupancy=data.map(r=>({...mapPublicBooking(r),status:r.status}));
+  publicRequests=occupancy.filter(r=>r.status==='pending');
+}
+async function refreshOverview(){
+  document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Bezetting laden...</div>';
+  try{await loadOccupancy();renderOverview();}
+  catch(error){document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Bezetting kon niet worden geladen.</div>';showNotice(error.message,'error');}
+}
+async function loadProfile(){
+  const {data,error}=await supabaseClient.from('profiles').select('id,display_name,role').eq('id',currentUser.id).single();
+  if(error)throw error;
+  currentProfile=data;currentRole=data.role;isAdmin=currentRole==='admin';
+  document.getElementById('f-name').value=data.display_name||'';
+  document.getElementById('rr-name').value=data.display_name||'';
+}
+async function loadRooms(){rooms=(await readAll('rooms',q=>q.eq('active',true))).sort((a,b)=>a.id.localeCompare(b.id));populateRoomSelect();}
+async function loadBookings(){bookings=(await readAll('reserveringen',q=>{q=q.gte('date',todayAmsterdam());return isAdmin?q:q.eq('user_id',currentUser.id);})).map(mapBooking).sort(sortBookings);}
+async function loadPublicRequests(){await loadOccupancy();}
+async function loadMyBookingRequests(){myBookingRequests=(await readAll('reserveringsverzoeken',q=>q.eq('user_id',currentUser.id).gte('date',todayAmsterdam()))).map(mapBookingRequest).sort(sortBookings);}
+async function loadMyRoleRequests(){roleRequests=await readAll('role_requests',q=>q.eq('user_id',currentUser.id));}
+async function loadAdminRoleRequests(){adminRoleRequests=await readAll('role_requests',q=>q.eq('status','pending'));}
+async function loadAdminBookingRequests(){adminBookingRequests=(await readAll('reserveringsverzoeken',q=>q.eq('status','pending'))).map(mapBookingRequest).sort(sortBookings);}
+async function loadMySupportMessages(){supportMessages=(await readAll('support_messages',q=>q.eq('user_id',currentUser.id))).sort((a,b)=>b.created_at.localeCompare(a.created_at));}
+async function loadAdminSupportMessages(){adminSupportMessages=(await readAll('support_messages')).sort((a,b)=>b.created_at.localeCompare(a.created_at));}
+function mapBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',recurrenceId:row.recurrence_id||null,created:row.created_at}; }
+function mapPublicBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:null,userId:null,name:'Gereserveerd',roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:'',desc:'',recurrenceId:null,status:row.status||'confirmed'}; }
+function mapBookingRequest(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',motivation:row.motivation||'',organization:row.organization||'',occasion:row.occasion||'',recurrenceId:row.recurrence_id||null,status:row.status,conflict:!!row.conflict,adminNote:row.admin_note||'',created:row.created_at}; }
+async function testSupabaseConnection(){ const status=document.getElementById('supabase-status'); status.innerHTML='<div class="status-badge checking"><div class="dot"></div>Verbinding testen...</div>'; try{ const {error}=await supabaseClient.from('rooms').select('id',{count:'exact',head:true}); if(error) throw error; status.innerHTML='<div class="status-badge connected"><div class="dot green"></div>Verbonden met Supabase</div>'; }catch(err){ status.innerHTML='<div class="status-badge error"><div class="dot red"></div>Verbinding mislukt: '+esc(err.message)+'</div>'; } }
+function switchTab(name){ if(!currentUser && name!=='overzicht'){ showNotice('Log eerst in om deze tab te gebruiken.','error'); return; } if(name==='beheer'&&!isAdmin){ showNotice('Alleen admins kunnen beheer openen.','error'); return; } if(name==='mijn') renderMyBookings(); if(name==='vragen') renderSupportMessages(); if(name==='beheer') renderAdmin(); switchTabDirect(name); }
+function switchTabDirect(name){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.getElementById('tab-'+name).classList.add('active'); document.querySelectorAll('.tab-btn').forEach(b=>{ const t=b.textContent.trim().toLowerCase(); if(name==='overzicht'&&t==='overzicht') b.classList.add('active'); if(name==='reserveren'&&t==='reserveren') b.classList.add('active'); if(name==='mijn'&&t==='mijn reserveringen') b.classList.add('active'); if(name==='vragen'&&t==='vragen/klachten') b.classList.add('active'); if(name==='beheer'&&b.id==='beheer-tab-btn') b.classList.add('active'); }); }
+function changeDay(delta){currentDate.setDate(currentDate.getDate()+delta);document.getElementById('date-picker').value=dateStr(currentDate);refreshOverview();}
+function onDatePick(){const val=document.getElementById('date-picker').value;if(parseImportDate(val)){currentDate=new Date(val+'T00:00:00');refreshOverview();}}
+function renderOverview(){
+  document.getElementById('overview-date-label').textContent=formatDate(currentDate); const grid=document.getElementById('rooms-grid');
+  if(!currentUser){ renderGuestState(); return; } if(!rooms.length){ grid.innerHTML='<div class="empty-state">Geen actieve ruimtes gevonden.</div>'; return; }
+  const today=dateStr(currentDate), todayBookings=occupancy.filter(b=>b.date===today&&b.status==='confirmed'), todayRequests=publicRequests.filter(r=>r.date===today&&r.status==='pending');
+  grid.innerHTML=rooms.map(room=>{
+    const blocks=todayBookings.filter(b=>b.roomId===room.id).map(b=>timelineBlock(b,'','Gereserveerd - '+b.start+'-'+b.end)).join('');
+    const requests=todayRequests.filter(r=>r.roomId===room.id).map(r=>timelineBlock(r,'request','Verzoek - '+r.start+'-'+r.end)).join('');
+    const hours=[]; for(let h=DAY_START;h<=DAY_END;h+=3) hours.push(h+':00');
+    const cap=room.capacity?'max '+room.capacity+' pers.':''; const notes=room.notes?' - '+esc(room.notes):'';
+    return '<div class="room-row"><div><div class="room-name">'+esc(room.name)+'</div><div class="room-meta"><span class="tag">'+esc(room.id)+'</span> '+cap+notes+'</div></div><div><div class="timeline">'+blocks+requests+'</div><div class="timeline-hours">'+hours.map(h=>'<span>'+h+'</span>').join('')+'</div></div><button class="reserve-btn-small" onclick="quickReserve('+jsArg(room.id)+')">Reserveer</button></div>';
+  }).join('');
+}
+function timelineBlock(item,type,tip){ const left=timeToPercent(item.start), width=Math.max(2,timeToPercent(item.end)-left), label=type==='request'?'Verzoek':'Gereserveerd'; return '<div class="booking-block '+type+'" style="left:'+left+'%;width:'+width+'%" onmouseenter="showTooltip(event,'+jsArg(tip)+')" onmouseleave="hideTooltip()"><span>'+esc(label)+'</span></div>'; }
+function quickReserve(roomId){ if(!currentUser){ showNotice('Log eerst in om te reserveren.','error'); return; } switchTabDirect('reserveren'); document.getElementById('f-room').value=roomId; document.getElementById('f-date').value=dateStr(currentDate); onRoomSelect(); checkConflict(); document.getElementById('f-name').focus(); }
+function populateRoomSelect(){ const sel=document.getElementById('f-room'), current=sel.value; sel.innerHTML='<option value="">Kies een ruimte</option>'+rooms.map(r=>'<option value="'+escAttr(r.id)+'">'+esc(r.id+' - '+r.name+(r.capacity?' (max '+r.capacity+')':''))+'</option>').join(''); if(current) sel.value=current; }
+function onRoomSelect(){ const roomId=document.getElementById('f-room').value, info=document.getElementById('capacity-info'); if(!roomId){ info.innerHTML=''; return; } const room=rooms.find(r=>r.id===roomId); info.innerHTML=(room&&room.capacity)?'<div class="capacity-badge">Maximaal '+room.capacity+' personen'+(room.notes?' - '+esc(room.notes):'')+'</div>':''; checkConflict(); }
+async function checkConflict(){
+  const sequence=++conflictSequence,warn=document.getElementById('conflict-warning');
+  const room_id=document.getElementById('f-room').value,date=document.getElementById('f-date').value;
+  const start_time=document.getElementById('f-start').value,end_time=document.getElementById('f-end').value;
+  if(!currentUser||!room_id||!date||!start_time||!end_time){warn.classList.remove('show');return;}
+  warn.textContent='Beschikbaarheid controleren...';warn.classList.add('show');
+  try{
+    const data=await rpc('han_availability',{items:[{room_id,date,start_time,end_time}],exclude_id:editState?.type==='booking'?editState.id:null,scope:editState?.scope||'single'});
+    if(sequence!==conflictSequence)return;
+    warn.textContent=data[0].conflict?'Deze tijd is bezet. Een nieuwe reservering wordt een verzoek; bij wijzigen kun je kiezen voor omzetten.':'Deze tijd is nu vrij. Bij opslaan worden alle momenten opnieuw gecontroleerd.';
+  }catch(error){if(sequence===conflictSequence)warn.textContent='Beschikbaarheid niet vastgesteld: '+explainError(error);}
+}
+async function submitBooking(){
+  if(!currentUser){showNotice('Log eerst in.','error');return;}
+  const form=readBookingForm();if(!form)return;
+  const room=rooms.find(r=>r.id===form.roomId);
+  if(room?.capacity&&Number(form.persons)>room.capacity&&!confirm('Meer personen dan de opgegeven capaciteit. Toch doorgaan?'))return;
+  if(editState){await submitBookingEdit(form);return;}
+  const btn=document.getElementById('submit-btn');btn.disabled=true;
+  try{
+    const dates=getRecurrenceDates();
+    const result=await rpc('han_create_bookings',{items:dates.map(date=>requestPayload({...form,date},false))});
+    await refreshAfterChange();resetBookingForm();
+    showNotice(result.confirmed+' bevestigd; '+result.requested+' verzoek(en) ingediend.','success');
+  }catch(error){showNotice('Opslaan mislukt: '+explainError(error),'error');}
+  finally{btn.disabled=false;updateBookingMode();}
+}
+function readBookingForm(){
+  const name=document.getElementById('f-name').value.trim(),roomId=document.getElementById('f-room').value,date=document.getElementById('f-date').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value,persons=document.getElementById('f-persons').value,desc=document.getElementById('f-desc').value.trim(),organization=document.getElementById('f-organization').value.trim(),occasion=document.getElementById('f-occasion').value.trim(),motivation=document.getElementById('f-motivation').value.trim();
+  if(!name||!roomId||!date||!start||!end){ showNotice('Vul alle verplichte velden in.','error'); return null; }
+  if(!parseImportDate(date)||date<todayAmsterdam()||!parseImportTime(start)||!parseImportTime(end)||start>=end){showNotice('Controleer datum en tijden.','error');return null;}
+  if(name.length<2||(persons&&(!Number.isInteger(Number(persons))||Number(persons)<=0))){showNotice('Vul een geldige naam en een geheel aantal personen in.','error');return null;}
+  if(userIsExtern()&&(!organization||!occasion||!motivation)){ showNotice('Vul organisatie, gelegenheid en toelichting in.','error'); return null; }
+  return {name,roomId,date,start,end,persons,desc,organization,occasion,motivation};
+}
+
+let refreshFailure='';
+async function refreshAfterChange(){
+  refreshFailure='';
+  try{
+    await Promise.all([loadBookings(),loadPublicRequests(),loadMyBookingRequests(),loadMyRoleRequests(),loadMySupportMessages()]);
+    if(isAdmin)await Promise.all([loadAdminRoleRequests(),loadAdminBookingRequests(),loadAdminSupportMessages()]);
+    renderOverview();renderMyBookings();renderMyRoleRequests();renderSupportMessages();if(isAdmin)renderAdmin();
+  }catch(error){
+    refreshFailure=explainError(error);
+    document.getElementById('rooms-grid').innerHTML='<div class="empty-state">Bezetting niet beschikbaar. Ververs de pagina.</div>';
+    showNotice('Gegevens verversen mislukt: '+refreshFailure,'error');
+  }
+}
+function resetBookingForm(){ editState=null; ['f-room','f-persons','f-desc','f-organization','f-occasion','f-motivation'].forEach(id=>document.getElementById(id).value=''); document.getElementById('capacity-info').innerHTML=''; document.getElementById('conflict-warning').classList.remove('show'); document.getElementById('f-recur-toggle').checked=false; toggleRecurrence(); updateBookingMode(); }
+function canEditBooking(b){ return currentUser&&b&&b.userId===currentUser.id&&userIsIntern(); }
+function canEditRequest(r){ return currentUser&&r&&r.status==='pending'&&(r.userId===currentUser.id||isAdmin); }
+function startEdit(type,id,scope){
+  const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests);
+  const item=source.find(x=>x.id===id);
+  if(!item){ showNotice('Item niet gevonden om te wijzigen.','error'); return; }
+  if(type==='booking'&&!canEditBooking(item)){ showNotice('Je kunt alleen je eigen reserveringen wijzigen.','error'); return; }
+  if(type==='request'&&!canEditRequest(item)){ showNotice('Je kunt alleen openstaande verzoeken wijzigen waar je rechten op hebt.','error'); return; }
+  editState={type,id,scope:scope||'single',recurrenceId:item.recurrenceId||null,originalDate:item.date,original:item};
+  fillBookingForm(item,type);
+  switchTabDirect('reserveren');
+  updateBookingMode();
+  checkConflict();
+  document.getElementById('f-name').focus();
+}
+function chooseEditScope(type,id){
+  const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests);
+  const item=source.find(x=>x.id===id);
+  if(!item) return;
+  if(!item.recurrenceId){ startEdit(type,id,'single'); return; }
+  const series=confirm('Wil je deze en alle opvolgende gebeurtenissen in de reeks wijzigen?\n\nOK = deze en opvolgende\nAnnuleren = alleen deze');
+  startEdit(type,id,series?'series':'single');
+}
+function fillBookingForm(item,type){
+  document.getElementById('f-name').value=item.name||'';
+  document.getElementById('f-room').value=item.roomId||'';
+  document.getElementById('f-date').value=item.date||todayAmsterdam();
+  document.getElementById('f-start').value=item.start||'09:00';
+  document.getElementById('f-end').value=item.end||'10:00';
+  document.getElementById('f-persons').value=item.persons||'';
+  document.getElementById('f-desc').value=item.desc||'';
+  document.getElementById('f-organization').value=item.organization||'';
+  document.getElementById('f-occasion').value=item.occasion||'';
+  document.getElementById('f-motivation').value=item.motivation||'';
+  document.getElementById('f-recur-toggle').checked=false;
+  toggleRecurrence();
+  onRoomSelect();
+}
+function cancelEdit(){ editState=null; resetBookingForm(); showNotice('Wijzigen geannuleerd.',''); }
+function bookingPayload(form){ return {name:form.name,room_id:form.roomId,date:form.date,start_time:form.start,end_time:form.end,persons:form.persons?Number(form.persons):null,description:form.desc||null}; }
+function requestPayload(form,conflict){ return {...bookingPayload(form),motivation:form.motivation||null,organization:form.organization||null,occasion:form.occasion||null,conflict:!!conflict}; }
+async function submitBookingEdit(form){
+  const btn=document.getElementById('submit-btn'); btn.disabled=true; btn.textContent='Opslaan...';
+  try{
+    const returnTab=editState.type==='request'&&isAdmin?'beheer':'mijn';
+    if(editState.type==='booking') await updateBookingEdit(form);
+    else await updateRequestEdit(form);
+    await refreshAfterChange();
+    resetBookingForm();
+    showNotice('Wijzigingen opgeslagen.','success');
+    switchTabDirect(returnTab);
+  } catch(err){ showNotice('Wijzigen mislukt: '+explainError(err),'error'); }
+  finally{ btn.disabled=false; updateBookingMode(); checkConflict(); }
+}
+async function updateBookingEdit(form){
+  const args={kind:'booking',item_id:editState.id,scope:editState.scope,item:requestPayload(form,false),convert_to_request:false};
+  try{await rpc('han_edit',args);}
+  catch(error){
+    if(error.code!=='23P01')throw error;
+    if(!confirm('Een of meer momenten zijn bezet. Wil je de geselecteerde reservering(en) volledig omzetten naar verzoeken?'))throw new Error('Wijziging geannuleerd; bestaande reserveringen zijn behouden.');
+    await rpc('han_edit',{...args,convert_to_request:true});
+  }
+}
+async function updateRequestEdit(form){await rpc('han_edit',{kind:'request',item_id:editState.id,scope:editState.scope,item:requestPayload(form,false)});}
+function dayDiff(from,to){return (Date.parse(to+'T00:00:00Z')-Date.parse(from+'T00:00:00Z'))/86400000;}
+function shiftDate(date,delta){return new Date(Date.parse(date+'T00:00:00Z')+delta*86400000).toISOString().slice(0,10);}
+function renderMyBookings(){
+  const list=document.getElementById('my-bookings-list'); if(!currentUser){ list.innerHTML='<div class="empty-state">Log in om je reserveringen te bekijken.</div>'; return; }
+  const today=new Date(todayAmsterdam()+'T00:00:00'); const mine=bookings.filter(b=>b.userId===currentUser.id&&new Date(b.date+'T00:00:00')>=today).sort(sortBookings); const req=myBookingRequests.filter(r=>new Date(r.date+'T00:00:00')>=today).sort(sortBookings);
+  list.innerHTML=(mine.length||req.length)?mine.map(renderBookingCard).join('')+req.map(renderRequestCard).join(''):'<div class="empty-state">Geen aankomende reserveringen of verzoeken gevonden.</div>';
+}
+function renderBookingCard(b){ const label=new Date(b.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); const editBtn=canEditBooking(b)?'<button class="edit-btn" onclick="chooseEditScope(\'booking\',\''+escAttr(b.id)+'\')">Wijzigen</button>':''; const cancelBtn=b.recurrenceId?'<button class="cancel-btn" onclick="cancelBookingSeries(\''+escAttr(b.id)+'\')">Deze en volgende annuleren</button><button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Alleen deze</button>':'<button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">Annuleren</button>'; return '<div class="booking-card"><div><div class="bk-room">'+esc(b.roomName||b.roomId)+'</div><div class="bk-details">'+esc(label+' - '+b.start+'-'+b.end+(b.persons?' - '+b.persons+' pers.':''))+'</div>'+(b.recurrenceId?'<div class="bk-who">Herhalende reservering</div>':'')+(b.desc?'<div class="bk-who">'+esc(b.desc)+'</div>':'')+'</div><div style="display:flex;gap:6px;flex-wrap:wrap">'+editBtn+cancelBtn+'</div></div>'; }
+function renderRequestCard(r){
+  const editBtn=canEditRequest(r)?'<button class="edit-btn" onclick="chooseEditScope(\'request\','+jsArg(r.id)+')">Wijzigen</button>':'';
+  const cancelBtn=r.status==='pending'?'<button class="cancel-btn" onclick="cancelBookingRequest('+jsArg(r.id)+')">Alleen dit verzoek intrekken</button>'+(r.recurrenceId?'<button class="cancel-btn" onclick="cancelBookingRequest('+jsArg(r.id)+',\'series\')">Deze en volgende intrekken</button>':''):'';
+  return '<div class="booking-card"><div><div class="bk-room">Verzoek: '+esc(r.roomName||r.roomId)+'</div><div class="bk-details">'+esc(r.date+' '+r.start+'–'+r.end+' '+r.status)+'</div><div class="bk-who">'+esc([r.organization,r.occasion,r.adminNote].filter(Boolean).join(' – '))+'</div></div><div class="admin-actions">'+editBtn+cancelBtn+'</div></div>';
+}
+async function cancelBookingRequest(id,scope='single'){await cancelItem('request',id,scope);}
+async function cancelBookingSeries(id){await cancelItem('booking',id,'series');}
+async function cancelBooking(id){await cancelItem('booking',id,'single');}
+async function cancelItem(kind,id,scope){
+  if(!confirm(scope==='series'?'Deze en alle volgende gebeurtenissen intrekken? Eerdere gebeurtenissen blijven behouden.':'Deze gebeurtenis intrekken?'))return;
+  try{const count=await rpc('han_cancel',{kind,item_id:id,scope});await refreshAfterChange();showNotice(count+' gebeurtenis(sen) ingetrokken.','success');}
+  catch(error){showNotice('Intrekken mislukt: '+explainError(error),'error');}
+}
+function toggleRecurrence(){ const open=document.getElementById('f-recur-toggle').checked, fields=document.getElementById('recurrence-fields'); fields.classList.toggle('open',open); if(open){ toggleWeekdays(); updateRecurrencePreview(); } else document.getElementById('recurrence-preview').style.display='none'; }
+function toggleWeekdays(){ document.getElementById('weekday-group').style.display=document.getElementById('f-recur-unit').value==='week'?'':'none'; }
+function toggleDay(btn){ btn.classList.toggle('selected'); updateRecurrencePreview(); }
+function getSelectedDays(){ return [...document.querySelectorAll('.day-btn.selected')].map(b=>Number(b.dataset.day)); }
+function getRecurrenceDates(){
+  const start=document.getElementById('f-date').value;
+  if(!document.getElementById('f-recur-toggle').checked)return [start];
+  return recurrenceDates(start,{
+    interval:Number(document.getElementById('f-recur-n').value),
+    unit:document.getElementById('f-recur-unit').value,
+    until:document.getElementById('f-recur-until').value,days:getSelectedDays()
+  });
+}
+function recurrenceDates(start,{interval=1,unit='week',until,count=0,days=[]}){
+  if(!parseImportDate(start)||!Number.isInteger(interval)||interval<1||interval>99)throw new Error('Ongeldige herhaling.');
+  if(!['dag','week','maand','jaar'].includes(unit))throw new Error('Herhalingseenheid niet ondersteund.');
+  if(!count&&(!parseImportDate(until)||until<start))throw new Error('Kies een geldige einddatum voor de herhaling.');
+  if(count&&(!Number.isInteger(count)||count<1||count>520))throw new Error('Maximaal 520 gebeurtenissen.');
+  if(unit==='week'&&!days.length)throw new Error('Kies minstens één weekdag.');
+  const first=new Date(start+'T00:00:00Z'),result=[];
+  const stop=until||'2100-12-31';
+  for(let date=start;date<=stop;date=shiftDate(date,1)){
+    const d=new Date(date+'T00:00:00Z'),delta=dayDiff(start,date);
+    const months=(d.getUTCFullYear()-first.getUTCFullYear())*12+d.getUTCMonth()-first.getUTCMonth();
+    let matches=false;
+    if(unit==='dag')matches=delta%interval===0;
+    if(unit==='week')matches=Math.floor((delta+(first.getUTCDay()+6)%7)/7)%interval===0&&days.includes(d.getUTCDay());
+    if(unit==='maand')matches=months%interval===0&&d.getUTCDate()===first.getUTCDate();
+    if(unit==='jaar')matches=(d.getUTCFullYear()-first.getUTCFullYear())%interval===0&&d.getUTCMonth()===first.getUTCMonth()&&d.getUTCDate()===first.getUTCDate();
+    if(matches){result.push(date);if(count&&result.length===count)break;}
+    if(result.length>520)throw new Error('Maximaal 520 gebeurtenissen per reeks.');
+    if(delta>36600)throw new Error('Herhaling is te lang.');
+  }
+  if(!result.length||(count&&result.length<count))throw new Error('Geen volledige herhaling binnen het datumbereik.');
+  return result;
+}
+function updateRecurrencePreview(){
+  const preview=document.getElementById('recurrence-preview');
+  if(!document.getElementById('f-recur-toggle').checked){preview.style.display='none';return;}
+  preview.style.display='block';
+  try{
+    const dates=getRecurrenceDates();
+    preview.textContent=dates.length+' momenten: '+dates.slice(0,5).join(', ')+(dates.length>5?' …':'')+'. Niet-bestaande maand-/jaardagen worden overgeslagen.';
+  }catch(error){preview.textContent=error.message;}
+}
+async function submitRoleRequest(){
+  try{
+    await rpc('han_role_request',{full_name:document.getElementById('rr-name').value.trim(),job_title:document.getElementById('rr-job').value.trim(),motivation:document.getElementById('rr-motivation').value.trim()});
+    await loadMyRoleRequests();renderMyRoleRequests();showNotice('Rolverzoek ingediend.','success');
+  }catch(error){showNotice('Rolverzoek mislukt: '+explainError(error),'error');}
+}
+function renderMyRoleRequests(){ const box=document.getElementById('my-role-requests'); if(!box) return; const pending=roleRequests.find(r=>r.status==='pending'); box.textContent=pending?'Je hebt al een openstaand intern-rolverzoek.':''; }
+async function submitSupportMessage(){
+  const btn=document.getElementById('support-submit-btn');btn.disabled=true;
+  try{await rpc('han_support',{message:document.getElementById('support-message').value.trim()});document.getElementById('support-message').value='';await refreshAfterChange();showNotice('Je bericht is ingediend.','success');}
+  catch(error){showNotice('Indienen mislukt: '+explainError(error),'error');}
+  finally{btn.disabled=false;}
+}
+function renderSupportMessages(){
+  const div=document.getElementById('my-support-messages'); if(!div) return;
+  if(!currentUser){ div.innerHTML='<div class="empty-state">Log in om een vraag, klacht of tip in te dienen.</div>'; return; }
+  if(!supportMessages.length){ div.innerHTML='<div class="empty-state">Je hebt nog geen vragen, klachten of tips ingediend.</div>'; return; }
+  div.innerHTML=supportMessages.map(renderSupportCard).join('');
+}
+function renderSupportCard(m){
+  const label=new Date(m.created_at).toLocaleDateString('nl-NL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  return '<div class="request-card"><strong>'+esc(label)+' - '+esc(m.status||'open')+'</strong><div class="bk-who">'+esc(m.message)+'</div>'+(m.admin_note?'<div class="bk-details">Reactie: '+esc(m.admin_note)+'</div>':'')+'</div>';
+}
+function renderAdmin(){ renderAdminRooms(); renderAllBookingsAdmin(); renderAdminRoleRequests(); renderAdminBookingRequests(); renderAdminSupportMessages(); renderImportPreview(); }
+function renderAdminSupportMessages(){
+  const box=document.getElementById('admin-support-messages');
+  box.innerHTML=adminSupportMessages.length?adminSupportMessages.map(m=>
+    '<div class="request-card"><strong>'+esc(m.status)+'</strong><div class="bk-who">'+esc(m.message)+'</div>'+
+    '<label style="display:block;margin-top:8px" for="support-status-'+escAttr(m.id)+'">Status</label><select id="support-status-'+escAttr(m.id)+'">'+
+    ['open','in_behandeling','afgehandeld'].map(s=>'<option'+(s===m.status?' selected':'')+' value="'+s+'">'+s.replaceAll('_',' ')+'</option>').join('')+'</select>'+
+    '<label style="display:block;margin-top:8px" for="support-note-'+escAttr(m.id)+'">Reactie aan gebruiker</label><textarea maxlength="500" class="admin-note" id="support-note-'+escAttr(m.id)+'">'+esc(m.admin_note||'')+'</textarea>'+
+    '<button class="save-btn" onclick="handleSupport('+jsArg(m.id)+')">Reactie opslaan</button></div>').join(''):'<div class="empty-state">Geen berichten.</div>';
+}
+async function handleSupport(id){
+  try{
+    await rpc('han_handle_support',{item_id:id,new_status:document.getElementById('support-status-'+id).value,note:document.getElementById('support-note-'+id).value.trim()||null});
+    await refreshAfterChange();showNotice('Reactie opgeslagen.','success');
+  }catch(error){showNotice('Reactie opslaan mislukt: '+explainError(error),'error');}
+}
+function renderAdminRoleRequests(){ const div=document.getElementById('admin-role-requests'); if(!adminRoleRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande rolverzoeken.</div>'; return; } div.innerHTML=adminRoleRequests.map(r=>'<div class="request-card"><strong>'+esc(r.full_name)+'</strong><div class="bk-details">'+esc(r.job_title)+'</div><div class="bk-who">'+esc(r.motivation)+'</div><div class="admin-actions"><button class="approve-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',true)">Goedkeuren</button><button class="reject-btn" onclick="handleRoleRequest(\''+escAttr(r.id)+'\',false)">Afwijzen</button></div></div>').join(''); }
+async function handleRoleRequest(id,approve){
+  try{await rpc('han_decide_role',{item_id:id,approve});await refreshAfterChange();showNotice('Rolverzoek verwerkt.','success');}
+  catch(error){showNotice('Verwerken mislukt: '+explainError(error),'error');}
+}
+function renderAdminBookingRequests(){ const div=document.getElementById('admin-booking-requests'); if(!adminBookingRequests.length){ div.innerHTML='<div class="empty-state">Geen openstaande reserveringsverzoeken.</div>'; return; } div.innerHTML=adminBookingRequests.map(r=>{ const noteId='note-'+r.id; const label=new Date(r.date+'T00:00:00').toLocaleDateString('nl-NL',{weekday:'short',day:'numeric',month:'short'}); return '<div class="request-card"><strong>'+esc(r.name)+' - '+esc(r.roomName||r.roomId)+'</strong><div class="bk-details">'+esc(label+' - '+r.start+'-'+r.end+(r.persons?' - '+r.persons+' pers.':''))+'</div><div class="bk-who">Organisatie: '+esc(r.organization||'-')+' | Gelegenheid: '+esc(r.occasion||'-')+' | Conflict: '+(r.conflict?'ja':'nee')+'</div><div class="bk-who">'+esc(r.desc||'')+'</div><div class="bk-who">'+esc(r.motivation||'')+'</div><textarea class="admin-note" id="'+escAttr(noteId)+'" placeholder="Adminnotitie"></textarea><div class="admin-actions"><button class="edit-btn" onclick="chooseEditScope(\'request\',\''+escAttr(r.id)+'\')">Wijzigen</button><button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,true)">Goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',false,false)">Afwijzen</button>'+(r.recurrenceId?'<button class="approve-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,true)">Deze en volgende goedkeuren</button><button class="reject-btn" onclick="handleBookingRequest(\''+escAttr(r.id)+'\',true,false)">Deze en volgende afwijzen</button>':'')+'</div></div>'; }).join(''); }
+async function handleBookingRequest(id,series,approve){
+  try{const count=await rpc('han_decide_request',{item_id:id,scope:series?'series':'single',approve,note:document.getElementById('note-'+id).value.trim()||null});await refreshAfterChange();showNotice(count+' verzoek(en) verwerkt.','success');}
+  catch(error){showNotice('Verwerken mislukt; niets opgeslagen: '+explainError(error),'error');}
+}
+function renderAdminRooms(){ const list=document.getElementById('admin-rooms-list'); if(!isAdmin){ list.innerHTML='<div class="empty-state">Alleen admins kunnen ruimtes beheren.</div>'; return; } list.innerHTML=rooms.map((r,i)=>renderAdminRoomRow(r,i,false)).join(''); }
+function renderAdminRoomRow(r,i,isNew){ return '<div class="admin-room-row" data-original-id="'+escAttr(isNew?'':r.id)+'"><input type="text" value="'+escAttr(r.id||'')+'" placeholder="ID" '+(isNew?'':'disabled')+'><input type="text" value="'+escAttr(r.name||'')+'" placeholder="Naam"><input type="number" min="1" value="'+escAttr(r.capacity||'')+'" placeholder="Max"><input type="text" value="'+escAttr(r.notes||'')+'" placeholder="Opmerking"><button class="del-btn" onclick="deleteRoom('+i+')">&#215;</button></div>'; }
+function addAdminRoom(){ if(!isAdmin) return; rooms.push({id:'',name:'',capacity:null,notes:'',active:true}); renderAdminRooms(); }
+async function deleteRoom(i){
+  const room=rooms[i];if(!room||!confirm('Ruimte uit de actieve lijst halen? Bestaande afspraken blijven bestaan.'))return;
+  try{if(room.id)await rpc('han_save_rooms',{items:[{...room,original_id:room.id,active:false}]});else rooms.splice(i,1);await loadRooms();renderAdminRooms();renderOverview();showNotice('Ruimte uit de actieve lijst gehaald.','success');}
+  catch(error){showNotice(explainError(error),'error');}
+}
+async function saveRooms(){
+  try{
+    const items=[...document.querySelectorAll('.admin-room-row')].map(row=>{
+      const fields=row.querySelectorAll('input');
+      return {original_id:row.dataset.originalId,id:fields[0].value.trim(),name:fields[1].value.trim(),capacity:fields[2].value?Number(fields[2].value):null,notes:fields[3].value.trim(),active:true};
+    });
+    await rpc('han_save_rooms',{items});await loadRooms();renderAdminRooms();renderOverview();showNotice('Alle ruimtes opgeslagen.','success');
+  }catch(error){showNotice('Ruimtes niet opgeslagen: '+explainError(error),'error');}
+}
+function renderAllBookingsAdmin(){ const div=document.getElementById('all-bookings-admin'); if(!isAdmin){ div.innerHTML='<div class="empty-state">Alleen admins kunnen reserveringen beheren.</div>'; return; } const today=new Date(todayAmsterdam()+'T00:00:00'); const upcoming=bookings.filter(b=>new Date(b.date+'T00:00:00')>=today).sort(sortBookings); if(!upcoming.length){ div.innerHTML='<div class="empty-state">Geen aankomende reserveringen.</div>'; return; } div.innerHTML='<div style="overflow-x:auto"><table><thead><tr><th>Datum</th><th>Tijd</th><th>Ruimte</th><th>Naam</th><th>Pers.</th><th></th></tr></thead><tbody>'+upcoming.map(b=>{ const dl=new Date(b.date+'T00:00:00').toLocaleDateString('nl-NL',{day:'numeric',month:'short'}); return '<tr><td>'+esc(dl)+'</td><td>'+esc(b.start+'-'+b.end)+'</td><td>'+esc(b.roomName||b.roomId)+'</td><td>'+esc(b.name)+'</td><td>'+esc(b.persons||'-')+'</td><td><button class="cancel-btn" onclick="cancelBooking(\''+escAttr(b.id)+'\')">&#215;</button></td></tr>'; }).join('')+'</tbody></table></div>'; }
+async function previewImportFile(){
+  if(!isAdmin){ showNotice('Alleen admins kunnen reserveringen importeren.','error'); return; }
+  const input=document.getElementById('import-file'), file=input&&input.files?input.files[0]:null;
+  if(file&&file.size>5*1024*1024){showNotice('Gebruik een bestand kleiner dan 5 MB.','error');return;}
+  if(!file){ showNotice('Kies eerst een Excel-, CSV- of ICS-bestand.','error'); return; }
+  try{
+    const ext=(file.name.split('.').pop()||'').toLowerCase();
+    let raw=[];
+    if(ext==='csv') raw=parseCsv(await file.text());
+    else if(ext==='ics') raw=parseIcs(await file.text());
+    else if(ext==='xlsx'||ext==='xls') raw=await parseExcel(file);
+    else throw new Error('Bestandstype niet ondersteund. Gebruik .xlsx, .xls, .csv of .ics.');
+    importRows=prepareImportRows(raw);
+    const valid=importRows.filter(r=>r.valid);
+    if(valid.length){
+      const checks=await rpc('han_availability',{items:valid.map(r=>({room_id:r.roomId,date:r.date,start_time:r.start,end_time:r.end}))});
+      checks.forEach((check,i)=>{if(check.conflict){valid[i].errors.push('conflict met bestaande reservering');valid[i].valid=false;}});
+    }
+    renderImportPreview();
+    showNotice(importRows.length+' regel(s) gelezen uit '+file.name+'. Controleer de preview voordat je importeert.','success');
+  }catch(err){
+    importRows=[];
+    renderImportPreview();
+    showNotice('Importbestand lezen mislukt: '+err.message,'error');
+  }
+}
+async function parseExcel(file){
+  if(!window.XLSX)throw new Error('Excel-parser kon niet laden.');
+  const workbook=XLSX.read(await file.arrayBuffer(),{type:'array',cellDates:false});
+  if(workbook.SheetNames.length!==1)throw new Error('Gebruik één werkblad per importbestand.');
+  const sheet=workbook.Sheets[workbook.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(sheet,{defval:'',raw:true});
+  return rows.map(row=>Object.fromEntries(Object.entries(row).map(([key,value])=>{
+    const header=normalizeHeader(key);
+    if(typeof value==='number'&&['datum','date','dag'].includes(header)){
+      const d=XLSX.SSF.parse_date_code(value,{date1904:!!workbook.Workbook?.WBProps?.date1904});
+      value=d&&d.H===0&&d.M===0&&d.S===0?String(d.y).padStart(4,'0')+'-'+String(d.m).padStart(2,'0')+'-'+String(d.d).padStart(2,'0'):'ongeldige Excel-datum';
+    }else if(typeof value==='number'&&['start','starttijd','begintijd','begin','einde','eindtijd','end','stoptijd'].includes(header)){
+      const mins=Math.round(value*1440);
+      value=value>=0&&value<1&&Math.abs(value*1440-mins)<0.00001?String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0'):'ongeldige Excel-tijd';
+    }
+    return [key,value];
+  })));
+}
+function parseCsv(text){
+  text=text.replace(/^\uFEFF/,'').replace(/\r\n/g,'\n');
+  const first=text.split('\n')[0],delimiter=(first.match(/;/g)||[]).length>(first.match(/,/g)||[]).length?';':',';
+  const rows=[];let row=[],field='',quoted=false,closed=false;
+  const addField=()=>{row.push(field);field='';closed=false;};
+  const addRow=()=>{addField();if(row.some(x=>x.trim()))rows.push(row);row=[];};
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(quoted){
+      if(c==='"'&&text[i+1]==='"'){field+='"';i++;}
+      else if(c==='"'){quoted=false;closed=true;}else field+=c;
+    }else if(c==='"'){
+      if(field||closed)throw new Error('Ongeldige aanhalingstekens in CSV.');quoted=true;
+    }else if(c===delimiter)addField();
+    else if(c==='\n'||c==='\r')addRow();
+    else {if(closed&&!/\s/.test(c))throw new Error('Tekst na een afgesloten CSV-veld.');if(!closed)field+=c;}
+  }
+  if(quoted)throw new Error('Niet afgesloten CSV-veld.');
+  if(field||row.length)addRow();
+  if(!rows.length)return [];
+  const headers=rows.shift().map(normalizeHeader);
+  if(new Set(headers).size!==headers.length||headers.some(h=>!h))throw new Error('Lege of dubbele kolomnaam.');
+  return rows.map((values,index)=>{
+    if(values.length!==headers.length)throw new Error('Afwijkend aantal velden op CSV-regel '+(index+2)+'.');
+    return Object.fromEntries(headers.map((h,i)=>[h,values[i]]));
+  });
+}
+function parseIcs(text){
+  const lines=text.replace(/\r?\n[ \t]/g,'').split(/\r?\n/),events=[];
+  let props=null,alarm=false;
+  for(const line of lines){
+    if(line==='BEGIN:VEVENT'){if(props)throw new Error('Ongeldige ICS.');props={};continue;}
+    if(line==='END:VEVENT'){if(!props)throw new Error('Ongeldige ICS.');events.push(props);props=null;continue;}
+    if(line==='BEGIN:VALARM'){alarm=true;continue;}
+    if(line==='END:VALARM'){alarm=false;continue;}
+    if(!props||alarm)continue;
+    const colon=line.indexOf(':');if(colon<0)continue;
+    const [key,...parameters]=line.slice(0,colon).split(';'),value=line.slice(colon+1);
+    const params=Object.fromEntries(parameters.map(p=>{const i=p.indexOf('=');return [p.slice(0,i).toUpperCase(),p.slice(i+1).replace(/^"|"$/g,'')];}));
+    (props[key.toUpperCase()]??=[]).push({value,params});
+  }
+  if(props||!events.length)throw new Error('Geen volledige ICS-afspraken gevonden.');
+  const rows=[];
+  for(const p of events){
+    const one=key=>{if((p[key]||[]).length!==1)throw new Error('ICS vereist precies één '+key+'.');return p[key][0];};
+    for(const key of ['RECURRENCE-ID','RDATE','EXRULE','DURATION'])if(p[key])throw new Error('ICS '+key+' wordt niet ondersteund; exporteer losse afspraken.');
+    if(p.STATUS?.[0].value==='CANCELLED')throw new Error('Geannuleerde ICS-afspraak: verwijder deze uit het importbestand.');
+    const start=parseIcsDate(one('DTSTART')),end=parseIcsDate(one('DTEND'));
+    if(start.zone!==end.zone)throw new Error('ICS begin en einde gebruiken verschillende tijdzones.');
+    const uid=p.UID?.[0].value||crypto.randomUUID(),rrule=p.RRULE?one('RRULE').value:null;
+    let dates=[start.date];
+    if(rrule)dates=expandIcsRecurrence(start,rrule);
+    const excluded=new Set((p.EXDATE||[]).flatMap(prop=>prop.value.split(',').map(value=>{
+      const d=parseIcsDate({...prop,value});return new Date(icsInstant(d)).toISOString();
+    })));
+    const dayDelta=dayDiff(start.date,end.date);
+    for(const date of dates){
+      const occurrence={...start,date},finish={...end,date:shiftDate(date,dayDelta)};
+      const startMs=icsInstant(occurrence),endMs=icsInstant(finish);
+      if(excluded.has(new Date(startMs).toISOString()))continue;
+      const a=amsterdamParts(startMs),b=amsterdamParts(endMs);
+      if(a.date!==b.date||endMs<=startMs)throw new Error('Meerdaagse of ongeldige ICS-afspraak; splits deze vooraf per dag.');
+      amsterdamInstant(a.date,a.time);amsterdamInstant(b.date,b.time);
+      rows.push({naam:decodeIcsText(p.SUMMARY?.[0].value||'Geïmporteerde reservering'),ruimte:decodeIcsText(p.LOCATION?.[0].value||''),
+        datum:a.date,starttijd:a.time,eindtijd:b.time,omschrijving:decodeIcsText(p.DESCRIPTION?.[0].value||''),recurrence_id:rrule?uid:''});
+      if(rows.length>520)throw new Error('Maximaal 520 gebeurtenissen per import.');
+    }
+  }
+  return rows;
+}
+function amsterdamParts(milliseconds){
+  const parts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(milliseconds)).map(p=>[p.type,p.value]));
+  return {date:parts.year+'-'+parts.month+'-'+parts.day,time:parts.hour+':'+parts.minute};
+}
+function amsterdamInstant(date,time){
+  const naive=Date.parse(date+'T'+time+':00Z');
+  const matches=[1,2].map(hours=>naive-hours*3600000).filter(ms=>{const p=amsterdamParts(ms);return p.date===date&&p.time===time;});
+  if(matches.length!==1)throw new Error('Niet-bestaande of dubbele Nederlandse kloktijd bij zomer-/wintertijd.');
+  return matches[0];
+}
+function icsInstant(item){return (item.zone==='UTC'?Date.parse(item.date+'T'+item.time+':00Z'):amsterdamInstant(item.date,item.time))+(item.seconds||0)*1000;}
+
+function decodeIcsText(value){ return String(value||'').replace(/\\n/gi,' ').replace(/\\,/g,',').replace(/\\;/g,';').replace(/\\\\/g,'\\').trim(); }
+function parseIcsDate(prop,allowSeconds=false){
+  const m=String(prop.value).match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/);
+  if(!m||Number(m[6])>59||(!allowSeconds&&m[6]!=='00')||prop.params.VALUE&&prop.params.VALUE!=='DATE-TIME')throw new Error('ICS vereist begin/einde met tijd op hele minuten; hele dagen worden niet ondersteund.');
+  const date=parseImportDate(m[1]+'-'+m[2]+'-'+m[3]),time=parseImportTime(m[4]+':'+m[5]);
+  if(!date||!time)throw new Error('Ongeldige ICS-datum of tijd.');
+  let zone=m[7]?'UTC':prop.params.TZID;
+  if(zone==='W. Europe Standard Time')zone='Europe/Amsterdam';
+  if(!['UTC','Europe/Amsterdam'].includes(zone))throw new Error('ICS-tijdzone ontbreekt of is niet ondersteund. Gebruik UTC of Europe/Amsterdam.');
+  if(m[7]&&prop.params.TZID)throw new Error('ICS bevat zowel UTC als een lokale tijdzone.');
+  return {date,time,zone,seconds:Number(m[6])};
+}
+function expandIcsRecurrence(start,rule){
+  const entries=rule.split(';').map(part=>part.split('='));
+  if(entries.some(p=>p.length!==2)||new Set(entries.map(p=>p[0])).size!==entries.length)throw new Error('Ongeldige ICS-herhaling.');
+  const p=Object.fromEntries(entries);
+  if(Object.keys(p).some(k=>!['FREQ','INTERVAL','COUNT','UNTIL','BYDAY','WKST'].includes(k)))throw new Error('Niet-ondersteunde ICS-herhalingsregel; exporteer losse afspraken.');
+  if(p.WKST&&p.WKST!=='MO')throw new Error('ICS ondersteunt alleen maandag als weekbegin.');
+  if(!!p.COUNT===!!p.UNTIL)throw new Error('ICS-herhaling vereist óf COUNT óf UNTIL.');
+  const unit={DAILY:'dag',WEEKLY:'week',MONTHLY:'maand',YEARLY:'jaar'}[p.FREQ];
+  if(!unit)throw new Error('ICS-frequentie niet ondersteund.');
+  if(p.BYDAY&&unit!=='week')throw new Error('BYDAY wordt alleen bij wekelijkse herhaling ondersteund.');
+  const names=['SU','MO','TU','WE','TH','FR','SA'];
+  const days=p.BYDAY?p.BYDAY.split(',').map(day=>names.indexOf(day)):[new Date(start.date+'T00:00:00Z').getUTCDay()];
+  if(days.some(d=>d<0))throw new Error('Niet-ondersteunde BYDAY-regel.');
+  if(unit==='week'&&!days.includes(new Date(start.date+'T00:00:00Z').getUTCDay()))throw new Error('DTSTART past niet bij BYDAY.');
+  let until,untilMs;
+  if(p.UNTIL){
+    const end=parseIcsDate({value:p.UNTIL,params:p.UNTIL.endsWith('Z')?{}:{TZID:start.zone}},true);
+    untilMs=icsInstant(end);
+    until=start.zone==='UTC'?new Date(untilMs).toISOString().slice(0,10):amsterdamParts(untilMs).date;
+  }
+  const dates=recurrenceDates(start.date,{interval:Number(p.INTERVAL||1),unit,count:Number(p.COUNT||0),until,days});
+  return dates.filter(date=>untilMs===undefined||icsInstant({...start,date})<=untilMs);
+}
+function prepareImportRows(rawRows){
+  if(!rawRows.length||rawRows.length>520)throw new Error('Gebruik een bestand met 1 tot 520 gebeurtenissen.');
+  const seenSeries=new Map(),rows=rawRows.map((row,index)=>{
+    const n=normalizeImportRow(row),errors=[],warnings=[];
+    const roomId=resolveImportRoom(n.room),date=parseImportDate(n.date),start=parseImportTime(n.start),end=parseImportTime(n.end);
+    const name=(n.name||'Geïmporteerde reservering').trim(),desc=(n.desc||'').trim(),persons=n.persons?Number(n.persons):null;
+    if(!roomId)errors.push('ruimte onbekend of niet eenduidig');
+    if(!date||date<todayAmsterdam())errors.push('datum ongeldig of in het verleden');
+    if(!start||!end||start>=end)errors.push('ongeldige tijden');
+    if(name.length<2||name.length>120||desc.length>500)errors.push('naam of omschrijving te lang/kort');
+    if(persons!==null&&(!Number.isInteger(persons)||persons<=0))errors.push('personen ongeldig');
+    if(date&&start&&end){try{amsterdamInstant(date,start);amsterdamInstant(date,end);}catch(error){errors.push(error.message);}}
+    const room=rooms.find(r=>r.id===roomId);
+    if(room?.capacity&&persons>room.capacity)warnings.push('meer personen dan capaciteit');
+    const key=n.seriesKey||n.recurrenceId;let recurrenceId=null;
+    if(key){if(!seenSeries.has(key))seenSeries.set(key,crypto.randomUUID());recurrenceId=seenSeries.get(key);}
+    return {index:index+1,roomId,date,start,end,name,desc,persons,recurrenceId,errors,warnings,valid:errors.length===0};
+  });
+  for(let i=0;i<rows.length;i++)for(let j=0;j<i;j++){
+    const a=rows[i],b=rows[j];
+    if(a.roomId===b.roomId&&a.date===b.date&&a.start<b.end&&a.end>b.start){
+      a.errors.push('overlap binnen bestand');b.errors.push('overlap binnen bestand');a.valid=b.valid=false;
+    }
+  }
+  return rows;
+}
+function normalizeImportRow(row){
+  const lookup={};
+  Object.entries(row||{}).forEach(([key,value])=>lookup[normalizeHeader(key)]=String(value==null?'':value).trim());
+  const pick=(keys)=>keys.map(k=>lookup[normalizeHeader(k)]).find(v=>v);
+  return {
+    room:pick(['ruimte','room','room_id','locatie','location','zaal']),
+    date:pick(['datum','date','dag']),
+    start:pick(['start','starttijd','begintijd','begin']),
+    end:pick(['einde','eindtijd','end','stoptijd']),
+    name:pick(['naam','name','titel','title','summary','onderwerp']),
+    desc:pick(['omschrijving','description','beschrijving','toelichting','opmerking']),
+    persons:pick(['personen','persons','aantal','capacity']),
+    recurrenceId:pick(['recurrence_id','recurrenceid','reeks','series']),
+    seriesKey:pick(['uid','recurrence_id','reeks','series'])
+  };
+}
+function resolveImportRoom(value){
+  const raw=String(value||'').trim().toLowerCase();if(!raw)return '';
+  const exact=rooms.filter(r=>r.id.toLowerCase()===raw||r.name.toLowerCase()===raw);
+  if(exact.length===1)return exact[0].id;
+  const candidates=rooms.filter(r=>raw.includes(r.id.toLowerCase())||raw.includes(r.name.toLowerCase()));
+  return candidates.length===1?candidates[0].id:'';
+}
+function parseImportDate(value){
+  const text=String(value??'').trim();
+  let m=text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m){const nl=text.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);if(nl)m=[nl[0],nl[3],nl[2].padStart(2,'0'),nl[1].padStart(2,'0')];}
+  if(!m)return '';
+  const iso=m[1]+'-'+m[2]+'-'+m[3],date=new Date(iso+'T00:00:00Z');
+  return !isNaN(date)&&date.toISOString().slice(0,10)===iso&&iso>='2000-01-01'&&iso<='2100-12-31'?iso:'';
+}
+function parseImportTime(value){
+  const m=String(value??'').trim().match(/^(\d{1,2})(?:[:.](\d{2}))?$/);
+  return m&&Number(m[1])<24&&Number(m[2]||0)<60?m[1].padStart(2,'0')+':'+(m[2]||'00'):'';
+}
+function renderImportPreview(){
+  const summary=document.getElementById('import-summary'), preview=document.getElementById('import-preview'), btn=document.getElementById('import-confirm-btn');
+  if(!summary||!preview||!btn) return;
+  const total=importRows.length, valid=importRows.filter(r=>r.valid).length, conflicts=importRows.filter(r=>r.errors.includes('conflict met bestaande reservering')).length, warnings=importRows.filter(r=>r.warnings.length).length;
+  summary.innerHTML=total?'<span class="import-pill">'+total+' gelezen</span><span class="import-pill ok">'+valid+' klaar</span><span class="import-pill error">'+(total-valid)+' met fout</span><span class="import-pill warn">'+warnings+' waarschuwing</span><span class="import-pill error">'+conflicts+' conflict</span>':'<span class="import-pill">Nog geen bestand geladen</span>';
+  btn.disabled=!total||valid!==total;
+  if(!total){ preview.innerHTML='<div class="empty-state">Upload een Excel-, CSV- of ICS-bestand om een preview te zien.</div>'; return; }
+  preview.innerHTML='<div style="overflow-x:auto"><table class="import-table"><thead><tr><th>#</th><th>Status</th><th>Datum</th><th>Tijd</th><th>Ruimte</th><th>Naam</th><th>Opmerking</th></tr></thead><tbody>'+importRows.map(r=>{
+    const status=r.valid?(r.warnings.length?'<span class="import-status-warn">Waarschuwing</span>':'<span class="import-status-ok">Klaar</span>'):'<span class="import-status-error">Fout</span>';
+    const notes=[...r.errors,...r.warnings].join(', ');
+    return '<tr><td>'+r.index+'</td><td>'+status+'</td><td>'+esc(r.date||'-')+'</td><td>'+esc((r.start||'?')+'-'+(r.end||'?'))+'</td><td>'+esc(r.roomId||'-')+'</td><td>'+esc(r.name)+'</td><td>'+esc(notes||'-')+'</td></tr>';
+  }).join('')+'</tbody></table></div>'+'';
+}
+async function confirmImportBookings(){
+  if(!isAdmin||!importRows.length||importRows.some(r=>!r.valid)){showNotice('Los eerst alle importfouten op.','error');return;}
+  if(!confirm('Alle '+importRows.length+' momenten importeren? Bij één fout wordt het hele bestand teruggedraaid.'))return;
+  const btn=document.getElementById('import-confirm-btn');btn.disabled=true;
+  try{
+    const payload=importRows.map(r=>({import_index:r.index,name:r.name,room_id:r.roomId,date:r.date,start_time:r.start,end_time:r.end,persons:r.persons,description:r.desc||null,recurrence_id:r.recurrenceId}));
+    const data=await rpc('import_reserveringen',{import_items:payload});
+    if(data.length!==payload.length||data.some(r=>r.status!=='imported'))throw new Error('Onverwacht importresultaat; controleer het overzicht voor je opnieuw probeert.');
+    clearImportPreview();await refreshAfterChange();showNotice(data.length+' reserveringen geïmporteerd.','success');
+  }catch(error){showNotice('Import mislukt: '+explainError(error),'error');}
+  finally{btn.textContent='Importeren';renderImportPreview();}
+}
+function clearImportPreview(){ importRows=[]; const input=document.getElementById('import-file'); if(input) input.value=''; renderImportPreview(); }
+function showTooltip(e,text){ const t=document.getElementById('tooltip'); t.textContent=decodeHtml(text); t.style.display='block'; t.style.left=(e.clientX+12)+'px'; t.style.top=(e.clientY-10)+'px'; }
+function hideTooltip(){ document.getElementById('tooltip').style.display='none'; }
+function showNotice(message,type){
+  if(type==='success'&&refreshFailure){message+=' Het overzicht kon niet worden vernieuwd: '+refreshFailure+'. Ververs de pagina voordat je verdergaat.';type='error';}
+  const n=document.getElementById('app-notice');n.textContent=message;n.className='notice show'+(type?' '+type:'');
+}
+function hideNotice(){ const n=document.getElementById('app-notice'); n.className='notice'; n.textContent=''; }
+function formatDate(d){ return d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); }
+function dateStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function normTime(time){ return String(time||'').slice(0,5); }
+function normalizeHeader(value){ return String(value||'').trim().toLowerCase().replace(/\s+/g,'_'); }
+function timeToPercent(time){ const p=normTime(time).split(':').map(Number), total=(DAY_END-DAY_START)*60, pos=(p[0]-DAY_START)*60+(p[1]||0); return Math.max(0,Math.min(100,(pos/total)*100)); }
+function sortBookings(a,b){ return a.date.localeCompare(b.date)||a.start.localeCompare(b.start); }
+function esc(value){ return String(value==null?'':value).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function escAttr(value){return esc(value).replace(/'/g,'&#39;');}
+function jsArg(value){return escAttr(JSON.stringify(String(value)).replace(/</g,'\\u003c'));}
+function decodeHtml(value){ const el=document.createElement('textarea'); el.innerHTML=value; return el.value; }
+function explainError(err){ if(err&&err.code==='23P01') return 'deze ruimte is op dit tijdstip al gereserveerd.'; return err.message||String(err); }
+</script>
+</body>
+</html>

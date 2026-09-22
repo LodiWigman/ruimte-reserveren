@@ -1,0 +1,20 @@
+-- Live ruimteconfiguratie gecontroleerd op 22 september 2026: 17 actief, 1 inactief.
+INSERT INTO public.rooms(id,name,capacity,notes,active) VALUES
+('W0.02','Flex kantoor',10,'Individueel werken',false),
+('W0.03','Vergaderruimte 1',8,'Groot scherm met camera aanwezig, ideaal voor vergaderingen.',true),
+('W0.07','Flex (kantoor) ruimte',8,'Ruim werkkantoor met schermen/toetsenbord/muis, geschikt voor groepen/afdelingen om te werken.',true),
+('W0.11','Projectruimte 1',12,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W0.12','Projectruimte 2',10,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W0.13','Startup ruimte 1',12,'Deze ruimtes worden vaak voor langere periodes door startups gebruikt.',true),
+('W0.14','Startup ruimte 2',12,'Deze ruimtes worden vaak voor langere periodes door startups gebruikt.',true),
+('W1.01','Lecture room',31,'Ruim klaslokaal, geschikt voor onderwijs/grotere evenementen tot en met 31 personen.',true),
+('W1.02','Projectruimte 3',12,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.03','Projectruimte 4',12,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.04','Projectruimte 5',12,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.05','Projectruimte 6',12,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.07','Projectruimte 7',6,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.08','Projectruimte 8',8,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.09','Projectruimte 9',8,'Voor samenwerken in groepsverband, een scherm aanwezig.',true),
+('W1.11 A','MCE - Lecture/Event ruimte A',20,'Deze ruimtes kunnen samengevoegd worden door de wanden ertussen uit te halen, voor als je met een grote groep komt.',true),
+('W1.11 B','MCE - Lecture/Event ruimte B',32,'Deze ruimtes kunnen samengevoegd worden door de wanden ertussen uit te halen, voor als je met een grote groep komt.',true),
+('W1.11 C','MCE - Lecture/Event ruimte C',32,'Deze ruimtes kunnen samengevoegd worden door de wanden ertussen uit te halen, voor als je met een grote groep komt.',true);

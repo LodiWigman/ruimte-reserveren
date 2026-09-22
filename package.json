@@ -1,0 +1,14 @@
+{
+  "name": "han-reserveringen-verificatie",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/reset.mjs",
+    "test:ui": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "embedded-postgres": "17.6.0-beta.15",
+    "pg": "8.16.3",
+    "playwright": "1.62.1"
+  }
+}

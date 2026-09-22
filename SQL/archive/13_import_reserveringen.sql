@@ -152,3 +152,5 @@ REVOKE EXECUTE ON FUNCTION public.import_reserveringen(jsonb) FROM public, anon;
 GRANT EXECUTE ON FUNCTION public.import_reserveringen(jsonb) TO authenticated;
 
 COMMIT;
+-- ARCHIEF: NIET UITVOEREN. Actuele installatie: SQL/README.md en SQL/basis.sql.
+-- Dit bestand bewaart historische ontwikkelstappen, inclusief bekende fouten.

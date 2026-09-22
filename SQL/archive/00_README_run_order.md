@@ -24,3 +24,4 @@ Belangrijk:
 - `sql_file.txt` mag blijven bestaan als totaaloverzicht, maar deze map is netter om handmatig te runnen.
 - Voor Clerk moet je ook in Supabase de Clerk provider activeren en in `github_index.html` de `CLERK_PUBLISHABLE_KEY` invullen.
 - RLS bepaalt welke rijen zichtbaar of wijzigbaar zijn. De grants in `10_data_api_grants.sql` bepalen alleen dat ingelogde gebruikers de tabellen via de Data API mogen bereiken.
+# ARCHIEF — deze uitvoervolgorde is vervallen. Zie ../README.md.
