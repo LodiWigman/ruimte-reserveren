@@ -43,7 +43,10 @@ try {
     assert.equal((await query('user_other','SELECT * FROM public.reserveringen')).rowCount,0);
     assert.equal((await query('user_other','SELECT * FROM public.reserveringsverzoeken')).rowCount,0);
     const rows=await rpc('user_other','han_occupancy',{from_date:'2030-01-07',to_date:'2030-01-08'});
-    assert.ok(rows.length);assert.deepEqual(Object.keys(rows[0]).sort(),['date','end_time','room_id','start_time','status']);
+    assert.ok(rows.length);assert.deepEqual(Object.keys(rows[0]).sort(),['date','end_time','id','mine','name','organization','room_id','start_time','status']);
+    assert.ok(rows.every(r=>r.id===null&&!r.mine));
+    assert.equal(rows.find(r=>r.status==='confirmed').organization,'HAN');
+    assert.equal(rows.find(r=>r.status==='pending').name,null);
     assert.equal((await query('user_admin','SELECT * FROM public.reserveringen')).rowCount,1);
   });
   await test('andermans wijzigen/annuleren en beheerfuncties geweigerd',async()=>{
@@ -60,9 +63,9 @@ try {
     await denied(()=>rpc('user_admin','han_decide_request',{item_id:request,scope:'single',approve:true}),/niet gevonden of al behandeld/);
     await denied(()=>rpc('user_extern','han_edit',{kind:'request',item_id:request,scope:'single',item:item()}),/niet gevonden of al behandeld/);
   });
-  await test('intern wijzigt eigen reservering; admin wijzigt geen andermans bevestigde reservering',async()=>{
+  await test('intern wijzigt eigen reservering; admin mag andermans reservering wijzigen',async()=>{
     assert.equal(await rpc('user_intern','han_edit',{kind:'booking',item_id:booking,scope:'single',item:item('2030-01-10')}),1);
-    await denied(()=>rpc('user_admin','han_edit',{kind:'booking',item_id:booking,scope:'single',item:item()}),/Alleen eigen/);
+    assert.equal(await rpc('user_admin','han_edit',{kind:'booking',item_id:booking,scope:'single',item:item()}),1);
   });
   await test('nul gewijzigde rijen is een fout',async()=>{
     await rpc('user_intern','han_cancel',{kind:'booking',item_id:booking});
@@ -111,7 +114,8 @@ try {
   await test('datums, minuten, aantallen, inactieve ruimte, DST en lege invoer',async()=>{
     for(const bad of [{...item(),date:'2030-02-30'},{...item(),start_time:'25:00'},{...item(),end_time:'09:00'},{...item(),persons:1.5},item('2030-01-01','09:00','W0.02'),{...item(),date:'2030-03-31',start_time:'02:15',end_time:'03:15'},{...item(),date:'2030-10-27',start_time:'02:15',end_time:'03:15'}])await denied(()=>rpc('user_intern','han_create_bookings',{items:[bad]}));
     await denied(()=>rpc('user_intern','han_create_bookings',{items:[]}));
-    await denied(()=>rpc('user_extern','han_create_bookings',{items:[{...item(),motivation:null}]}),/verplicht/);
+    await denied(()=>rpc('user_extern','han_create_bookings',{items:[{...item(),organization:null}]}),/verplicht/);
+    assert.equal((await rpc('user_extern','han_create_bookings',{items:[{...item('2030-07-02'),motivation:null,description:null}]})).requested,1);
   });
   await test('support privacy en beheerreactie',async()=>{
     const id=await rpc('user_extern','han_support',{message:'Een testvraag voor de beheerder'});

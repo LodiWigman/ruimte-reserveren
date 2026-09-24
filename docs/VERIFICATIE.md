@@ -1,4 +1,4 @@
-# Verificatie — 22 september 2026
+# Verificatie — bijgewerkt 24 september 2026
 
 ## Geslaagd
 
@@ -8,10 +8,11 @@ of testmutaties op de live Supabase-database uitgevoerd.
 
 | Controle | Resultaat |
 | --- | --- |
-| `tests/frontend.mjs` | 17 scenario's: syntax, strikte datums/tijden, maandultimo/schrikkeldagen, DST, CSV met regeleinden/quotes, ICS tijdzone/herhaling/EXDATE/UNTIL, weigering onondersteunde ICS, reeks-ID, importoverlap, nul-resultaat, 1201 rijen met kleinere serverpagina's |
+| `tests/frontend.mjs` | 20 scenario's: syntax, datums/tijden, maandultimo/schrikkeldagen, DST, inclusieve einddag, reeksweergave/escaping, externe wijzigingsgrenzen, CSV, ICS, importnormalisatie, nul-resultaat en volledige paginering |
 | `tests/database.mjs` | 19 scenario's op een lege PostgreSQL 17.6-database: zes RLS-tabellen, grants, gast/extern/intern/admin, geen zelfpromotie, eigenaarschap/privacy, boeking/verzoek/wijziging/annulering, goedkeuring/afwijzing, rollen, support, rollback van reeksacties/import en gelijktijdige aanvragen |
+| `tests/workflows.mjs` | 10 scenario's op de vorige databasebasis: migratie/rollback, gegevensbehoud en metadataoverdracht, verzoek verwijderen bij goedkeuring, externe wijzigingen/reeksen, organisatorprivacy, rolverzoeken wijzigen/intrekken/goedkeuren, adminwijzigingen en grants |
 | `tests/reset.mjs` | 2 controles: reconstrueren oude live applicatiestructuur, complete reset/basis/ruimtes/adminherstel, rollback bewaart oude gegevens, aparte systeemtabel blijft bestaan |
-| `tests/browser.mjs` | 2 uitgebreide scenario's op 1365×1000 en 390×844: gast, testlogin, extern verzoek, admin goedkeuring, vraag/reactie, CSV-import, blokkeren dubbele import, Excel-parser, intern boeken/wijzigen, logout, escaping ruimte-ID en geen horizontale overflow |
+| `tests/browser.mjs` | 2 uitgebreide scenario's op 1365×1000 en 390×844: bestaande flows plus rolverzoek wijzigen/intrekken, vijfsecondenmelding, optionele motivatie, inclusieve reeks, gegroepeerde lijsten, overzichtvensters, organisatorgegevens, extern inkorten/opnieuw aanvragen en admin bewerken |
 | Code-review | Aangeraakte callers, gevoelige API-invoer, autorisatie, nul-resultaten, transacties, escaping en obsolete functies gecontroleerd; geen directe browsermutaties meer |
 | Git-controle | Diff gecontroleerd op whitespacefouten; alleen voorbereide release in aparte lokale checkout |
 | Openbare infrastructuur | De eerder gecontroleerde Pages-kopie kwam overeen met GitHub. De gebruiker heeft daarna Vercel bevestigd als actieve host en gevraagd Vercel niet te controleren. Vastgezette Clerk-scripts geven HTTP 200 |
@@ -27,6 +28,21 @@ en grants zijn bovendien getest met ruime standaard Supabase-achtige default gra
 zodat de expliciete intrekking van rechten daadwerkelijk wordt gecontroleerd.
 
 ## Advisorbevindingen
+
+Actuele nacontrole op 24 september 2026: migratie
+`20260924091138_reservation_workflows` is toegepast. Alle zes applicatietabellen
+hebben RLS; anon heeft geen tabeltoegang en authenticated geen directe schrijftoegang.
+De zes reserveringen en adminrol zijn behouden, alle zes verzoeken zijn gekoppeld
+en hun metadata is overgenomen voordat zij werden verwijderd.
+
+De security-advisor geeft 15 waarschuwingen voor bewust toegankelijke SECURITY
+DEFINER-API-functies met rollen/eigenaarschapcontroles. Alle functies hebben een
+lege search_path en zijn niet uitvoerbaar voor anon. De performance-advisor geeft
+drie informaties over ontbrekende indexen op handled_by en twee over ongebruikte
+indexen. Geen launchblokker bij de huidige omvang; opnieuw beoordelen bij groei.
+Zie [ontbrekende indexen](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys).
+
+Onderstaande toelichting beschrijft ook de historische bevindingen uit de vorige ronde.
 
 Live meldde de security-advisor drie waarschuwingen voor aangemelde gebruikers die
 SECURITY DEFINER-RPC's kunnen uitvoeren. De kapotte admincontrole in de oude import

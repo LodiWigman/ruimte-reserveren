@@ -13,6 +13,7 @@ nieuw admin-ID. Zie het releaseverslag voor de uitgevoerde publicatie en control
 - [Databasebestanden](SQL/README.md)
 - [Uitgevoerde release](docs/RELEASE.md)
 - [Jouw volgende stappen](docs/VOLGENDE-STAPPEN.md)
+- [Voorbereide verbeteringen na praktijktest](docs/VERBETERINGEN.md)
 
 ## Tests
 

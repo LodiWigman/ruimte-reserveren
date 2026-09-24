@@ -32,6 +32,23 @@ test('weekherhaling gebruikt kalenderdagen over DST',()=>{
   assert.deepEqual(plain(call('recurrenceDates','2030-03-25',{unit:'week',interval:2,until:'2030-04-09',days:[1,3]})),['2030-03-25','2030-03-27','2030-04-08']);
   assert.equal(call('dayDiff','2030-03-30','2030-04-01'),2);
 });
+test('herhalen tot en met neemt een passende einddag mee',()=>{
+  assert.deepEqual(plain(call('recurrenceDates','2030-01-01',{unit:'dag',until:'2030-01-03'})),['2030-01-01','2030-01-02','2030-01-03']);
+  assert.deepEqual(plain(call('recurrenceDates','2030-01-07',{unit:'week',until:'2030-01-14',days:[1]})),['2030-01-07','2030-01-14']);
+});
+test('reeksen groeperen per eigenaar en reeks; tekst blijft ge-escaped',()=>{
+  const base={date:'2030-01-01',start:'09:00',name:'<script>Test</script>',roomName:'Ruimte',roomId:'W0.03',userId:'user_a',recurrenceId:'series_a'};
+  const result=call('renderSeries',[{...base,id:'one'},{...base,id:'two',date:'2030-01-02'},{...base,id:'other',userId:'user_b'}],r=>'<p>'+r.id+'</p>');
+  assert.equal((result.match(/<details /g)||[]).length,2);assert.match(result,/2 momenten/);assert.match(result,/&lt;script&gt;/);assert.doesNotMatch(result,/<script>/);
+});
+test('frontenduitleg over externe wijziging volgt datum, ruimte en alle geselecteerde tijden',()=>{
+  vm.runInContext("editState={scope:'single',original:{id:'one',date:'2030-01-07',roomId:'W0.03',start:'09:00',end:'11:00',userId:'user_a',recurrenceId:'series'}};bookings=[editState.original,{...editState.original,id:'two',date:'2030-01-08',start:'10:00'}]",context);
+  const form={date:'2030-01-07',roomId:'W0.03',start:'09:30',end:'10:30'};
+  assert.equal(call('externalChangeNeedsApproval',form),false);
+  for(const change of [{date:'2030-01-08'},{roomId:'W0.07'},{start:'08:30'},{end:'12:00'}])assert.equal(call('externalChangeNeedsApproval',{...form,...change}),true);
+  vm.runInContext("editState.scope='series'",context);
+  assert.equal(call('externalChangeNeedsApproval',form),true);
+});
 test('herhalingslimiet en ontbrekende einddatum',()=>{
   assert.throws(()=>call('recurrenceDates','2030-01-01',{unit:'dag',until:'2032-01-01'}),/520/);
   assert.throws(()=>call('recurrenceDates','2030-01-01',{unit:'dag'}),/einddatum/);

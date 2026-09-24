@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/reset.mjs",
+    "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/workflows.mjs && node tests/reset.mjs",
     "test:ui": "node tests/browser.mjs"
   },
   "devDependencies": {

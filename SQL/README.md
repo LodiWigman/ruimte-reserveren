@@ -11,6 +11,7 @@ Die combineren verschillende ontwikkelfasen en bevatten bekende fouten.
 | `admin.example.sql` | Voorbeeld voor adminherstel door de databasebeheerder. |
 | `admin.local.sql` | Lokaal gecontroleerd admin-ID; uitgesloten van Git. |
 | `migrations/` | Toekomstige afzonderlijk gereviewde wijzigingen. |
+| `migrations/20260922151039_reservation_workflows.sql` | Voorbereide gerichte vervolgwijziging: metadata, rolverzoeken, bewerken en opschonen goedgekeurde verzoeken. Geen reset. |
 | `verify.sql` | Alleen-lezen controle na heropbouw. |
 
 Reset en basis zijn bewust niet blind herhaalbaar. Een tweede uitvoering moet

@@ -1,5 +1,8 @@
 # Voorbereide release ter goedkeuring
 
+Deze pagina beschrijft de afgeronde herstelrelease van 22 september. Voor de nieuwe,
+nog niet gepubliceerde verbeteringen geldt [VERBETERINGEN.md](VERBETERINGEN.md).
+
 Bestemming: bestaand Supabase-project `han-reserveringen` (`oappvdfjyvbmvqrjvnmv`)
 en GitHub `LodiWigman/ruimte-reserveren`, branch `main`, met automatische Vercel-hosting.
 Geen live wijzigingen of push uitgevoerd tijdens voorbereiding.

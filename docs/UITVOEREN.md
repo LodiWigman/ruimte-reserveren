@@ -1,5 +1,9 @@
 # Uitvoer- en herstelprocedure
 
+Voor de gerichte vervolgwijziging van 24 september geldt de procedure in
+[VERBETERINGEN.md](VERBETERINGEN.md). Onderstaande heropbouw is al uitgevoerd;
+voer de reset niet opnieuw uit.
+
 ## Voorbereide versie
 
 Bron: GitHub `LodiWigman/ruimte-reserveren`, `main`, commit
