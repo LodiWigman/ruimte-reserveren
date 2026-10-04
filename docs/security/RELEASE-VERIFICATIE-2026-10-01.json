@@ -1,0 +1,257 @@
+{
+  "preparedAt": "2026-10-04T10:55:46.968Z",
+  "approval": "approved by user",
+  "destination": {
+    "url": "https://ruimte-reserveren.vercel.app/",
+    "repository": "LodiWigman/ruimte-reserveren",
+    "branch": "main",
+    "baseline": "75ab09f61c4dd534550db8380603d70b12e91804",
+    "supabaseProject": "oappvdfjyvbmvqrjvnmv",
+    "migration": "connectr_profiles_conversations"
+  },
+  "decisions": {
+    "clerkDevelopmentAccepted": true,
+    "mandatoryUserMfa": false
+  },
+  "check": {
+    "status": "passed",
+    "clerkMode": "development",
+    "publicFiles": [
+      "index.html",
+      "han-logo.svg"
+    ]
+  },
+  "reusedTests": {
+    "testedAt": "2026-10-01T10:29:14.028Z",
+    "suites": 11,
+    "unchangedSources": [
+      "index.html",
+      "han-logo.svg",
+      "vercel.json",
+      "SQL/basis.sql",
+      "SQL/migrations/20260922151039_reservation_workflows.sql",
+      "SQL/migrations/20260929192403_connectr_profiles_conversations.sql",
+      "tests/security-assessment.mjs",
+      "tests/security-browser.mjs",
+      "tests/security-imports.mjs",
+      "tests/browser.mjs",
+      "tests/db-harness.mjs",
+      "tests/prepare-security-headers.mjs",
+      "docs/security/browser-integrity.json"
+    ]
+  },
+  "newChecks": {
+    "build": {
+      "testedAt": "2026-10-01T11:27:19.800Z",
+      "results": [
+        "Build succeeds with accepted Clerk development configuration",
+        "Only website and logo are deployed, with identical bytes",
+        "Changed application or dependency integrity stops the build",
+        "Unexpected private output file stops the build"
+      ]
+    },
+    "clerk": {
+      "testedAt": "2026-10-01T11:05:47.037Z",
+      "results": [
+        "Real Dutch sign-in UI loads with the release CSP",
+        "Real English sign-up UI loads after language change"
+      ],
+      "errors": [],
+      "failures": [],
+      "csp": [],
+      "scope": "Public UI only. No sign-in, registration, session-token or production database tests."
+    }
+  },
+  "remainingLiveSteps": [
+    "Verified protected backup before migration",
+    "Clerk registration name settings",
+    "Migration and data-preservation checks",
+    "Vercel headers/output checks",
+    "Real authenticated user smoke test"
+  ],
+  "sourceHashes": {
+    "index.html": {
+      "sha256": "a9f1c7e8964fb12c20ef4bb90a206d6bd24dd3e526d66703cecafb71d47ab110",
+      "sha256LF": "a9f1c7e8964fb12c20ef4bb90a206d6bd24dd3e526d66703cecafb71d47ab110"
+    },
+    "han-logo.svg": {
+      "sha256": "efb199beaaa08a0cb7635a21feb426060f5d46c1a56c1d40a5a337abdcd8284b",
+      "sha256LF": "efb199beaaa08a0cb7635a21feb426060f5d46c1a56c1d40a5a337abdcd8284b"
+    },
+    "vercel.json": {
+      "sha256": "2a57c48505e05dfd82816032a3fdd98a49e554831cdca7b84ffaabc604c813f6",
+      "sha256LF": "2a57c48505e05dfd82816032a3fdd98a49e554831cdca7b84ffaabc604c813f6"
+    },
+    "package.json": {
+      "sha256": "bf0071275b81b7d8179bffe063e73f72deaa903e7bc32dbcfa33f86aa01bac62",
+      "sha256LF": "bf0071275b81b7d8179bffe063e73f72deaa903e7bc32dbcfa33f86aa01bac62"
+    },
+    "pnpm-lock.yaml": {
+      "sha256": "5c64bface08ad7134a7faa0380e5d3b3b240a8f1a1183500837bc2bf51c45b15",
+      "sha256LF": "5c64bface08ad7134a7faa0380e5d3b3b240a8f1a1183500837bc2bf51c45b15"
+    },
+    ".gitignore": {
+      "sha256": "635e95b2ebe9853333abe57cb7fa07685842b3f3e719bceb90e122a5b3fc51ce",
+      "sha256LF": "635e95b2ebe9853333abe57cb7fa07685842b3f3e719bceb90e122a5b3fc51ce"
+    },
+    "README.md": {
+      "sha256": "9337cad1d5c3012726f9af20e645dea2803bcd0dd7ea64d09c369d8db5866ff8",
+      "sha256LF": "9337cad1d5c3012726f9af20e645dea2803bcd0dd7ea64d09c369d8db5866ff8"
+    },
+    "SQL/README.md": {
+      "sha256": "3d70ec2bee7e1772f5d7b8a9880a31ac256b49b472b64c60e127a7dd1ae762b7",
+      "sha256LF": "3d70ec2bee7e1772f5d7b8a9880a31ac256b49b472b64c60e127a7dd1ae762b7"
+    },
+    "SQL/verify.sql": {
+      "sha256": "b14d190d831a336360fd6198e8a68f1fbd93952fc3bad6246939b1db04d55ff4",
+      "sha256LF": "b14d190d831a336360fd6198e8a68f1fbd93952fc3bad6246939b1db04d55ff4"
+    },
+    "SQL/migrations/README.md": {
+      "sha256": "09647ca15f2cba3f40da66e73771de264e0b8ede3c8e815db6e59aba7cb33c2d",
+      "sha256LF": "09647ca15f2cba3f40da66e73771de264e0b8ede3c8e815db6e59aba7cb33c2d"
+    },
+    "SQL/migrations/20260929192403_connectr_profiles_conversations.sql": {
+      "sha256": "9018fc436e70aef167a62da43c490f4674186f3d42b3ebe83a84efa1964ee239",
+      "sha256LF": "9018fc436e70aef167a62da43c490f4674186f3d42b3ebe83a84efa1964ee239"
+    },
+    "tests/browser.mjs": {
+      "sha256": "0e8dd0b8b29089b3814813ea1f4c40b18b3a26f9fe9e389947a93934a3a2cb42",
+      "sha256LF": "0e8dd0b8b29089b3814813ea1f4c40b18b3a26f9fe9e389947a93934a3a2cb42"
+    },
+    "tests/db-harness.mjs": {
+      "sha256": "0313012249575edd79c636198b0be191dcdd8dd8d7ba138a00e28383fbfd6373",
+      "sha256LF": "0313012249575edd79c636198b0be191dcdd8dd8d7ba138a00e28383fbfd6373"
+    },
+    "tests/frontend.mjs": {
+      "sha256": "47bf4e250313e2d603d60e5797798fc4cf46bf0ce22a51e770b5935d0b040e27",
+      "sha256LF": "47bf4e250313e2d603d60e5797798fc4cf46bf0ce22a51e770b5935d0b040e27"
+    },
+    "tests/setup-browser.mjs": {
+      "sha256": "18688ca0195971cc531207f00cccbb787453e62806258700d75216aab54bc584",
+      "sha256LF": "18688ca0195971cc531207f00cccbb787453e62806258700d75216aab54bc584"
+    },
+    "tests/connectr.mjs": {
+      "sha256": "89a4977f66f4e9caeaf6360ecf888f4e234c49938035649158a60bf52f004bed",
+      "sha256LF": "89a4977f66f4e9caeaf6360ecf888f4e234c49938035649158a60bf52f004bed"
+    },
+    "tests/validation.mjs": {
+      "sha256": "3bce38efc336e88dafe53dc3f83b5dc842b9a8edc7fad747d0c58bb36bdeae12",
+      "sha256LF": "3bce38efc336e88dafe53dc3f83b5dc842b9a8edc7fad747d0c58bb36bdeae12"
+    },
+    "tests/translation-audit.mjs": {
+      "sha256": "32b73a6e305ee375308740e7b91ce4fb20da442a5e14f9ccd99a86b04761b5cf",
+      "sha256LF": "32b73a6e305ee375308740e7b91ce4fb20da442a5e14f9ccd99a86b04761b5cf"
+    },
+    "tests/security-assessment.mjs": {
+      "sha256": "90127ac91586778d09018e9f1b1adc4bbfbac1de52f4174d725056d75ee0d9a1",
+      "sha256LF": "90127ac91586778d09018e9f1b1adc4bbfbac1de52f4174d725056d75ee0d9a1"
+    },
+    "tests/security-browser.mjs": {
+      "sha256": "acbe96c86817d740477b52a8bdc2613c0424144e1c358a33b46dfd8b6c0a7782",
+      "sha256LF": "acbe96c86817d740477b52a8bdc2613c0424144e1c358a33b46dfd8b6c0a7782"
+    },
+    "tests/security-imports.mjs": {
+      "sha256": "a2c1bbbd56d74e197de69d6ac0f14bb14b84c53e188b733e449a2e69490213e3",
+      "sha256LF": "a2c1bbbd56d74e197de69d6ac0f14bb14b84c53e188b733e449a2e69490213e3"
+    },
+    "tests/prepare-security-headers.mjs": {
+      "sha256": "4211459c706026c22e0910761d3cf3e27ff41da3b0fc0288b5e4bf649422c2d1",
+      "sha256LF": "4211459c706026c22e0910761d3cf3e27ff41da3b0fc0288b5e4bf649422c2d1"
+    },
+    "tests/release-check.mjs": {
+      "sha256": "0d30abfa38d697de1c66928b869cebdd509a06ac2c1c07665fc57d7d87f074cf",
+      "sha256LF": "0d30abfa38d697de1c66928b869cebdd509a06ac2c1c07665fc57d7d87f074cf"
+    },
+    "tests/release-build.mjs": {
+      "sha256": "45a2ba458f26d57cb9b77762eb0397aa1f97fe34518e7529aea6fdbb8c51b4f8",
+      "sha256LF": "45a2ba458f26d57cb9b77762eb0397aa1f97fe34518e7529aea6fdbb8c51b4f8"
+    },
+    "tests/build-public.mjs": {
+      "sha256": "b4a435116b30db15f6c8ee2712d7e71aa1269c03b406d019a8a7e71eef55c5bd",
+      "sha256LF": "b4a435116b30db15f6c8ee2712d7e71aa1269c03b406d019a8a7e71eef55c5bd"
+    },
+    "tests/clerk-smoke.mjs": {
+      "sha256": "1d7fdf3fa3b43b9973b33d3edff102ab9c7aea92ca8aa9f9834d787cff882513",
+      "sha256LF": "1d7fdf3fa3b43b9973b33d3edff102ab9c7aea92ca8aa9f9834d787cff882513"
+    },
+    "tests/verify-local.mjs": {
+      "sha256": "ecbd4793252bbf2e5f13dcd08f72a52051c5fbe7cf9d115b368671e73d979a31",
+      "sha256LF": "ecbd4793252bbf2e5f13dcd08f72a52051c5fbe7cf9d115b368671e73d979a31"
+    },
+    "tests/prepare-publication.mjs": {
+      "sha256": "f4cdbe15b2ee74c01c37fd9a4dd8ce78047d0bd2898e0d8953b7737335302b9b",
+      "sha256LF": "f4cdbe15b2ee74c01c37fd9a4dd8ce78047d0bd2898e0d8953b7737335302b9b"
+    },
+    "tests/public-security-probes.mjs": {
+      "sha256": "74360190e4febca9bcf344785db5e004de68205a567b13dea9a475efef7a7f3c",
+      "sha256LF": "74360190e4febca9bcf344785db5e004de68205a567b13dea9a475efef7a7f3c"
+    },
+    "docs/CONNECTR-OPLEVERING.md": {
+      "sha256": "1a97d2ece6d40782cb925015bd8ff2af72f4f6eaeb0775ec4e454ad767c37ee2",
+      "sha256LF": "1a97d2ece6d40782cb925015bd8ff2af72f4f6eaeb0775ec4e454ad767c37ee2"
+    },
+    "docs/BEVEILIGINGSBEOORDELING-2026-10-01.md": {
+      "sha256": "625353e335ab22e530f36fad2ea019a25553ab72c1b48c22cfaf10e2e225892a",
+      "sha256LF": "625353e335ab22e530f36fad2ea019a25553ab72c1b48c22cfaf10e2e225892a"
+    },
+    "docs/PUBLICATIEKLAAR-2026-10-01.md": {
+      "sha256": "2f3456c11dd29c0dc09a74e65e81a43a337260113f4effde7c0cde3aaddb3875",
+      "sha256LF": "2f3456c11dd29c0dc09a74e65e81a43a337260113f4effde7c0cde3aaddb3875"
+    },
+    "docs/security/CONTROLES.md": {
+      "sha256": "1d1dd3b8614420755666a747d72c0a2b8881b62f823fa65c6c69a533a8188b7d",
+      "sha256LF": "1d1dd3b8614420755666a747d72c0a2b8881b62f823fa65c6c69a533a8188b7d"
+    },
+    "docs/security/browser-integrity.json": {
+      "sha256": "9d357aed9244e8e84c454f33fbdc27b11a22840eb025b72ffeac0db62320c207",
+      "sha256LF": "9d357aed9244e8e84c454f33fbdc27b11a22840eb025b72ffeac0db62320c207"
+    },
+    "docs/security/VERIFICATIE-2026-10-01.json": {
+      "sha256": "2ac4efd4df88a50e2d4c956c09724b8f9f4d776a534d11cf1c7662523719ce33",
+      "sha256LF": "2ac4efd4df88a50e2d4c956c09724b8f9f4d776a534d11cf1c7662523719ce33"
+    },
+    "docs/security/PUBLICATIEBLOKKADE-2026-10-01.json": {
+      "sha256": "53b97586af39cfb32f4d168fceb1b79b0f4da29635d083e5052f6dc26d0aee3f",
+      "sha256LF": "8a80c80bdf38593ea34003eaa5a222bae7a822a607c16e1f97b9f2519b2378de"
+    }
+  },
+  "publicationFiles": [
+    "index.html",
+    "han-logo.svg",
+    "vercel.json",
+    "package.json",
+    "pnpm-lock.yaml",
+    ".gitignore",
+    "README.md",
+    "SQL/README.md",
+    "SQL/verify.sql",
+    "SQL/migrations/README.md",
+    "SQL/migrations/20260929192403_connectr_profiles_conversations.sql",
+    "tests/browser.mjs",
+    "tests/db-harness.mjs",
+    "tests/frontend.mjs",
+    "tests/setup-browser.mjs",
+    "tests/connectr.mjs",
+    "tests/validation.mjs",
+    "tests/translation-audit.mjs",
+    "tests/security-assessment.mjs",
+    "tests/security-browser.mjs",
+    "tests/security-imports.mjs",
+    "tests/prepare-security-headers.mjs",
+    "tests/release-check.mjs",
+    "tests/release-build.mjs",
+    "tests/build-public.mjs",
+    "tests/clerk-smoke.mjs",
+    "tests/verify-local.mjs",
+    "tests/prepare-publication.mjs",
+    "tests/public-security-probes.mjs",
+    "docs/CONNECTR-OPLEVERING.md",
+    "docs/BEVEILIGINGSBEOORDELING-2026-10-01.md",
+    "docs/PUBLICATIEKLAAR-2026-10-01.md",
+    "docs/security/CONTROLES.md",
+    "docs/security/browser-integrity.json",
+    "docs/security/VERIFICATIE-2026-10-01.json",
+    "docs/security/PUBLICATIEBLOKKADE-2026-10-01.json",
+    "docs/security/RELEASE-VERIFICATIE-2026-10-01.json"
+  ]
+}

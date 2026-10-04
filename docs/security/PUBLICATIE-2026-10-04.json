@@ -1,0 +1,71 @@
+{
+  "publishedOn": "2026-10-04",
+  "destination": "https://ruimte-reserveren.vercel.app/",
+  "clerk": {
+    "environment": "development",
+    "firstAndLastNameRequired": true,
+    "mandatoryMfa": false
+  },
+  "backup": {
+    "encrypted": true,
+    "protection": "Windows DPAPI CurrentUser",
+    "reconstructionVerified": true,
+    "scope": "Application data plus schema catalogs and function definitions; not a full platform dump"
+  },
+  "migration": {
+    "name": "connectr_profiles_conversations",
+    "version": "20261004111315",
+    "checks": {
+      "preservation": [
+        {
+          "table": "rooms",
+          "count": 18,
+          "preserved": true
+        },
+        {
+          "table": "profiles",
+          "count": 2,
+          "preserved": true
+        },
+        {
+          "table": "reserveringen",
+          "count": 7,
+          "preserved": true
+        },
+        {
+          "table": "role_requests",
+          "count": 1,
+          "preserved": true
+        },
+        {
+          "table": "support_messages",
+          "count": 2,
+          "preserved": true
+        },
+        {
+          "table": "reserveringsverzoeken",
+          "count": 0,
+          "preserved": true
+        }
+      ],
+      "rls_off": 0,
+      "anon_rpc": 0,
+      "trusted_auth": [
+        {
+          "issuer": "https://alert-bat-50.clerk.accounts.dev",
+          "origins": [
+            "https://ruimte-reserveren.vercel.app"
+          ]
+        }
+      ],
+      "direct_writes": 0,
+      "private_grants": 0,
+      "legacy_messages": 4,
+      "support_not_public": true
+    }
+  },
+  "remainingVerification": [
+    "Vercel deployment and headers",
+    "Actual user login and authenticated workflow smoke test"
+  ]
+}

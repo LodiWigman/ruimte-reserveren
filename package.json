@@ -3,8 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/workflows.mjs && node tests/reset.mjs",
-    "test:ui": "node tests/browser.mjs"
+    "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/workflows.mjs && node tests/reset.mjs && node tests/connectr.mjs",
+    "test:ui": "node tests/browser.mjs && node tests/validation.mjs",
+    "test:security": "node tests/security-assessment.mjs && node tests/security-browser.mjs && node tests/security-imports.mjs && node tests/prepare-security-headers.mjs --check",
+    "security:headers": "node tests/prepare-security-headers.mjs",
+    "security:gate": "node tests/release-check.mjs",
+    "build": "node tests/build-public.mjs"
   },
   "devDependencies": {
     "embedded-postgres": "17.6.0-beta.15",

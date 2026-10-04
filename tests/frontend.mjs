@@ -108,4 +108,16 @@ client.from=()=>{
 };
 assert.equal((await call('readAll','reserveringen')).length,1201);
 passed++;console.log('PASS keyset-paginering leest alle 1201 rijen, ook bij serverlimiet lager dan 500');
+test('Engelse systeemteksten en Nederlandse vrije tekst blijven gescheiden',()=>{
+  vm.runInContext("language='en'",context);
+  assert.equal(call('t','Ruimtereserveringen'),'Room reservations');
+  assert.equal(call('statusLabel','afgehandeld'),'Resolved');
+  assert.equal(call('uiHtml','<button>Gesprek openen</button>'),'<button>Open conversation</button>');
+  assert.equal(call('esc','Overzicht'),'Overzicht');
+  assert.ok(call('renderSupportCard',{id:'case',category:'tip',anonymous:true,status:'open',message:'Overzicht',created_at:'2030-01-01T10:00:00Z'}).includes('>Overzicht</div>'));
+  vm.runInContext("language='nl'",context);
+});
+client.rpc=async()=>{vm.runInContext("currentUser={id:'user_changed'}",context);return {data:{private:'previous account'},error:null};};
+await assert.rejects(()=>call('rpc','test'),/SESSION_CHANGED/);
+passed++;console.log('PASS late API-resultaten worden geweigerd na een accountwisseling');
 console.log(`FRONTEND: ${passed} scenario's geslaagd`);

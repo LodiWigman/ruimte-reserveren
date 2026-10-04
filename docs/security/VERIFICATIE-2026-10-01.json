@@ -1,0 +1,338 @@
+{
+  "testedAt": "2026-10-01T10:29:14.028Z",
+  "results": [
+    {
+      "name": "frontend",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "database",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "workflows",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "reset",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "connectr",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "security-assessment",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "browser",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "validation",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "security-browser",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "security-imports",
+      "code": 0,
+      "signal": null
+    },
+    {
+      "name": "prepare-security-headers",
+      "code": 0,
+      "signal": null
+    }
+  ],
+  "sourceHashes": {
+    "index.html": "a9f1c7e8964fb12c20ef4bb90a206d6bd24dd3e526d66703cecafb71d47ab110",
+    "han-logo.svg": "efb199beaaa08a0cb7635a21feb426060f5d46c1a56c1d40a5a337abdcd8284b",
+    "vercel.json": "2a57c48505e05dfd82816032a3fdd98a49e554831cdca7b84ffaabc604c813f6",
+    "package.json": "f34c908b30d28f92a17e6af63d52b5c001b444e20a34897513d4a0c4a8befa31",
+    "pnpm-lock.yaml": "5c64bface08ad7134a7faa0380e5d3b3b240a8f1a1183500837bc2bf51c45b15",
+    "SQL/basis.sql": "c568fe24a600cd29971923aa3a0b81cdcf57f7df4592923632bc6e9bdfeb8f32",
+    "SQL/migrations/20260922151039_reservation_workflows.sql": "009e0d28767784bf7dfc09b8274bf1b7ae555a97b435d238bf087c9e0ab7b022",
+    "SQL/migrations/20260929192403_connectr_profiles_conversations.sql": "9018fc436e70aef167a62da43c490f4674186f3d42b3ebe83a84efa1964ee239",
+    "tests/security-assessment.mjs": "90127ac91586778d09018e9f1b1adc4bbfbac1de52f4174d725056d75ee0d9a1",
+    "tests/security-browser.mjs": "acbe96c86817d740477b52a8bdc2613c0424144e1c358a33b46dfd8b6c0a7782",
+    "tests/security-imports.mjs": "a2c1bbbd56d74e197de69d6ac0f14bb14b84c53e188b733e449a2e69490213e3",
+    "tests/browser.mjs": "0e8dd0b8b29089b3814813ea1f4c40b18b3a26f9fe9e389947a93934a3a2cb42",
+    "tests/db-harness.mjs": "0313012249575edd79c636198b0be191dcdd8dd8d7ba138a00e28383fbfd6373",
+    "tests/build-public.mjs": "7c0204e556898d21dce5395c5a52c5ee2b698cf47fd7bd74953f2326514caf67",
+    "tests/verify-local.mjs": "c5b63e42fa593712667eb97bb44a93668c3eeb7596ce8bff32a871c9c58a679f",
+    "tests/prepare-security-headers.mjs": "4211459c706026c22e0910761d3cf3e27ff41da3b0fc0288b5e4bf649422c2d1",
+    "docs/security/browser-integrity.json": "9d357aed9244e8e84c454f33fbdc27b11a22840eb025b72ffeac0db62320c207",
+    "docs/security/CONTROLES.md": "94a7e8085b37009146f17e7fe45e31782f7ef710a21a20cf3eb4fa151a2888d0"
+  },
+  "scope": "Disposable local PostgreSQL and mocked Clerk authentication; limited read-only public probes are separate.",
+  "database": {
+    "date": "2026-10-01",
+    "results": [
+      {
+        "name": "LIVE BASELINE: app admin can read the author ID in the legacy support table",
+        "result": "OBSERVED"
+      },
+      {
+        "name": "anonymous callers cannot read application tables or invoke API functions",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "ordinary accounts and app admins cannot read or write private tables directly",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "direct profile promotion and table writes are denied",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "user-editable role metadata does not grant admin rights",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "forged JSON owner, role, status and creator are ignored",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "guessed booking ID cannot be read, edited, cancelled or transferred by another user",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "guessed case ID cannot be read, replied to, marked read or managed",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "anonymous author ID, name and supplied email absent from all app-admin conversation projections",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "cross-case message IDs cannot be used to mark another thread read",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "null or forged versions and transfer fingerprints cannot bypass conflict checks",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "SQL metacharacters stay data and do not modify schema or roles",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "NULL payloads and oversized batches rejected",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "retired support API cannot overwrite existing conversations",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "all private write helpers and all anonymous API execution are denied",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "occupancy hides other owners identity; owner and admin retain it",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "per-account case quota rejects excess writes atomically without affecting other users",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "previous owner cannot see later status through old transfer notification",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "audit records actor and state changes without free text; app admins cannot alter logs",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "concurrent submissions cannot overrun the last remaining quota slot",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "hour reset preserves daily limit; expiry of both windows restores allowance",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "series exceeding remaining budget creates no partial bookings, audit or notifications",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "logout revokes the session for API and direct table reads",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "missing session ID, wrong issuer or unauthorized origin fail closed",
+        "result": "PROTECTED"
+      },
+      {
+        "name": "only an admin can block another account; all sessions then lose access",
+        "result": "PROTECTED"
+      }
+    ]
+  },
+  "imports": {
+    "results": [
+      {
+        "name": "valid xlsx parses under CSP with integrity-verified worker",
+        "pass": true
+      },
+      {
+        "name": "valid legacy OLE xls is supported",
+        "pass": true
+      },
+      {
+        "name": "HTML renamed to xls rejected",
+        "pass": true
+      },
+      {
+        "name": "text renamed to xlsx rejected",
+        "pass": true
+      },
+      {
+        "name": "compressed upload above 5 MiB rejected",
+        "pass": true
+      },
+      {
+        "name": "more than 520 records rejected before preview",
+        "pass": true
+      },
+      {
+        "name": "more than 32 columns rejected",
+        "pass": true
+      },
+      {
+        "name": "advertised uncompressed size above 20 MiB rejected",
+        "pass": true
+      },
+      {
+        "name": "actual inflation exceeding declared size rejected",
+        "pass": true
+      },
+      {
+        "name": "encrypted archive rejected",
+        "pass": true
+      },
+      {
+        "name": "repacked XML fixture is a valid spreadsheet",
+        "pass": true
+      },
+      {
+        "name": "external XML entity rejected in utf8",
+        "pass": true
+      },
+      {
+        "name": "external XML entity rejected in utf16le",
+        "pass": true
+      },
+      {
+        "name": "external XML entity rejected in utf16be",
+        "pass": true
+      },
+      {
+        "name": "entity declaration rejected in stored ZIP entry",
+        "pass": true
+      }
+    ]
+  },
+  "browser": {
+    "scope": "local render/CSP/session-cleanup probes; mocked auth and no live API",
+    "results": [
+      {
+        "payload": "<img src=x onerror=\"window.__securityXss++\">",
+        "executed": 0,
+        "injectedElements": 0,
+        "roomArgumentPreserved": true,
+        "caseTextPreserved": true
+      },
+      {
+        "payload": "<svg onload=\"window.__securityXss++\"></svg>",
+        "executed": 0,
+        "injectedElements": 0,
+        "roomArgumentPreserved": true,
+        "caseTextPreserved": true
+      },
+      {
+        "payload": "\"><img src=x onerror=\"window.__securityXss++\">",
+        "executed": 0,
+        "injectedElements": 0,
+        "roomArgumentPreserved": true,
+        "caseTextPreserved": true
+      },
+      {
+        "payload": "');window.__securityXss++;//",
+        "executed": 0,
+        "injectedElements": 0,
+        "roomArgumentPreserved": true,
+        "caseTextPreserved": true
+      },
+      {
+        "payload": "</textarea><img src=x onerror=\"window.__securityXss++\">",
+        "executed": 0,
+        "injectedElements": 0,
+        "roomArgumentPreserved": true,
+        "caseTextPreserved": true
+      }
+    ],
+    "boundary": {
+      "executed": 0,
+      "violations": [
+        "script-src-attr",
+        "script-src-elem"
+      ],
+      "rejected": 4,
+      "cleared": true,
+      "unknownError": "De actie kon niet worden uitgevoerd. Ververs de pagina of probeer het later opnieuw.",
+      "languageSwitch": "en"
+    },
+    "errors": []
+  },
+  "probes": {
+    "date": "2026-10-01T09:41:42.859Z",
+    "scope": "Only denial with missing or invalid credentials. Not proof of correct valid-token expiry, issuer or revocation.",
+    "results": [
+      {
+        "name": "No API key: zero-row profile request",
+        "status": 401,
+        "expected": true
+      },
+      {
+        "name": "Public key cannot read profiles",
+        "status": 401,
+        "expected": true
+      },
+      {
+        "name": "Invalid none token denied",
+        "status": 401,
+        "expected": true
+      },
+      {
+        "name": "Invalid HS256 token denied",
+        "status": 401,
+        "expected": true
+      },
+      {
+        "name": "Invalid RS256 token denied",
+        "status": 401,
+        "expected": true
+      },
+      {
+        "name": "Unauthenticated read-only occupancy RPC denied",
+        "status": 401,
+        "expected": true
+      }
+    ]
+  }
+}

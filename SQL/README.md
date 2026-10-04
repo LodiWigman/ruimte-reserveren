@@ -3,6 +3,14 @@
 Gebruik de genummerde scripts in `archive/` niet voor installatie of herstel.
 Die combineren verschillende ontwikkelfasen en bevatten bekende fouten.
 
+Voor de voorbereide HAN@Connectr-versie is na de bestaande basis uitsluitend
+`migrations/20260929192403_connectr_profiles_conversations.sql` nodig. Deze gerichte
+migratie behoudt gegevens en verplaatst gesprekken naar het afgeschermde schema.
+Voer op de bestaande installatie **geen reset en geen basis.sql** uit.
+Bij een volledig lege nieuwe installatie: basis, startgegevens en daarna deze
+migratie; de wijzigingen van `reservation_workflows` zitten al in `basis.sql`.
+Zie [publicatievolgorde en controles](../docs/CONNECTR-OPLEVERING.md).
+
 | Bestand | Doel |
 | --- | --- |
 | `reset-eenmalig.sql` | Destructieve verwijdering van uitsluitend de zes bestaande applicatietabellen en geïnventariseerde oude applicatiefuncties. Alleen voor de aangetroffen oude structuur. |

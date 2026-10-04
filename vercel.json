@@ -1,0 +1,40 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "node tests/build-public.mjs",
+  "outputDirectory": "dist",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'sha256-RClpIO2XbBcuzEiJji7Jlx3M69UueZBi0AN3IFaei4o=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}

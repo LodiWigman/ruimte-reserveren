@@ -3,28 +3,33 @@
 import assert from 'node:assert/strict';
 import {readFile,mkdir} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
-import {startDatabase,applyBasis,asUser} from './db-harness.mjs';
+import {startDatabase,applyBasis,applyConnectr,asUser} from './db-harness.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const env=await startDatabase();
 await applyBasis(env.db);
 await env.db.query("INSERT INTO public.profiles(id,display_name,role) VALUES('user_admin','Beheerder','admin'),('user_intern','Interne gebruiker','intern'),('user_extern','Externe gebruiker','extern')");
+await applyConnectr(env.db);
+for(const role of ['admin','intern','extern'])await asUser(env.db,'user_'+role,'SELECT public.han_save_profile($1,$2)',[role,'Testpersoon']);
 const html=await readFile('index.html','utf8');
+const logo=await readFile('han-logo.svg','utf8');
+const clerkLocales={en:await readFile('node_modules/.cache/han-test/clerk-en.js','utf8'),nl:await readFile('node_modules/.cache/han-test/clerk-nl.js','utf8')};
 const sdk=await readFile(process.env.SUPABASE_TEST_SDK||'node_modules/.cache/han-test/supabase.js','utf8');
 const xlsx=await readFile(process.env.XLSX_TEST_SDK||'node_modules/.cache/han-test/xlsx.js','utf8');
 await mkdir('test-results',{recursive:true});
 const browser=await chromium.launch({headless:true,...(process.env.TEST_BROWSER_CHANNEL?{channel:process.env.TEST_BROWSER_CHANNEL}:{})});
 let passed=0;
-const clients=new Set();
+const clients=new Set(),apiTasks=new Set();
 async function api(route){
   const request=route.request(),url=new URL(request.url()),token=request.headers().authorization?.replace('Bearer ','');
-  const user=['user_admin','user_intern','user_extern'].includes(token)?token:'anonymous';
+  const [identity,sessionId]=String(token||'').split('|');
+  const user=['user_admin','user_intern','user_extern','user_missing'].includes(identity)?identity:'anonymous';
   const client=await env.connect();clients.add(client);
+  let data,status=200;
   try{
-    let data;
     if(url.pathname.includes('/rpc/')){
       const name=url.pathname.split('/').pop(),args=request.postDataJSON()||{},keys=Object.keys(args);
       if(!/^(han_[a-z_]+|import_reserveringen)$/.test(name)||keys.some(k=>!/^\w+$/.test(k)))throw new Error('Onverwachte test-API');
-      data=(await asUser(client,user,`SELECT public.${name}(${keys.map((k,i)=>k+' => $'+(i+1)).join(',')}) AS result`,Object.values(args).map(v=>v&&typeof v==='object'?JSON.stringify(v):v))).rows[0].result;
+      data=(await asUser(client,user,`SELECT public.${name}(${keys.map((k,i)=>k+' => $'+(i+1)).join(',')}) AS result`,Object.values(args).map(v=>v&&typeof v==='object'?JSON.stringify(v):v),sessionId)).rows[0].result;
     }else{
       const table=url.pathname.split('/').pop(),values=[],where=[];
       if(!['profiles','rooms','reserveringen','reserveringsverzoeken','role_requests','support_messages'].includes(table))throw new Error('Onbekende tabel');
@@ -36,12 +41,12 @@ async function api(route){
       }
       const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000);
       const sql=`SELECT to_jsonb(t) AS row FROM public.${table} t ${where.length?'WHERE '+where.join(' AND '):''} ORDER BY id LIMIT ${limit}`;
-      data=(await asUser(client,user,sql,values)).rows.map(r=>r.row);
+      data=(await asUser(client,user,sql,values,sessionId)).rows.map(r=>r.row);
       if(request.headers().accept?.includes('vnd.pgrst.object')){if(data.length!==1)throw new Error('Niet precies één rij');data=data[0];}
     }
-    await route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
-  }catch(error){await route.fulfill({status:400,contentType:'application/json',body:JSON.stringify({message:error.message,code:error.code})});}
+  }catch(error){status=400;data={message:error.message,code:error.code};}
   finally{await client.end();clients.delete(client);}
+  await route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
 }
 try{
   for(const viewport of [{width:1365,height:1000},{width:390,height:844}]){
@@ -51,17 +56,24 @@ try{
     await page.route('**/*',async route=>{
       const url=route.request().url();
       if(url==='https://han.test/')return route.fulfill({contentType:'text/html',body:html});
-      if(url.includes('/rest/v1/'))return api(route);
+      if(url==='https://han.test/han-logo.svg')return route.fulfill({contentType:'image/svg+xml',body:logo});
+      if(url.includes('/rest/v1/')){
+        const task=api(route);apiTasks.add(task);
+        try{return await task;}finally{apiTasks.delete(task);}
+      }
       if(url.includes('supabase-js@'))return route.fulfill({contentType:'application/javascript',body:sdk});
       if(url.includes('xlsx.full.min.js'))return route.fulfill({contentType:'application/javascript',body:xlsx});
-      if(url.includes('/clerk.browser.js'))return route.fulfill({contentType:'application/javascript',body:`window.Clerk={user:null,session:{getToken:async()=>window.__testUser?.id||null},load:async()=>{},addListener:fn=>window.__clerkListener=fn,openSignIn:()=>{},openSignUp:()=>{},signOut:async()=>{window.__testUser=null;window.Clerk.user=null;window.__clerkListener({user:null});}};`});
+      if(url.includes('@clerk/localizations@'))return route.fulfill({contentType:'application/javascript',body:url.includes('/en-US/')?clerkLocales.en:clerkLocales.nl});
+      if(url.includes('/clerk.browser.js'))return route.fulfill({contentType:'application/javascript',body:`window.Clerk={user:null,loaded:false,session:{getToken:async()=>window.__testUser?window.__testUser.id+'|'+window.__testSession:null},load:async options=>{if(window.Clerk.loaded)return;window.Clerk.loaded=true;window.__testLocale=options.localization;},__internal_updateProps:async props=>{window.__testLocale=props.localization;},addListener:fn=>window.__clerkListener=fn,openSignIn:()=>{},openSignUp:()=>{},signOut:async()=>{window.__testUser=null;window.Clerk.user=null;window.__clerkListener({user:null});}};`});
       return route.fulfill({contentType:'application/javascript',body:''});
     });
     await page.goto('https://han.test/');
     await page.waitForFunction(()=>window.__clerkListener);
+    assert.equal(await page.evaluate(()=>window.__testLocale.locale),'nl-NL');
     assert.match(await page.locator('#rooms-grid').innerText(),/Log in/);
     const login=async role=>{
       await page.evaluate(async role=>{
+        window.__testSession='sess_'+crypto.randomUUID().replaceAll('-','');
         window.__testUser={id:'user_'+role,fullName:role,primaryEmailAddress:{emailAddress:role+'@test.invalid'}};
         window.Clerk.user=window.__testUser;await handleClerkUser(window.__testUser);
       },role);
@@ -69,10 +81,19 @@ try{
     };
     const fill=async(date)=>{
       await page.getByRole('button',{name:'Reserveren',exact:true}).click();
-      await page.locator('#f-name').fill('Test reservering');await page.locator('#f-room').selectOption('W0.03');
+      await page.locator('#f-room').selectOption('W0.03');
       await page.locator('#f-date').fill(date);await page.locator('#f-start').fill('09:00');await page.locator('#f-end').fill('10:00');
       await page.locator('#f-persons').fill('2');
     };
+    await env.db.query("UPDATE public.profiles SET name_confirmed_at=NULL,first_name=NULL,last_name=NULL WHERE id='user_missing'");
+    await login('missing');
+    await page.locator('#profile-dialog').waitFor({state:'visible'});
+    assert.equal(await page.locator('#profile-close').isVisible(),false);
+    await page.keyboard.press('Escape');assert.equal(await page.locator('#profile-dialog').isVisible(),true);
+    await page.locator('#profile-save').click();
+    assert.equal(await page.locator('#profile-first').evaluate(el=>el.validationMessage),'Vul dit verplichte veld in.');
+    await page.locator('#profile-first').fill('Mila');await page.locator('#profile-last').fill('Nieuw');await page.locator('#profile-save').click();
+    await page.waitForFunction(()=>!document.querySelector('#profile-dialog').open);
     const day=viewport.width===390?'2031-02-01':'2031-01-01';
     await login('extern');
     assert.equal(await page.locator('#beheer-tab-btn').isVisible(),false);
@@ -84,8 +105,10 @@ try{
     await login('admin');await page.getByRole('button',{name:'Beheer',exact:true}).click();
     await page.locator('#admin-booking-requests .approve-btn').first().click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('verzoek(en) verwerkt'));
     const support=page.locator('#admin-support-messages .request-card').first();
-    await support.locator('textarea').fill('Antwoord vanuit de browser');await support.getByRole('button',{name:'Reactie opslaan'}).click();
-    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('Reactie opgeslagen'));
+    await support.getByRole('button',{name:'Gesprek openen'}).click();
+    await page.locator('#case-reply').fill('Antwoord vanuit de browser');await page.locator('#case-send').click();
+    await page.waitForFunction(()=>document.querySelector('#case-thread').textContent.includes('Antwoord vanuit de browser'));
+    await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
     const importDay=viewport.width===390?'2031-02-10':'2031-01-10';
     const csv=Buffer.from('naam;ruimte;datum;start;einde;omschrijving\nImport test;W0.03;'+importDay+';09:00;10:00;"regel 1\nregel 2"\n');
     await page.locator('#import-file').setInputFiles({name:'test.csv',mimeType:'text/csv',buffer:csv});
@@ -169,7 +192,7 @@ try{
     await login('intern');await page.getByRole('button',{name:'Intern/admin rol aanvraag',exact:true}).click();
     assert.deepEqual(await page.locator('#rr-role option').allTextContents(),['Admin']);
     await page.getByRole('button',{name:'Overzicht',exact:true}).click();await page.locator('.booking-block').first().click();
-    assert.match(await page.locator('#details-content').innerText(),/Planning & evenementen/);
+    assert.doesNotMatch(await page.locator('#details-content').innerText(),/Planning & evenementen/,'another user only sees occupancy');
     assert.equal(await page.locator('#booking-dialog').isVisible(),false);
     await page.locator('#details-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
     await login('extern');await page.getByRole('button',{name:'Overzicht',exact:true}).click();
@@ -186,6 +209,86 @@ try{
     assert.match(await page.locator('#app-notice').innerText(),/nieuw verzoek/);
     await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent==='Mijn verzoek');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'nieuwe tabs passen op mobiel');
+    // New HAN@Connectr workflows through their actual controls.
+    await page.locator('#profile-button').click();
+    await page.locator('#profile-first').fill('Eva');await page.locator('#profile-last').fill('Profieltest');await page.locator('#profile-save').click();
+    await page.waitForFunction(()=>!document.querySelector('#profile-dialog').open);
+    await login('admin');
+    const guestDay=viewport.width===390?'2036-02-01':'2036-01-01';
+    await fill(guestDay);await page.locator('#booking-owner-mode').selectOption('guest');
+    await page.locator('#booking-guest-name').fill('Gast zonder account');await page.locator('#submit-btn').click();
+    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
+    await page.getByRole('button',{name:'Beheer',exact:true}).click();
+    const guestCard=page.locator('#all-bookings-admin .booking-card').filter({hasText:'Gast zonder account'});
+    await guestCard.getByRole('button',{name:'Overdragen',exact:true}).click();
+    await page.locator('#transfer-account-query').fill('user_extern');
+    await page.locator('#transfer-account-results .account-result').click();
+    await page.getByRole('button',{name:'Overdracht controleren',exact:true}).click();
+    await page.waitForFunction(()=>!document.querySelector('#transfer-confirm').disabled);
+    assert.match(await page.locator('#transfer-summary').innerText(),/Eva Profieltest/);
+    assert.match(await page.locator('#transfer-summary').innerText(),/Aantal momenten: 1/);
+    await page.locator('#transfer-confirm').click();await page.waitForFunction(()=>!document.querySelector('#transfer-dialog').open);
+    await fill(viewport.width===390?'2036-02-02':'2036-01-02');
+    await page.locator('#booking-owner-mode').selectOption('account');await page.locator('#booking-account-query').fill('Eva');
+    await page.locator('#booking-account-results .account-result').click();await page.locator('#submit-btn').click();
+    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
+    await login('extern');await page.locator('#notification-button').click();
+    await page.locator('#notification-dialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#notification-list').innerText(),/Een beheerder heeft voor jou gereserveerd/);
+    await page.locator('#notification-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    await page.getByRole('button',{name:'Vragen/klachten',exact:true}).click();
+    await page.locator('#support-category').selectOption('tip');await page.locator('#support-anonymous').selectOption('true');
+    await page.locator('#support-message').fill('Overzicht');await page.locator('#support-submit-btn').click();
+    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('bericht is ingediend'));
+    const caseCard=page.locator('#my-support-messages .request-card').filter({hasText:'Overzicht'});
+    await caseCard.first().getByRole('button',{name:'Gesprek openen',exact:true}).click();
+    await page.locator('#case-dialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#case-title').innerText(),/Tip — Anoniem/);
+    await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    await login('admin');await page.getByRole('button',{name:'Beheer',exact:true}).click();
+    await page.locator('#admin-support-messages .request-card').filter({hasText:'Overzicht'}).first().getByRole('button',{name:'Gesprek openen',exact:true}).click();
+    await page.locator('#case-reply').fill('Reactie beheerder');await page.locator('#case-send').click();
+    await page.waitForFunction(()=>document.querySelector('#case-thread').textContent.includes('Reactie beheerder'));
+    await page.locator('#case-status').selectOption('afgehandeld');await page.locator('#case-save-status').click();
+    await page.waitForFunction(()=>!document.querySelector('#case-archive').hidden);
+    await page.locator('#case-archive').click();await page.waitForFunction(()=>!document.querySelector('#case-reopen').hidden);
+    assert.equal(await page.locator('#case-reply-form').isVisible(),false);
+    await page.screenshot({path:`test-results/connectr-archive-${viewport.width}.png`,fullPage:true});
+    await page.locator('#case-reopen').click();await page.waitForFunction(()=>document.querySelector('#case-reopen').hidden);
+    await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    const roomDraft=page.locator('#admin-rooms-list .admin-room-row input').nth(1),noteDraft=page.locator('.admin-note').first();
+    const roomBefore=await roomDraft.inputValue();
+    await roomDraft.fill('Nog niet opgeslagen');await noteDraft.fill('Conceptnotitie');
+    await page.evaluate(()=>refreshAfterChange(true));
+    assert.equal(await roomDraft.inputValue(),'Nog niet opgeslagen');assert.equal(await noteDraft.inputValue(),'Conceptnotitie');
+    assert.equal(await noteDraft.evaluate(el=>el===document.activeElement),true,'verversen behoudt focus op een conceptnotitie');
+    await page.locator('#lang-en').click();
+    await page.waitForFunction(()=>document.documentElement.lang==='en');
+    assert.equal(await page.getByRole('button',{name:'Administration',exact:true}).count(),1);
+    assert.equal(await page.locator('#role-badge').textContent(),'Administrator');
+    assert.equal(await page.locator('#import-confirm-btn').textContent(),'Import');
+    assert.equal(await roomDraft.inputValue(),'Nog niet opgeslagen');assert.equal(await noteDraft.inputValue(),'Conceptnotitie');
+    await roomDraft.fill(roomBefore);await noteDraft.fill('');
+    await page.waitForFunction(()=>window.__testLocale.locale==='en-US');
+    await page.locator('#admin-support-messages .request-card').filter({hasText:'Overzicht'}).first().getByRole('button',{name:'Open conversation',exact:true}).click();
+    await page.locator('#case-dialog').waitFor({state:'visible'});
+    assert.equal(await page.locator('#case-original').innerText(),'Overzicht','user text is never translated');
+    assert.match(await page.locator('#case-title').innerText(),/Suggestion — Anonymous/);
+    assert.match(await page.locator('#case-thread').innerText(),/Administrator/);
+    await page.screenshot({path:`test-results/connectr-english-${viewport.width}.png`,fullPage:true});
+    await page.locator('#case-dialog').getByRole('button',{name:'Close',exact:true}).click();
+    await page.locator('#profile-button').click();
+    await page.locator('#profile-first').fill('');await page.locator('#profile-save').click();
+    assert.equal(await page.locator('#profile-first').evaluate(el=>el.validationMessage),'Please fill in this required field.');
+    await page.locator('#profile-close').click();
+    assert.equal(await page.evaluate(()=>localStorage.getItem('han-language')),'en');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Connectr English mobile layout');
+    await page.locator('#lang-nl').click();
+    await page.waitForFunction(()=>document.documentElement.lang==='nl');
+    await page.waitForFunction(()=>window.__testLocale.locale==='nl-NL');
+    await page.locator('#profile-button').click();await page.screenshot({path:`test-results/connectr-profile-${viewport.width}.png`});
+    await page.locator('#profile-close').click();
+    await page.getByRole('button',{name:'Overzicht',exact:true}).click();
     await page.evaluate(()=>{
       rooms.push({id:"bad');window.__xss=true;//",name:'Veilige tekst',active:true});populateRoomSelect();renderOverview();
     });
@@ -194,8 +297,18 @@ try{
     await page.getByRole('button',{name:'Uitloggen',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#rooms-grid').textContent.includes('Log in'));
     assert.deepEqual(errors,[]);passed++;console.log('PASS desktop/mobiel '+viewport.width+': bestaande flows plus rolverzoek wijzigen/intrekken, 5-secondenmelding, optionele motivatie, inclusieve reeks, gegroepeerde lijsten, overzichtvensters, organisatorgegevens, extern inkorten/opnieuw aanvragen, admin bewerken en layout');
     // Wacht op lopende API-routes voordat hun databaseverbindingen worden gesloten.
+    await page.evaluate(()=>authQueue);
+    while(apiTasks.size)await Promise.all([...apiTasks]);
     await page.unrouteAll({behavior:'wait'});
     await page.close();
   }
   console.log(`BROWSER: ${passed} viewportscenario's geslaagd; alle netwerkverzoeken lokaal afgehandeld`);
-}finally{await browser.close();for(const c of clients)await c.end();await env.stop();}
+}catch(error){
+  console.error('BROWSER FAILURE:',error);
+  for(const page of browser.contexts().flatMap(context=>context.pages()))await page.screenshot({path:'test-results/connectr-failure.png'}).catch(()=>{});
+  throw error;
+}finally{
+  while(apiTasks.size)await Promise.allSettled([...apiTasks]);
+  for(const page of browser.contexts().flatMap(context=>context.pages()))await page.unrouteAll({behavior:'wait'});
+  await browser.close();for(const c of clients)await c.end();await env.stop();
+}

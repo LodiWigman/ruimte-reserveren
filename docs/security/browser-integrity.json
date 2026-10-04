@@ -1,0 +1,6 @@
+{
+  "supabase": "sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP",
+  "xlsx": "sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT",
+  "clerk-en": "sha384-yTISxH8Tl8e05Lp6ZdciOOtvCk+91wldIamepHKGKlsvh/qh8nEtqv+q9xsSSDs9",
+  "clerk-nl": "sha384-lC+gyZ6QRR98w/rQouGPnjgF0DJdZuc91lkJrSOqFrivxiHzpWGLInyFFLaFrBTt"
+}

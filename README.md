@@ -3,9 +3,11 @@
 Eén `index.html`, Clerk voor login, Supabase/PostgreSQL voor gegevens en rechten.
 Hosting via Vercel, automatisch gekoppeld aan `LodiWigman/ruimte-reserveren`, branch `main`.
 
-Deze herstelversie is voorbereid voor de bestaande **Clerk-testomgeving**.
-Productie vraagt een eigen domein, Clerk-productieconfiguratie en een gecontroleerd
-nieuw admin-ID. Zie het releaseverslag voor de uitgevoerde publicatie en controles.
+**Voorbereid voor eindgoedkeuring:** zie [het actuele publicatieoverzicht](docs/PUBLICATIEKLAAR-2026-10-01.md).
+De opdrachtgever heeft het voortzetten van de bestaande **Clerk-testomgeving**
+bevestigd. Het officiële adres
+is https://ruimte-reserveren.vercel.app/. Bestaande accountkoppelingen blijven behouden.
+De historische beveiligingsverslagen zijn geen actieve publicatievoorwaarden.
 
 - [Rechten en gedrag](docs/RECHTEN-EN-GEDRAG.md)
 - [Heropbouw, publicatie en herstel](docs/UITVOEREN.md)
@@ -13,11 +15,14 @@ nieuw admin-ID. Zie het releaseverslag voor de uitgevoerde publicatie en control
 - [Databasebestanden](SQL/README.md)
 - [Uitgevoerde release](docs/RELEASE.md)
 - [Jouw volgende stappen](docs/VOLGENDE-STAPPEN.md)
+- [HAN@Connectr: voorbereide versie en publicatievolgorde](docs/CONNECTR-OPLEVERING.md)
 - [Voorbereide verbeteringen na praktijktest](docs/VERBETERINGEN.md)
 
 ## Tests
 
-Gebruik Node.js 24 en pnpm. De website heeft geen buildstap of framework.
+Gebruik Node.js 24 en pnpm. De website heeft geen framework. De publicatiebuild
+controleert scriptintegriteit en hostingbeleid en kopieert uitsluitend website en
+logo naar `dist`. De bestaande Clerk-testomgeving wordt ondersteund.
 
 ```text
 pnpm install --frozen-lockfile
@@ -25,7 +30,15 @@ pnpm test
 node tests/setup-browser.mjs
 pnpm exec playwright install chromium
 pnpm test:ui
+pnpm test:security
+pnpm security:gate
 ```
+
+`node tests/verify-local.mjs` draait alle lokale suites na elkaar en bewaart de
+testuitkomsten met bronhashes. `security:gate` voert de praktische buildcontrole uit.
+`node tests/release-build.mjs` controleert de uitvoer en weigering van onveilige
+of onverwachte publicatiebestanden. `node tests/clerk-smoke.mjs` test via internet
+de echte openbare Clerk-vensters zonder accountregistratie of aanmelding.
 
 Installatie en browser-setup downloaden openbare software. De tests gebruiken
 uitsluitend een lokale wegwerpdatabase en fictieve gebruikers. Geen Supabase-toegang

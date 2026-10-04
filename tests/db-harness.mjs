@@ -42,13 +42,17 @@ export async function applyBasis(db) {
   } catch(error) {await db.query('ROLLBACK');throw error;}
 }
 
-export async function asUser(db,user,sql,params=[]) {
+export async function asUser(db,user,sql,params=[],sessionId='sess_'+user.replace(/_/g,'')) {
   await db.query('BEGIN');
   try {
     await db.query(`SET LOCAL ROLE ${user==='anonymous'?'anon':'authenticated'}`);
-    await db.query("SELECT set_config('request.jwt.claims',$1,true)",[JSON.stringify(user==='anonymous'?{}:{sub:user,role:'authenticated'})]);
+    await db.query("SELECT set_config('request.jwt.claims',$1,true)",[JSON.stringify(user==='anonymous'?{}:{sub:user,sid:sessionId,role:'authenticated',iss:'https://alert-bat-50.clerk.accounts.dev',azp:'https://ruimte-reserveren.vercel.app'})]);
     const result=await db.query(sql,params);
     await db.query('COMMIT');
     return result;
   } catch(error) {await db.query('ROLLBACK');throw error;}
+}
+
+export async function applyConnectr(db){
+  await db.query(await readFile('SQL/migrations/20260929192403_connectr_profiles_conversations.sql','utf8'));
 }
