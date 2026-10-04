@@ -65,7 +65,38 @@
     }
   },
   "remainingVerification": [
-    "Vercel deployment and headers",
-    "Actual user login and authenticated workflow smoke test"
+    "Complete sign-in and reservation/conversation/logout workflow with a real user session"
+  ],
+  "releaseCommit": "39e974d10d8eea1f1a85cc8d1e7a82d1167502f5",
+  "verifiedAt": "2026-10-04T11:20:06.266Z",
+  "hosting": {
+    "deployment": "success",
+    "pageMatchesReviewedSource": true,
+    "securityHeaders": 7,
+    "privatePathsReturn404": 4
+  },
+  "publicSecurityProbes": {
+    "missingCredentialsDenied": true,
+    "forgedTokensDenied": [
+      "none",
+      "HS256",
+      "RS256"
+    ],
+    "unauthenticatedReadRpcDenied": true
+  },
+  "browser": {
+    "registrationHasFirstAndLastName": true,
+    "errorLogs": 0
+  },
+  "advisors": {
+    "errors": 0,
+    "info": "10 private tables intentionally have RLS without browser policies",
+    "warnings": "30 authenticated SECURITY DEFINER RPCs; intentional API surface with tested role and ownership checks",
+    "reference": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+  },
+  "maintenanceItems": [
+    "PostgreSQL vendor maintenance",
+    "Retention and monitoring policy",
+    "Full platform backup restore drill"
   ]
 }
