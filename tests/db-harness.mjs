@@ -56,3 +56,6 @@ export async function asUser(db,user,sql,params=[],sessionId='sess_'+user.replac
 export async function applyConnectr(db){
   await db.query(await readFile('SQL/migrations/20260929192403_connectr_profiles_conversations.sql','utf8'));
 }
+export async function applyOverviewUpdates(db){
+  await db.query(await readFile('SQL/migrations/20261006110904_overview_cases_filters.sql','utf8'));
+}

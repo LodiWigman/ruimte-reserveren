@@ -1,0 +1,42 @@
+{
+  "preparedAt": "2026-10-06T13:34:49.9127835Z",
+  "status": "prepared-awaiting-final-approval",
+  "repository": "LodiWigman/ruimte-reserveren",
+  "branch": "main",
+  "baseCommit": "af404124a239910590d78468c8911eeac03b366f",
+  "supabaseProject": "oappvdfjyvbmvqrjvnmv",
+  "migration": "20261006110904_overview_cases_filters",
+  "liveWritesPerformed": false,
+  "existingDataDeleted": false,
+  "checks": {
+    "browserAuthentication": "local Clerk test double",
+    "database": 7,
+    "validation": "NL/EN passed",
+    "browserSecurity": "passed",
+    "security": 24,
+    "publicationBuild": "passed",
+    "frontend": 29,
+    "browserWidths": [
+      1365,
+      390
+    ],
+    "importSecurity": 15
+  },
+  "sha256": {
+    "index.html": "2ae535cf7d2b5cea8bdc9966218ccbdc2778c7433f99aa7558878694fa9055fa",
+    "vercel.json": "d3152778cb3e4752c990a414836a027a206fcfeb6ff032c9c15b05bc17ffc1e2",
+    "package.json": "6b431cd63cdf9635cac72fcd858a9012d0cb5bf8a3fd6b24c5757af8fde94600",
+    "SQL/README.md": "28d50d1c831faecf3ac65ee8234ce5238b2735838efae463b408dbe456b28d81",
+    "SQL/migrations/README.md": "5feed2f15b6392755033831c22d507dbc9f56f7feaac879e22aeb7ec54ad942f",
+    "SQL/migrations/20261006110904_overview_cases_filters.sql": "19ed88a7a29b4e14126ad72a1cae12494324d42ffa370f127293b7c2309080a9",
+    "docs/RECHTEN-EN-GEDRAG.md": "10f3e760b1f66ec11c7dd2f989d5c6ec73814f861a7ef388034d8e9a8f4ea375",
+    "docs/OVERZICHT-EN-CASES-2026-10-06.md": "abfb5562aa170021a0d956a0f6fc8e8e72ae94f3ebc66ed7bc945c78e504f4cd",
+    "tests/frontend.mjs": "c0fc71ed04ed58d4cc3772466284c2b1e9156e44dc9de57a4c784a02f2f0b047",
+    "tests/browser.mjs": "35b5d376b63f625dbf0d394b508d56209d95c41a8534ca45498eace76dea88f0",
+    "tests/db-harness.mjs": "42ae96dae2e59a37e937890029cf01d7813dcfb779acb7d44189a7b8f991bd39",
+    "tests/overview-cases.mjs": "6bd12317d894752c6161257eebeaea316cd5ba63cc6be722223705dcd271da57",
+    "tests/security-assessment.mjs": "36a70c796e64208359428ee73eae71b5a049e9661413b19ba5e459345c34ab9d",
+    "tests/release-check.mjs": "cd42bc6bab3f51e83fa16c6b0c7ae21a930a37302f4a600fc1b06ff9ed8d5c37",
+    "tests/verify-local.mjs": "576af7395509d6508e54ea657fc5fe54dd7da901f43d1eff7c9a314b3e33d8a5"
+  }
+}

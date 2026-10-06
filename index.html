@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-RClpIO2XbBcuzEiJji7Jlx3M69UueZBi0AN3IFaei4o=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-OheuOZc6uTOcT0AFUIQytMaJKyMkWmQTRs3Rxy1qNPE=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAN@Connectr — Ruimtereserveringen</title>
@@ -25,6 +25,16 @@ dialog{margin:auto;width:min(720px,calc(100% - 24px));max-height:90dvh;padding:0
 dialog::backdrop{background:#0006}.dialog-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--gray-100);position:sticky;top:0;z-index:1}
 dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow-wrap:anywhere}.series-items .booking-card{min-width:0}
 .brand-logo{width:82px;height:48px;object-fit:contain;background:transparent;padding:0}.brand h1{font-size:19px}.brand small{display:block;font:12px Inter,sans-serif;color:#ddd}.language-switch{display:flex;border:1px solid #777;border-radius:6px;overflow:hidden}.language-switch button{border:0;padding:8px;background:transparent;color:white}.language-switch button[aria-pressed=true]{background:var(--magenta);font-weight:700}.header-actions button{min-height:36px}.dialog-content{padding:22px}.dialog-content h2{font-size:20px;margin-bottom:12px}.account-result{display:block;width:100%;text-align:left;padding:10px;margin:6px 0;background:white;border:1px solid var(--gray-200);border-radius:6px;overflow-wrap:anywhere}.account-result.selected{border:2px solid var(--magenta)}.account-result small{display:block}.case-message{padding:12px;margin:10px 0;border-radius:8px;background:var(--gray-100);white-space:pre-wrap;overflow-wrap:anywhere}.case-message.admin{border-left:3px solid var(--magenta)}.case-message small{display:block;color:var(--gray-600);margin-bottom:5px}.case-heading{margin:12px 0}.case-original{padding:14px;border:1px solid var(--gray-200);white-space:pre-wrap;overflow-wrap:anywhere}.unread-badge{display:inline-block;background:var(--magenta);color:white;padding:1px 7px;border-radius:20px;font-size:12px}.notification-item{display:block;width:100%;text-align:left;background:white;border:0;border-bottom:1px solid var(--gray-200);padding:12px}.notification-item.unread{border-left:3px solid var(--magenta);background:var(--magenta-light)}.notification-item small{display:block}.profile-hint{margin:12px 0}.account-choice{margin:15px 0;padding:14px;background:var(--gray-100);border-radius:8px}#case-thread{max-height:40vh;overflow:auto}#transfer-summary{white-space:pre-wrap;overflow-wrap:anywhere}#notification-dialog{width:min(540px,calc(100% - 24px))}button:focus-visible{outline:3px solid #008f5a;outline-offset:2px}input[readonly]{background:var(--gray-100)}@media(max-width:760px){.brand-logo{width:72px;height:43px}.header-actions{gap:8px}.brand{gap:10px}header{position:relative}.dialog-content{padding:16px}.auth-user{justify-content:flex-start}.brand h1{font-size:18px}}
+.save-btn,.archive-btn{background:var(--magenta-dark);color:white;border:0;border-radius:var(--radius);padding:9px 16px;font-weight:700}
+.save-btn:hover,.archive-btn:hover{background:#96004e}
+.save-btn:focus-visible,.archive-btn:focus-visible{outline:3px solid var(--black);outline-offset:3px}
+.list-filters{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:12px 0}
+.list-filters label{display:flex;flex-direction:column;gap:4px;font-size:12px;max-width:100%}
+.list-filters select,.list-filters input{padding:9px;border:1px solid var(--gray-400);border-radius:8px;max-width:100%;background:white}
+.case-number{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0;font-size:12px;overflow-wrap:anywhere}
+.case-number code{user-select:all;overflow-wrap:anywhere}
+.timeline{min-width:0}.room-row>div{min-width:0}
+@media(max-width:760px){.timeline{display:flex;flex-direction:column;gap:8px;height:auto!important;padding:6px}.booking-block{position:relative;left:auto!important;top:auto!important;width:100%!important;min-height:34px;height:auto}.booking-block span{white-space:normal;overflow-wrap:anywhere}.timeline-hours{display:none}}
 </style>
 </head>
 <body>
@@ -98,7 +108,7 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
     <div class="admin-card"><h3>Reserveringsverzoeken</h3><div id="admin-booking-requests" class="request-list"></div></div>
     <div class="admin-card"><button class="edit-btn" id="admin-archive-button" data-onclick="toggleCaseArchive(true)">Archief openen</button><h3>Vragen, klachten en tips</h3><div id="admin-support-messages" class="request-list"></div></div>
     <div class="admin-card"><h3>Ruimtes beheren</h3><div id="admin-rooms-list"></div><button class="add-room-btn" data-onclick="addAdminRoom()">+ Ruimte toevoegen</button><br><button class="save-btn" data-onclick="saveRooms()">Ruimtes opslaan</button></div>
-    <div class="admin-card"><h3>Reserveringen importeren</h3><div class="import-grid"><div class="form-group" style="margin:0"><label for="import-file">Excel, CSV of Outlook ICS</label><input type="file" id="import-file" accept=".xlsx,.xls,.csv,.ics,text/csv,text/calendar" data-onchange="previewImportFile()"></div><button class="save-btn" data-onclick="previewImportFile()">Preview laden</button></div><p class="import-help">Ondersteunde kolommen voor Excel/CSV: ruimte, room, room_id, datum, date, start, starttijd, einde, eindtijd, end, naam, name, titel, title, omschrijving, description, personen, persons. Datums en tijden gelden voor Europe/Amsterdam. ICS vereist LOCATION met een eenduidige ruimte en UTC of Europe/Amsterdam als tijdzone. Hele dagen, meerdaagse afspraken en gewijzigde uitzonderingen worden afgewezen. Dag/week/maand/jaar, COUNT of UNTIL en EXDATE worden ondersteund. Maximaal 520 momenten en 5 MB; bij één fout wordt niets geïmporteerd.</p><div id="import-summary" class="import-summary"></div><div id="import-preview"></div><div class="import-actions"><button class="approve-btn" id="import-confirm-btn" data-onclick="confirmImportBookings()" disabled>Importeren</button><button class="reject-btn" data-onclick="clearImportPreview()">Leegmaken</button></div></div>
+    <div class="admin-card"><h3>Reserveringen importeren</h3><div class="form-group"><label for="import-organization">Organisatie/afdeling voor import</label><input id="import-organization" maxlength="120" data-oninput="clearImportPreview()"><p>Verplicht als de importregel geen organisatie of afdeling bevat. Maak na wijzigen opnieuw een preview.</p></div><div class="import-grid"><div class="form-group" style="margin:0"><label for="import-file">Excel, CSV of Outlook ICS</label><input type="file" id="import-file" accept=".xlsx,.xls,.csv,.ics,text/csv,text/calendar" data-onchange="previewImportFile()"></div><button class="save-btn" data-onclick="previewImportFile()">Preview laden</button></div><p class="import-help">Ondersteunde kolommen voor Excel/CSV: ruimte, room, room_id, datum, date, start, starttijd, einde, eindtijd, end, naam, name, titel, title, omschrijving, description, personen, persons. Datums en tijden gelden voor Europe/Amsterdam. ICS vereist LOCATION met een eenduidige ruimte en UTC of Europe/Amsterdam als tijdzone. Hele dagen, meerdaagse afspraken en gewijzigde uitzonderingen worden afgewezen. Dag/week/maand/jaar, COUNT of UNTIL en EXDATE worden ondersteund. Maximaal 520 momenten en 5 MB; bij één fout wordt niets geïmporteerd.</p><div id="import-summary" class="import-summary"></div><div id="import-preview"></div><div class="import-actions"><button class="approve-btn" id="import-confirm-btn" data-onclick="confirmImportBookings()" disabled>Importeren</button><button class="reject-btn" data-onclick="clearImportPreview()">Leegmaken</button></div></div>
     <div class="admin-card"><h3>Alle reserveringen</h3><div id="all-bookings-admin"></div></div>
   </div>
 </div>
@@ -201,6 +211,11 @@ const uiActions=new Map([
   ['closeBookingEditor',(...args)=>closeBookingEditor(...args)],
   ['quickReserve',(...args)=>quickReserve(...args)],
   ['openOverviewItem',(...args)=>openOverviewItem(...args)],
+  ['openTransfer',(...args)=>openTransfer(...args)],
+  ['updateListFilter',(...args)=>updateListFilter(...args)],
+  ['clearListFilters',(...args)=>clearListFilters(...args)],
+  ['copyCaseNumber',(...args)=>copyCaseNumber(...args)],
+  ['archiveCaseFromList',(...args)=>archiveCaseFromList(...args)],
   ['showTooltip',(...args)=>showTooltip(...args)],
   ['hideTooltip',(...args)=>hideTooltip(...args)],
   ['editRoleRequest',(...args)=>editRoleRequest(...args)],
@@ -329,9 +344,11 @@ function updateBookingMode(){
   document.getElementById('external-fields').style.display='';
   document.querySelectorAll('.external-required').forEach(el=>el.style.display=userIsExtern()?'':'none');
   for(const id of ['f-organization','f-occasion']){
-    document.getElementById(id).required=userIsExtern();
-    document.getElementById(id).setAttribute('aria-required',String(userIsExtern()));
+    const required=id==='f-organization'||userIsExtern();
+    document.getElementById(id).required=required;
+    document.getElementById(id).setAttribute('aria-required',String(required));
   }
+  document.querySelector('label[for="f-organization"] .required').style.display='';
   document.getElementById('external-edit-note').style.display=editState?.type==='booking'&&userIsExtern()?'':'none';
   document.getElementById('edit-scope-group').style.display=editState?.recurrenceId?'':'none';
   document.getElementById('cancel-edit-btn').style.display=editState?'block':'none';
@@ -425,7 +442,10 @@ async function loadMyRoleRequests(){roleRequests=await readAll('role_requests',q
 async function loadAdminRoleRequests(){adminRoleRequests=await readAll('role_requests',q=>q.eq('status','pending'));}
 async function loadAdminBookingRequests(){adminBookingRequests=(await readAll('reserveringsverzoeken',q=>q.eq('status','pending'))).map(mapBookingRequest).sort(sortBookings);}
 async function loadMySupportMessages(){supportMessages=await loadCases(false,myCaseArchive);}
-async function loadAdminSupportMessages(){adminSupportMessages=await loadCases(true,adminCaseArchive);}
+async function loadAdminSupportMessages(){
+  const [active,archived]=await Promise.all([loadCases(true,false),loadCases(true,true)]);
+  adminSupportMessages=[...active,...archived].sort((a,b)=>b.created_at.localeCompare(a.created_at));
+}
 function mapBooking(row){ const room=rooms.find(r=>r.id===row.room_id); return {id:row.id,userId:row.user_id,name:row.name,roomId:row.room_id,roomName:room?room.name:row.room_id,date:row.date,start:normTime(row.start_time),end:normTime(row.end_time),persons:row.persons||'',desc:row.description||'',organization:row.organization||'',occasion:row.occasion||'',motivation:row.motivation||'',recurrenceId:row.recurrence_id||null,created:row.created_at,updatedAt:row.updated_at}; }
 function mapPublicBooking(row){
   const room=rooms.find(r=>r.id===row.room_id);
@@ -447,25 +467,46 @@ function renderOverview(){
   if(!currentUser){ renderGuestState(); return; } if(!rooms.length){ grid.innerHTML=uiHtml('<div class="empty-state">Geen actieve ruimtes gevonden.</div>'); return; }
   const today=dateStr(currentDate), todayBookings=occupancy.filter(b=>b.date===today&&b.status==='confirmed'), todayRequests=publicRequests.filter(r=>r.date===today&&r.status==='pending');
   grid.innerHTML=rooms.map(room=>{
-    const blocks=todayBookings.filter(b=>b.roomId===room.id).map(b=>timelineBlock(b,'',t('Gereserveerd')+' - '+b.start+'-'+b.end)).join('');
-    const requests=todayRequests.filter(r=>r.roomId===room.id).map(r=>timelineBlock(r,'request',t('Verzoek')+' - '+r.start+'-'+r.end)).join('');
+    const layout=layoutTimeline([...todayBookings,...todayRequests].filter(b=>b.roomId===room.id));
+    const blocks=layout.items.map(({item,lane})=>timelineBlock(item,item.status==='pending'?'request':'',lane)).join('');
     const hours=[]; for(let h=DAY_START;h<=DAY_END;h+=3) hours.push(h+':00');
     const cap=room.capacity?'max '+room.capacity+t(' pers.'):''; const notes=room.notes?' - '+esc(room.notes):'';
-    return '<div class="room-row"><div><div class="room-name">'+esc(room.name)+'</div><div class="room-meta"><span class="tag">'+esc(room.id)+'</span> '+cap+notes+'</div></div><div><div class="timeline">'+blocks+requests+'</div><div class="timeline-hours">'+hours.map(h=>'<span>'+h+'</span>').join('')+'</div></div><button class="reserve-btn-small" data-onclick="quickReserve('+jsArg(room.id)+uiHtml(')">Reserveer</button></div>');
+    return '<div class="room-row"><div><div class="room-name">'+esc(room.name)+'</div><div class="room-meta"><span class="tag">'+esc(room.id)+'</span> '+cap+notes+'</div></div><div><div class="timeline" style="height:'+Math.max(38,layout.lanes*38)+'px">'+blocks+'</div><div class="timeline-hours">'+hours.map(h=>'<span>'+h+'</span>').join('')+'</div></div><button class="reserve-btn-small" data-onclick="quickReserve('+jsArg(room.id)+uiHtml(')">Reserveer</button></div>');
   }).join('');
 }
-function timelineBlock(item,type){
+function layoutTimeline(items){
+  const ends=[];
+  const placed=[...items].sort((a,b)=>a.start.localeCompare(b.start)||a.end.localeCompare(b.end)).map(item=>{
+    const start=timeToPercent(item.start),end=start+Math.max(2,timeToPercent(item.end)-start);
+    let lane=ends.findIndex(value=>value<=start);
+    if(lane<0)lane=ends.length;
+    ends[lane]=end;
+    return {item,lane};
+  });
+  return {items:placed,lanes:ends.length};
+}
+function timelineBlock(item,type,lane=0){
   const left=timeToPercent(item.start),width=Math.max(2,timeToPercent(item.end)-left);
-  const label=item.mine?(type==='request'?t('Mijn verzoek'):t('Mijn reservatie')):(type==='request'?t('Verzoek'):t('Gereserveerd'));
+  const base=item.mine?(type==='request'?t('Mijn verzoek'):t('Mijn reservatie')):(type==='request'?t('Verzoek'):t('Gereserveerd'));
+  const label=(currentRole==='intern'||isAdmin)&&item.organization?item.organization:base;
   const tip=[label,item.start+'–'+item.end,item.name,item.organization].filter(Boolean).join(' — ');
   const index=occupancy.indexOf(item);
-  return '<button type="button" class="booking-block '+type+(item.mine?' mine':'')+'" style="left:'+left+'%;width:'+width+'%" aria-label="'+escAttr(tip)+'" data-onclick="openOverviewItem('+index+')" data-onmouseenter="showTooltip(event,'+jsArg(tip)+')" data-onmouseleave="hideTooltip()"><span>'+esc(label)+'</span></button>';
+  return '<button type="button" class="booking-block '+type+(item.mine?' mine':'')+'" style="top:'+(6+lane*38)+'px;left:'+left+'%;width:'+width+'%" aria-label="'+escAttr(base+' — '+tip)+'" data-onclick="openOverviewItem('+index+')" data-onmouseenter="showTooltip(event,'+jsArg(base+' — '+tip)+')" data-onmouseleave="hideTooltip()"><span>'+esc(label+' · '+item.start+'–'+item.end+(type==='request'?' · '+t('Verzoek'):''))+'</span></button>';
 }
 function openOverviewItem(index){
   const item=occupancy[index];if(!item)return;hideTooltip();
   const kind=item.status==='pending'?'request':'booking';
-  if(item.id&&(item.mine||isAdmin)&&item.date>=todayAmsterdam()){startEdit(kind,item.id,'single');return;}
-  document.getElementById('details-content').innerHTML='<p><strong>'+esc(item.roomName)+'</strong></p><p>'+esc(item.date+' '+item.start+'–'+item.end)+'</p><p>'+esc(item.name||t('Verzoek'))+uiHtml('</p><p>Organisatie/afdeling: ')+esc(item.organization||t('Niet opgegeven'))+'</p>';
+  if(item.id&&(item.mine||isAdmin)&&item.date>=todayAmsterdam()){
+    startEdit(kind,item.id,'single');
+    const old=document.getElementById('overview-transfer');if(old)old.remove();
+    if(isAdmin){
+      const button=document.createElement('button');button.id='overview-transfer';button.type='button';button.className='save-btn';button.textContent=t('Overdragen');
+      button.onclick=()=>{closeBookingEditor();openTransfer(kind,item.id);};
+      document.getElementById('booking-dialog-content').prepend(button);
+    }
+    return;
+  }
+  document.getElementById('details-content').innerHTML='<p><strong>'+esc(item.roomName)+'</strong></p><p>'+esc(item.date+' '+item.start+'–'+item.end)+'</p><p>'+esc(item.name||t(item.status==='pending'?'Verzoek':'Gereserveerd'))+uiHtml('</p><p>Organisatie/afdeling: ')+esc(item.organization||t('Niet opgegeven'))+'</p>';
   document.getElementById('details-dialog').showModal();
 }
 
@@ -509,6 +550,7 @@ async function submitBooking(){
 function readBookingForm(){
   const name=document.getElementById('f-name').value.trim(),roomId=document.getElementById('f-room').value,date=document.getElementById('f-date').value,start=document.getElementById('f-start').value,end=document.getElementById('f-end').value,persons=document.getElementById('f-persons').value,desc=document.getElementById('f-desc').value.trim(),organization=document.getElementById('f-organization').value.trim(),occasion=document.getElementById('f-occasion').value.trim(),motivation=document.getElementById('f-motivation').value.trim();
   if(!name||!roomId||!date||!start||!end){ showNotice(t('Vul alle verplichte velden in.'),'error'); return null; }
+  if(!organization){showNotice(t('Vul organisatie/afdeling in.'),'error');return null;}
   if(!parseImportDate(date)||date<todayAmsterdam()||!parseImportTime(start)||!parseImportTime(end)||start>=end){showNotice(t('Controleer datum en tijden.'),'error');return null;}
   if(name.length<2||(persons&&(!Number.isInteger(Number(persons))||Number(persons)<=0))){showNotice(t('Vul een geldige naam en een geheel aantal personen in.'),'error');return null;}
   if(userIsExtern()&&(!organization||!occasion)){ showNotice(t('Vul organisatie/afdeling en gelegenheid in.'),'error'); return null; }
@@ -537,6 +579,7 @@ function canEditBooking(b){return !!(currentUser&&b&&(isAdmin||b.userId===curren
 
 function canEditRequest(r){ return currentUser&&r&&r.status==='pending'&&(r.userId===currentUser.id||isAdmin); }
 function startEdit(type,id,scope){
+  document.getElementById('overview-transfer')?.remove();
   const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests),item=source.find(x=>x.id===id);
   if(!item||!(type==='booking'?canEditBooking(item):canEditRequest(item))){showNotice(t('Dit item is niet beschikbaar om te wijzigen. Ververs het overzicht.'),'error');return;}
   editState={type,id,scope:scope||'single',recurrenceId:item.recurrenceId||null,originalDate:item.date,original:item,snapshot:[...new Map(source.map(row=>[row.id,{...row}])).values()]};
@@ -621,8 +664,72 @@ function renderMyBookings(){
   if(!currentUser){list.innerHTML=uiHtml('<div class="empty-state">Log in om je verzoeken/reserveringen te bekijken.</div>');return;}
   const mine=bookings.filter(b=>b.userId===currentUser.id&&b.date>=todayAmsterdam()).map(b=>({...b,kind:'booking'}));
   const requests=myBookingRequests.filter(r=>r.date>=todayAmsterdam()&&r.status!=='approved').map(r=>({...r,kind:'request'}));
-  list.innerHTML=renderSeries([...mine,...requests],item=>item.kind==='booking'?renderBookingCard(item):renderRequestCard(item))+renderRoleCards();
+  const items=[...mine,...requests];
+  renderListFilters('mine',list,items);
+  list.innerHTML=(renderSeries(filterBookings(items,listFilters.mine),item=>item.kind==='booking'?renderBookingCard(item):renderRequestCard(item))||'<div class="empty-state">'+t('Geen resultaten voor deze filters.')+'</div>')+renderRoleCards();
   if(!list.innerHTML)list.innerHTML=uiHtml('<div class="empty-state">Geen verzoeken of aankomende reserveringen gevonden.</div>');
+  addTransferButtons();
+}
+const listFilters={mine:{},bookings:{},cases:{}};
+function filterBookings(items,filters){
+  return items.filter(item=>(!filters.kind||item.kind===filters.kind)&&(!filters.name||item.name===filters.name)&&(!filters.roomId||item.roomId===filters.roomId)&&(!filters.date||item.date===filters.date));
+}
+function updateListFilter(scope,key,value){
+  listFilters[scope][key]=value;
+  if(scope==='mine')renderMyBookings();
+  else if(scope==='bookings'){renderAllBookingsAdmin();addTransferButtons();}
+  else renderAdminSupportMessages();
+}
+function clearListFilters(scope){
+  listFilters[scope]={};updateListFilter(scope,'','');
+}
+function renderListFilters(scope,list,items){
+  let box=document.getElementById(scope+'-filters');
+  if(!box){box=document.createElement('div');box.id=scope+'-filters';box.className='list-filters';list.before(box);}
+  const filters=listFilters[scope];
+  const select=(key,label,options)=>'<label>'+esc(t(label))+'<select aria-label="'+escAttr(t(label))+'" data-onchange="updateListFilter('+jsArg(scope)+','+jsArg(key)+',this.value)"><option value="">'+t('Alle')+'</option>'+options.map(([value,text])=>'<option value="'+escAttr(value)+'"'+(filters[key]===value?' selected':'')+'>'+esc(text)+'</option>').join('')+'</select></label>';
+  const values=key=>[...new Set(items.map(item=>item[key]).filter(Boolean))].sort().map(value=>[value,value]);
+  let content='';
+  if(scope==='cases'){
+    content='<label>'+t('Casenummer')+'<input type="search" id="case-search" value="'+escAttr(filters.query||'')+'" data-oninput="updateListFilter(\'cases\',\'query\',this.value)"></label>';
+    content+=select('category','Type melding',['question','complaint','tip','unclassified'].map(value=>[value,categoryLabel(value)]));
+    content+=select('status','Status',['open','in_behandeling','afgehandeld','archived'].map(value=>[value,statusLabel(value)]));
+  }else{
+    content+=scope==='mine'?select('kind','Type',[['booking',t('Reserveringen')],['request',t('Verzoeken')]]):select('name','Naam',values('name'));
+    content+=select('roomId','Ruimte',values('roomId').map(([id])=>[id,(rooms.find(r=>r.id===id)?.name||id)+' ('+id+')']));
+    content+=select('date','Datum',values('date'));
+  }
+  content+='<button class="edit-btn" data-onclick="clearListFilters('+jsArg(scope)+')">'+t('Filters wissen')+'</button>';
+  // Keep the search field and its caret while typing; only the results change.
+  if(scope==='cases'&&document.activeElement?.id==='case-search')return;
+  box.innerHTML=content;
+}
+function filterCases(items,filters,archived){
+  const query=(filters.query||'').trim().toLowerCase();
+  return items.filter(item=>{
+    const status=item.archived_at?'archived':item.status;
+    return (!query||item.id.toLowerCase().includes(query))&&(!filters.category||item.category===filters.category)&&
+      (!filters.status||status===filters.status)&&((query||filters.status)||!!item.archived_at===archived);
+  });
+}
+function caseNumberHtml(id){
+  return '<div class="case-number">'+t('Casenummer')+': <code>'+esc(id)+'</code><button class="edit-btn" data-onclick="copyCaseNumber('+jsArg(id)+')">'+t('Kopiëren')+'</button></div>';
+}
+async function copyCaseNumber(id){
+  try{await navigator.clipboard.writeText(id);showNotice(t('Casenummer gekopieerd.'),'success');}
+  catch{showNotice(t('Selecteer en kopieer het casenummer.'),'error');}
+}
+const archivingCases=new Set();
+async function archiveCaseFromList(id){
+  if(!isAdmin||archivingCases.has(id))return;
+  const item=adminSupportMessages.find(c=>c.id===id);
+  if(!item||item.status!=='afgehandeld'||item.archived_at)return;
+  archivingCases.add(id);renderAdminSupportMessages();
+  try{
+    await rpc('han_manage_case',{item_id:id,expected_version:item.version,new_status:item.status,category:item.category,action:'archive'});
+    await refreshAfterChange(true);showNotice(t('Melding gearchiveerd. De indiener heeft een melding ontvangen.'),'success');
+  }catch(error){showNotice(explainError(error),'error');await loadAdminSupportMessages();}
+  finally{archivingCases.delete(id);renderAdminSupportMessages();}
 }
 function renderSeries(items,renderItem){
   const groups=new Map();
@@ -758,7 +865,7 @@ function renderMyRoleRequests(){
 async function submitSupportMessage(){
   if(!requireProfile())return;
   const btn=document.getElementById('support-submit-btn');btn.disabled=true;
-  try{await rpc('han_create_case',{category:document.getElementById('support-category').value,anonymous:document.getElementById('support-anonymous').value==='true',contact_email:document.getElementById('support-contact').value.trim()||null,message:document.getElementById('support-message').value.trim()});document.getElementById('support-message').value='';document.getElementById('support-contact').value='';await refreshAfterChange();showNotice(t('Je bericht is ingediend.'),'success');}
+  try{const caseId=await rpc('han_create_case',{category:document.getElementById('support-category').value,anonymous:document.getElementById('support-anonymous').value==='true',contact_email:document.getElementById('support-contact').value.trim()||null,message:document.getElementById('support-message').value.trim()});document.getElementById('support-message').value='';document.getElementById('support-contact').value='';await refreshAfterChange();showNotice(t('Je bericht is ingediend.')+' '+t('Casenummer')+': '+caseId,'success');}
   catch(error){showNotice(t('Indienen mislukt: ')+explainError(error),'error');}
   finally{btn.disabled=false;}
 }
@@ -769,7 +876,8 @@ function renderSupportMessages(){
   div.innerHTML=supportMessages.map(renderSupportCard).join('');
 }
 function renderSupportCard(m){
-  return '<div class="request-card"><strong>'+esc(categoryLabel(m.category))+' — '+esc(m.anonymous?t('Anoniem'):m.name||t('Naam nog niet bevestigd'))+'</strong><div class="bk-details">'+esc(statusLabel(m.status))+' · '+esc(formatTimestamp(m.created_at))+'</div><div class="case-original">'+esc(m.message)+'</div><button class="edit-btn" data-onclick="openCase('+jsArg(m.id)+')">'+t('Gesprek openen')+'</button> '+(m.unread?'<span class="unread-badge">'+m.unread+' '+t('ongelezen')+'</span>':'')+'</div>';
+  const archive=isAdmin&&m.status==='afgehandeld'&&!m.archived_at?'<button class="archive-btn" data-onclick="archiveCaseFromList('+jsArg(m.id)+')"'+(archivingCases.has(m.id)?' disabled':'')+'>'+t('Archiveren')+'</button>':'';
+  return '<div class="request-card"><strong>'+esc(categoryLabel(m.category))+' — '+esc(m.anonymous?t('Anoniem'):m.name||t('Naam nog niet bevestigd'))+'</strong><div class="bk-details">'+esc(statusLabel(m.archived_at?'archived':m.status))+' · '+esc(formatTimestamp(m.created_at))+'</div>'+caseNumberHtml(m.id)+'<div class="case-original">'+esc(m.message)+'</div><div class="admin-actions"><button class="edit-btn" data-onclick="openCase('+jsArg(m.id)+')">'+t('Gesprek openen')+'</button>'+archive+'</div> '+(m.unread?'<span class="unread-badge">'+m.unread+' '+t('ongelezen')+'</span>':'')+'</div>';
 }
 function preserveAdminDrafts(render){
   const rows=[...document.querySelectorAll('.admin-room-row')];
@@ -781,10 +889,15 @@ function preserveAdminDrafts(render){
     if(input){input.value=field.value;if(field.focused){input.focus({preventScroll:true});if(field.start!==null)input.setSelectionRange(field.start,field.end);}}
   }
 }
-function renderAdmin(){ preserveAdminDrafts(()=>{renderAdminRooms();renderAllBookingsAdmin();renderAdminRoleRequests();renderAdminBookingRequests();renderAdminSupportMessages();renderImportPreview();}); }
+function renderAdmin(){
+  preserveAdminDrafts(()=>{renderAdminRooms();renderAllBookingsAdmin();renderAdminRoleRequests();renderAdminBookingRequests();renderAdminSupportMessages();renderImportPreview();});
+  addTransferButtons();
+}
 function renderAdminSupportMessages(){
   const box=document.getElementById('admin-support-messages');
-  box.innerHTML=adminSupportMessages.length?adminSupportMessages.map(renderSupportCard).join(''):'<div class="empty-state">'+t('Geen berichten.')+'</div>';
+  renderListFilters('cases',box,adminSupportMessages);
+  const items=filterCases(adminSupportMessages,listFilters.cases,adminCaseArchive);
+  box.innerHTML=items.length?items.map(renderSupportCard).join(''):'<div class="empty-state">'+t('Geen resultaten voor deze filters.')+'</div>';
 }
 function renderAdminRoleRequests(){ const div=document.getElementById('admin-role-requests'); if(!adminRoleRequests.length){ div.innerHTML=uiHtml('<div class="empty-state">Geen openstaande rolverzoeken.</div>'); return; } div.innerHTML=adminRoleRequests.map(r=>'<div class="request-card"><strong>'+esc(r.full_name)+' — '+roleLabel(r.requested_role)+'</strong><div class="bk-details">'+esc(r.job_title)+'</div><div class="bk-who">'+esc(r.motivation)+'</div><div class="admin-actions"><button class="approve-btn" data-onclick="handleRoleRequest(\''+escAttr(r.id)+uiHtml('\',true)">Goedkeuren</button><button class="reject-btn" data-onclick="handleRoleRequest(\'')+escAttr(r.id)+uiHtml('\',false)">Afwijzen</button></div></div>')).join(''); }
 async function handleRoleRequest(id,approve){
@@ -816,7 +929,9 @@ async function saveRooms(){
 function renderAllBookingsAdmin(){
   const div=document.getElementById('all-bookings-admin');
   if(!isAdmin){div.innerHTML=uiHtml('<div class="empty-state">Alleen admins kunnen reserveringen beheren.</div>');return;}
-  div.innerHTML=renderSeries(bookings.filter(b=>b.date>=todayAmsterdam()),renderBookingCard)||uiHtml('<div class="empty-state">Geen aankomende reserveringen.</div>');
+  const items=bookings.filter(b=>b.date>=todayAmsterdam());
+  renderListFilters('bookings',div,items);
+  div.innerHTML=renderSeries(filterBookings(items,listFilters.bookings),renderBookingCard)||'<div class="empty-state">'+t('Geen resultaten voor deze filters.')+'</div>';
 }
 
 async function previewImportFile(){
@@ -834,7 +949,7 @@ async function previewImportFile(){
     }
     else if(ext==='xlsx'||ext==='xls') raw=await parseExcel(file);
     else throw new Error(t('Bestandstype niet ondersteund. Gebruik .xlsx, .xls, .csv of .ics.'));
-    importRows=prepareImportRows(raw);
+    importRows=prepareImportRows(raw,document.getElementById('import-organization').value.trim());
     const valid=importRows.filter(r=>r.valid);
     if(valid.length){
       const checks=await rpc('han_availability',{items:valid.map(r=>({room_id:r.roomId,date:r.date,start_time:r.start,end_time:r.end}))});
@@ -1076,12 +1191,14 @@ function expandIcsRecurrence(start,rule){
   const dates=recurrenceDates(start.date,{interval:Number(p.INTERVAL||1),unit,count:Number(p.COUNT||0),until,days});
   return dates.filter(date=>untilMs===undefined||icsInstant({...start,date})<=untilMs);
 }
-function prepareImportRows(rawRows){
+function prepareImportRows(rawRows,defaultOrganization=''){
   if(!rawRows.length||rawRows.length>520)throw new Error(t('Gebruik een bestand met 1 tot 520 gebeurtenissen.'));
   const seenSeries=new Map(),rows=rawRows.map((row,index)=>{
     const n=normalizeImportRow(row),errors=[],warnings=[];
     const roomId=resolveImportRoom(n.room),date=parseImportDate(n.date),start=parseImportTime(n.start),end=parseImportTime(n.end);
     const name=(n.name||t('Geïmporteerde reservering')).trim(),desc=(n.desc||'').trim(),persons=n.persons?Number(n.persons):null;
+    const organization=(n.organization||defaultOrganization).trim();
+    if(!organization||organization.length>120)errors.push(t('Vul organisatie/afdeling in.'));
     if(!roomId)errors.push('ruimte onbekend of niet eenduidig');
     if(!date||date<todayAmsterdam())errors.push('datum ongeldig of in het verleden');
     if(!start||!end||start>=end)errors.push('ongeldige tijden');
@@ -1092,7 +1209,7 @@ function prepareImportRows(rawRows){
     if(room?.capacity&&persons>room.capacity)warnings.push('meer personen dan capaciteit');
     const key=n.seriesKey||n.recurrenceId;let recurrenceId=null;
     if(key){if(!seenSeries.has(key))seenSeries.set(key,crypto.randomUUID());recurrenceId=seenSeries.get(key);}
-    return {index:index+1,roomId,date,start,end,name,desc,persons,recurrenceId,errors,warnings,valid:errors.length===0};
+    return {index:index+1,roomId,date,start,end,name,desc,persons,organization,recurrenceId,errors,warnings,valid:errors.length===0};
   });
   for(let i=0;i<rows.length;i++)for(let j=0;j<i;j++){
     const a=rows[i],b=rows[j];
@@ -1112,6 +1229,7 @@ function normalizeImportRow(row){
     start:pick(['start','starttijd','begintijd','begin']),
     end:pick(['einde','eindtijd','end','stoptijd']),
     name:pick(['naam','name','titel','title','summary','onderwerp']),
+    organization:pick(['organisatie','afdeling','organisatie/afdeling','organization','organisation','department']),
     desc:pick(['omschrijving','description','beschrijving','toelichting','opmerking']),
     persons:pick([t('personen'),'persons','aantal','capacity']),
     recurrenceId:pick(['recurrence_id','recurrenceid','reeks','series']),
@@ -1156,7 +1274,7 @@ async function confirmImportBookings(){
   if(!confirm(t('Alle ')+importRows.length+t(' momenten importeren? Bij één fout wordt het hele bestand teruggedraaid.')))return;
   const btn=document.getElementById('import-confirm-btn');btn.disabled=true;
   try{
-    const payload=importRows.map(r=>({import_index:r.index,name:r.name,room_id:r.roomId,date:r.date,start_time:r.start,end_time:r.end,persons:r.persons,description:r.desc||null,recurrence_id:r.recurrenceId}));
+    const payload=importRows.map(r=>({import_index:r.index,name:r.name,room_id:r.roomId,date:r.date,start_time:r.start,end_time:r.end,persons:r.persons,description:r.desc||null,organization:r.organization,recurrence_id:r.recurrenceId}));
     const data=await rpc('import_reserveringen',{import_items:payload});
     if(data.length!==payload.length||data.some(r=>r.status!=='imported'))throw new Error(t('Onverwacht importresultaat; controleer het overzicht voor je opnieuw probeert.'));
     clearImportPreview();await refreshAfterChange();showNotice(data.length+t(' reserveringen geïmporteerd.'),'success');
@@ -1167,7 +1285,7 @@ function clearImportPreview(){ importRows=[]; const input=document.getElementByI
 
 // Profiles, account ownership, conversations and persistent notifications.
 let selectedAccounts={booking:null,transfer:null},accountResults={booking:[],transfer:[]},accountSearchSequence={booking:0,transfer:0};
-let transferState=null,activeCase=null,myCaseArchive=false,adminCaseArchive=false;
+let transferState=null,activeCase=null,caseBusy=false,myCaseArchive=false,adminCaseArchive=false;
 let notificationItems=[],notificationUnread=0,sharedRefreshTimer=null,sharedRefreshBusy=false;
 function requireProfile(){if(currentProfile?.name_confirmed_at)return true;openProfile();return false;}
 function openProfile(){
@@ -1197,6 +1315,9 @@ async function saveProfile(){
   finally{button.disabled=false;}
 }
 function closeConnectrDialogs(){
+  caseBusy=false;
+  for(const scope of Object.keys(listFilters)){listFilters[scope]={};document.getElementById(scope+'-filters')?.remove();}
+  archivingCases.clear();myCaseArchive=false;adminCaseArchive=false;
   for(const id of ['profile-dialog','transfer-dialog','case-dialog','notification-dialog']){const el=document.getElementById(id);if(el.open)el.close();}
   activeCase=null;transferState=null;notificationItems=[];notificationUnread=0;selectedAccounts={booking:null,transfer:null};accountResults={booking:[],transfer:[]};
   document.getElementById('notification-count').textContent='0';
@@ -1236,6 +1357,7 @@ function addTransferButtons(){
   });
 }
 function openTransfer(kind,id){
+  if(!isAdmin)return;
   transferState={kind,item_id:id,preview:null};selectedAccounts.transfer=null;accountResults.transfer=[];
   for(const suffix of ['account-query','account-results','selected-account','summary','error']){const el=document.getElementById('transfer-'+suffix);if(el.tagName==='INPUT')el.value='';else el.textContent='';}
   document.getElementById('transfer-more-accounts').hidden=true;
@@ -1297,6 +1419,8 @@ function renderCase(){
   if(!activeCase)return;const c=activeCase;
   document.getElementById('case-title').textContent=categoryLabel(c.category)+' — '+(c.anonymous?t('Anoniem'):c.name||t('Naam nog niet bevestigd'));
   document.getElementById('case-heading').textContent=statusLabel(c.archived_at?'archived':c.status)+(c.contact_email?' · '+c.contact_email:'');
+  document.getElementById('case-heading').insertAdjacentHTML('beforeend',caseNumberHtml(c.id));
+  document.getElementById('case-archive').className='archive-btn';
   document.getElementById('case-original').textContent=c.message;
   document.getElementById('case-thread').innerHTML=c.messages.map(m=>'<div class="case-message '+m.author_role+'"><small>'+esc(m.author_role==='admin'?t('Beheerder')+(m.author_name?' – '+m.author_name:''):c.anonymous?t('Anoniem'):m.author_name||t('Gebruiker'))+' · '+esc(formatTimestamp(m.created_at))+(m.legacy?' · '+t('Bestaand bericht'):'')+'</small>'+esc(m.body)+'</div>').join('');
   document.getElementById('case-more').hidden=!c.more;
@@ -1307,6 +1431,12 @@ function renderCase(){
   document.getElementById('case-save-status').hidden=!!c.archived_at;
   document.getElementById('case-archive').hidden=!!c.archived_at||c.status!=='afgehandeld';
   document.getElementById('case-reopen').hidden=!c.archived_at;
+  setCaseBusy(caseBusy);
+}
+function setCaseBusy(busy){
+  caseBusy=busy;
+  for(const button of document.querySelectorAll('#case-admin-controls button'))button.disabled=busy;
+  for(const id of ['case-status','case-category','case-send'])document.getElementById(id).disabled=busy||!!activeCase?.archived_at;
 }
 async function markCaseRead(){
   if(!activeCase?.messages.length)return;
@@ -1322,24 +1452,24 @@ async function loadMoreCaseMessages(){
   catch(error){document.getElementById('case-error').textContent=explainError(error);}
 }
 async function replyCase(){
-  if(!activeCase||!requireProfile())return;
-  const button=document.getElementById('case-send');button.disabled=true;
+  if(!activeCase||caseBusy||!requireProfile())return;
+  setCaseBusy(true);
   try{const id=activeCase.id;await rpc('han_reply_case',{item_id:id,message:document.getElementById('case-reply').value.trim(),expected_version:activeCase.version});await openCase(id);await refreshAfterChange(true);}
-  catch(error){document.getElementById('case-error').textContent=explainError(error);if(error.message==='STALE_ITEM')await refreshOpenCase();}
-  finally{button.disabled=false;}
+  catch(error){document.getElementById('case-error').textContent=explainError(error);if(error.message==='STALE_ITEM'){setCaseBusy(false);await refreshOpenCase();}}
+  finally{setCaseBusy(false);}
 }
 async function manageCase(action){
-  if(!activeCase)return;
-  const buttons=[...document.querySelectorAll('#case-admin-controls button')];buttons.forEach(b=>b.disabled=true);
+  if(!activeCase||caseBusy)return;
+  setCaseBusy(true);
   try{const id=activeCase.id;await rpc('han_manage_case',{item_id:id,expected_version:activeCase.version,new_status:document.getElementById('case-status').value,category:document.getElementById('case-category').value,action});await openCase(id);await refreshAfterChange(true);}
-  catch(error){document.getElementById('case-error').textContent=explainError(error);if(error.message==='STALE_ITEM')await refreshOpenCase();}
-  finally{buttons.forEach(b=>b.disabled=false);}
+  catch(error){document.getElementById('case-error').textContent=explainError(error);if(error.message==='STALE_ITEM'){setCaseBusy(false);await refreshOpenCase();}}
+  finally{setCaseBusy(false);}
 }
 async function refreshOpenCase(){
-  if(!activeCase||!document.getElementById('case-dialog').open)return;
+  if(caseBusy||!activeCase||!document.getElementById('case-dialog').open)return;
   const id=activeCase.id,data=await rpc('han_case_thread',{item_id:id});
-  if(activeCase?.id!==id)return;
-  if(data.case.version!==activeCase.version){activeCase={...data.case,messages:data.messages,more:data.messages.length===100};renderCase();await markCaseRead();}
+  if(caseBusy||activeCase?.id!==id)return;
+  if(data.case.version>activeCase.version){activeCase={...data.case,messages:data.messages,more:data.messages.length===100};renderCase();await markCaseRead();}
 }
 async function loadNotifications(){
   const data=await rpc('han_notifications');notificationItems=data.items;notificationUnread=data.unread;
@@ -1348,8 +1478,12 @@ async function loadNotifications(){
   if(document.getElementById('notification-dialog').open)renderNotifications();
 }
 const notificationLabels={booking_by_admin:'Een beheerder heeft voor jou gereserveerd.',transfer_in:'Een item is aan jou overgedragen.',transfer_out:'Een item is van jouw account overgedragen.',request_approved:'Je reserveringsverzoek is goedgekeurd.',request_rejected:'Je reserveringsverzoek is afgewezen.',role_approved:'Je rolverzoek is goedgekeurd.',role_rejected:'Je rolverzoek is afgewezen.',booking_changed:'Een beheerder heeft je reservering gewijzigd.',booking_cancelled:'Een beheerder heeft je reservering geannuleerd.',case_reply:'Een beheerder heeft gereageerd op je gesprek.',request_new:'Nieuw reserveringsverzoek.',role_new:'Nieuw rolverzoek.',case_new:'Nieuwe vraag, klacht of tip.',case_user_reply:'Nieuwe reactie van een gebruiker.'};
+function notificationText(n){
+  if(n.event_type==='case_archived')return categoryLabel(n.details?.category)+' '+t('met casenummer')+' '+n.item_id+' '+t('is door een beheerder gearchiveerd.');
+  return t(notificationLabels[n.event_type]||t('Melding'));
+}
 function renderNotifications(){
-  document.getElementById('notification-list').innerHTML=notificationItems.map((n,index)=>'<button class="notification-item '+(!n.read_at?'unread':'')+'" data-onclick="openNotification('+index+')">'+esc(t(notificationLabels[n.event_type]||t('Melding')))+'<small>'+esc(formatTimestamp(n.created_at))+' · '+esc(statusLabel(n.current_status))+'</small>'+(!n.accessible?'<small>'+t('Je hebt geen toegang meer tot dit item.')+'</small>':'')+'</button>').join('')||'<p class="dialog-content">'+t('Geen meldingen.')+'</p>';
+  document.getElementById('notification-list').innerHTML=notificationItems.map((n,index)=>'<button class="notification-item '+(!n.read_at?'unread':'')+'" data-onclick="openNotification('+index+')">'+esc(notificationText(n))+'<small>'+esc(formatTimestamp(n.created_at))+' · '+esc(statusLabel(n.current_status))+'</small>'+(!n.accessible?'<small>'+t('Je hebt geen toegang meer tot dit item.')+'</small>':'')+'</button>').join('')||'<p class="dialog-content">'+t('Geen meldingen.')+'</p>';
   document.getElementById('notification-more').hidden=notificationItems.length===0||notificationItems.length%50!==0;
 }
 async function openNotifications(){try{await loadNotifications();renderNotifications();document.getElementById('notification-dialog').showModal();}catch(error){showNotice(explainError(error),'error');}}
@@ -1774,6 +1908,16 @@ deze ruimte is op dit tijdstip al gereserveerd.\tthis room is already reserved a
 `.trim().split('\n').map(line=>line.split('\t')));
 const ERROR_TEXT={PROFILE_REQUIRED:'Vul eerst je profiel aan.',NAME_INVALID:'Vul je voor- en achternaam in voordat je een reservering of verzoek indient.',OWNER_REQUIRED:'Kies eerst een account.',STALE_ITEM:'Dit item is intussen gewijzigd. Controleer de nieuwe gegevens en probeer opnieuw.',CASE_ARCHIVED:'Dit gesprek is gearchiveerd en alleen leesbaar.',CASE_UNAVAILABLE:'Dit gesprek is niet beschikbaar.',MESSAGE_UNAVAILABLE:'Dit bericht is niet beschikbaar.',CATEGORY_REQUIRED:'Kies een type melding.',EMAIL_INVALID:'Vul een geldig contact-e-mailadres in.',ARCHIVE_RESOLVED_ONLY:'Alleen afgehandelde gesprekken kunnen worden gearchiveerd.',APP_REFRESH_REQUIRED:'Deze versie is verouderd. Ververs de pagina.',NOTIFICATION_UNAVAILABLE:'Deze melding is niet beschikbaar.'};
 Object.assign(UI_EN,{
+  'Organisatie/afdeling voor import':'Organisation/department for import',
+  'Verplicht als de importregel geen organisatie of afdeling bevat. Maak na wijzigen opnieuw een preview.':'Required if an import row has no organisation or department. Generate a new preview after changes.',
+  'Alle':'All','Casenummer':'Case ID','Kopiëren':'Copy','Filters wissen':'Clear filters',
+  'Type':'Type','Naam':'Name','Datum':'Date','Ruimte':'Room','Reserveringen':'Reservations','Verzoeken':'Requests',
+  'Geen resultaten voor deze filters.':'No results match these filters.',
+  'Casenummer gekopieerd.':'Case ID copied.','Selecteer en kopieer het casenummer.':'Select and copy the case ID.',
+  'Vul organisatie/afdeling in.':'Enter the organisation/department.',
+  'Organisatie/afdeling is verplicht.':'Organisation/department is required.',
+  'Melding gearchiveerd. De indiener heeft een melding ontvangen.':'Case archived. The submitter has received a notification.',
+  'met casenummer':'with case ID','is door een beheerder gearchiveerd.':'has been archived by an administrator.',
   'Vul dit verplichte veld in.':'Please fill in this required field.',
   'Vul een geldig e-mailadres in.':'Enter a valid email address.',
   'Controleer de ingevulde waarde.':'Check the entered value.',

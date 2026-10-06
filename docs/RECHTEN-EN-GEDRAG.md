@@ -5,7 +5,8 @@
 | Handeling | Uitgelogd | Extern | Intern | Admin |
 | --- | --- | --- | --- | --- |
 | Actieve ruimtes en geschoonde dagbezetting | Nee | Ja | Ja | Ja |
-| Naam en organisatie/afdeling bij bevestigde bezetting | Nee | Ja | Ja | Ja |
+| Naam bij bezetting | Nee | Eigen | Eigen | Alle |
+| Organisatie/afdeling bij bezetting | Nee | Eigen | Alle | Alle |
 | Details bevestigde reserveringen/verzoeken | Nee | Eigen | Eigen | Alle |
 | Profiel automatisch aanmaken | Nee | Eigen, altijd extern | Bestaande rol behouden | Bestaande rol behouden |
 | Eigen rol rechtstreeks verhogen | Nee | Nee | Nee | Geen browserfunctie |

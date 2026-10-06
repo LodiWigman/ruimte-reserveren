@@ -8,6 +8,7 @@ export const publicFiles=['index.html','han-logo.svg'];
 export const releaseFiles=[...publicFiles,'vercel.json','package.json','pnpm-lock.yaml',
   'SQL/basis.sql','SQL/migrations/20260922151039_reservation_workflows.sql',
   'SQL/migrations/20260929192403_connectr_profiles_conversations.sql',
+  'SQL/migrations/20261006110904_overview_cases_filters.sql','tests/overview-cases.mjs',
   'tests/security-assessment.mjs','tests/security-browser.mjs','tests/security-imports.mjs',
   'tests/browser.mjs','tests/db-harness.mjs','tests/build-public.mjs','tests/release-check.mjs',
   'tests/release-build.mjs','tests/verify-local.mjs','tests/prepare-security-headers.mjs',

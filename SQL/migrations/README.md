@@ -1,5 +1,13 @@
 # Toekomstige migraties
 
+## Voorbereide wijziging van 6 oktober 2026
+
+`20261006110904_overview_cases_filters.sql` is met Supabase CLI gegenereerd en
+volgt op de inmiddels gepubliceerde Connectr-migratie. Deze nieuwe migratie is
+nog niet live: eindgoedkeuring is nodig. Zij behoudt bestaande gegevens en IDs.
+Test met `node tests/overview-cases.mjs`; de browsertest past haar eveneens toe.
+Onderstaande informatie over de oudere voorbereiding is historisch.
+
 **Publicatie na eindgoedkeuring van het [actuele overzicht](../../docs/PUBLICATIEKLAAR-2026-10-01.md).**
 De bestaande Clerk-testomgeving
 blijft gebruikt. De onderstaande nog niet uitgevoerde Connectr-migratie bevat ook

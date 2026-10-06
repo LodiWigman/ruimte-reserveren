@@ -2,7 +2,7 @@
 // The old live baseline remains visible; release regressions must be PROTECTED.
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
-import {startDatabase,applyBasis,applyConnectr,asUser} from './db-harness.mjs';
+import {startDatabase,applyBasis,applyConnectr,applyOverviewUpdates,asUser} from './db-harness.mjs';
 const env=await startDatabase(),db=env.db,results=[];
 async function check(name,fn,kind='PROTECTED'){
   try{await fn();results.push({name,result:kind});console.log(kind+' '+name);}
@@ -22,6 +22,7 @@ try{
     assert.equal(rows[0].user_id,'user_victim');
   },'OBSERVED');
   await applyConnectr(db);
+  await applyOverviewUpdates(db);
   for(const id of ['admin','victim','attacker'])await rpc('user_'+id,'han_save_profile',{first_name:id,last_name:'Person'});
   const booking=(await rpc('user_admin','han_admin_book',{items:[item],owner_id:'user_victim'})).ids[0];
   const caseId=await rpc('user_victim','han_create_case',{category:'complaint',anonymous:true,message:'Confidential anonymous message',contact_email:'private@example.invalid'});

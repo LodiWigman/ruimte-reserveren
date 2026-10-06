@@ -3,7 +3,7 @@ import {spawn} from 'node:child_process';
 import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {releaseFiles} from './release-check.mjs';
-const checks=['frontend','database','workflows','reset','connectr','security-assessment','browser','validation','security-browser','security-imports','prepare-security-headers'];
+const checks=['frontend','database','workflows','reset','connectr','overview-cases','security-assessment','browser','validation','security-browser','security-imports','prepare-security-headers'];
 const results=[];
 await mkdir('test-results',{recursive:true});
 for(const name of checks){

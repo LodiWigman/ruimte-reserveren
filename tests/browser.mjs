@@ -3,12 +3,13 @@
 import assert from 'node:assert/strict';
 import {readFile,mkdir} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
-import {startDatabase,applyBasis,applyConnectr,asUser} from './db-harness.mjs';
+import {startDatabase,applyBasis,applyConnectr,applyOverviewUpdates,asUser} from './db-harness.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const env=await startDatabase();
 await applyBasis(env.db);
 await env.db.query("INSERT INTO public.profiles(id,display_name,role) VALUES('user_admin','Beheerder','admin'),('user_intern','Interne gebruiker','intern'),('user_extern','Externe gebruiker','extern')");
 await applyConnectr(env.db);
+await applyOverviewUpdates(env.db);
 for(const role of ['admin','intern','extern'])await asUser(env.db,'user_'+role,'SELECT public.han_save_profile($1,$2)',[role,'Testpersoon']);
 const html=await readFile('index.html','utf8');
 const logo=await readFile('han-logo.svg','utf8');
@@ -49,7 +50,9 @@ async function api(route){
   await route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
 }
 try{
-  for(const viewport of [{width:1365,height:1000},{width:390,height:844}]){
+  const viewports=[{width:1365,height:1000},{width:390,height:844}].filter(v=>!process.env.TEST_VIEWPORT||String(v.width)===process.env.TEST_VIEWPORT);
+  assert.ok(viewports.length,'unknown test viewport');
+  for(const viewport of viewports){
     const page=await browser.newPage({viewport});const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('dialog',dialog=>dialog.accept());
@@ -84,6 +87,7 @@ try{
       await page.locator('#f-room').selectOption('W0.03');
       await page.locator('#f-date').fill(date);await page.locator('#f-start').fill('09:00');await page.locator('#f-end').fill('10:00');
       await page.locator('#f-persons').fill('2');
+      await page.locator('#f-organization').fill('HAN testafdeling');
     };
     await env.db.query("UPDATE public.profiles SET name_confirmed_at=NULL,first_name=NULL,last_name=NULL WHERE id='user_missing'");
     await login('missing');
@@ -102,8 +106,10 @@ try{
     await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 verzoek'));
     await page.getByRole('button',{name:'Vragen/klachten',exact:true}).click();await page.locator('#support-message').fill('Testvraag vanuit de browser');await page.locator('#support-submit-btn').click();
     await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('bericht is ingediend'));
+    assert.match(await page.locator('#app-notice').innerText(),/Casenummer: [0-9a-f-]{36}/);
     await login('admin');await page.getByRole('button',{name:'Beheer',exact:true}).click();
-    await page.locator('#admin-booking-requests .approve-btn').first().click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('verzoek(en) verwerkt'));
+    const requestId=await page.evaluate(day=>adminBookingRequests.find(r=>r.date===day&&r.userId==='user_extern').id,day);
+    await page.locator('#admin-booking-requests .approve-btn[data-onclick*="'+requestId+'"]').first().click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('verzoek(en) verwerkt'));
     const support=page.locator('#admin-support-messages .request-card').first();
     await support.getByRole('button',{name:'Gesprek openen'}).click();
     await page.locator('#case-reply').fill('Antwoord vanuit de browser');await page.locator('#case-send').click();
@@ -111,6 +117,7 @@ try{
     await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
     const importDay=viewport.width===390?'2031-02-10':'2031-01-10';
     const csv=Buffer.from('naam;ruimte;datum;start;einde;omschrijving\nImport test;W0.03;'+importDay+';09:00;10:00;"regel 1\nregel 2"\n');
+    await page.locator('#import-organization').fill('HAN import');
     await page.locator('#import-file').setInputFiles({name:'test.csv',mimeType:'text/csv',buffer:csv});
     await page.waitForFunction(()=>!document.querySelector('#import-confirm-btn').disabled);
     await page.locator('#import-confirm-btn').click();
@@ -173,7 +180,7 @@ try{
     assert.equal(await mySeries.getAttribute('open'),null);await mySeries.locator('summary').click();
     await page.screenshot({path:`test-results/reeks-${viewport.width}.png`,fullPage:true});
     await page.getByRole('button',{name:'Overzicht',exact:true}).click();await page.locator('#date-picker').fill(seriesDay);
-    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent==='Mijn verzoek');
+    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent.startsWith('Mijn verzoek'));
     await page.locator('.booking-block.mine').click();
     assert.equal(await page.locator('#booking-dialog').isVisible(),true);
     await page.locator('#f-desc').fill('Aangepast vanuit het overzicht');await page.locator('#edit-scope').selectOption('series');
@@ -185,18 +192,18 @@ try{
     assert.equal(await page.locator('#admin-booking-requests .series-group').filter({hasText:seriesDay}).count(),0);
     assert.equal(await page.locator('#all-bookings-admin .series-group').filter({hasText:seriesDay}).count(),1);
     await page.getByRole('button',{name:'Overzicht',exact:true}).click();
-    await page.waitForFunction(()=>document.querySelector('.booking-block')?.textContent==='Gereserveerd');
+    await page.waitForFunction(()=>document.querySelector('.booking-block')?.textContent.startsWith('Planning & evenementen'));
     await page.locator('.booking-block').first().click();assert.equal(await page.locator('#booking-dialog').isVisible(),true);
     await page.locator('#f-desc').fill('Adminwijziging');await page.locator('#edit-scope').selectOption('series');await page.locator('#submit-btn').click();
     await page.waitForFunction(()=>!document.querySelector('#booking-dialog').open);
     await login('intern');await page.getByRole('button',{name:'Intern/admin rol aanvraag',exact:true}).click();
     assert.deepEqual(await page.locator('#rr-role option').allTextContents(),['Admin']);
     await page.getByRole('button',{name:'Overzicht',exact:true}).click();await page.locator('.booking-block').first().click();
-    assert.doesNotMatch(await page.locator('#details-content').innerText(),/Planning & evenementen/,'another user only sees occupancy');
+    assert.match(await page.locator('#details-content').innerText(),/Planning & evenementen/,'internal users see organisation without gaining edit access');
     assert.equal(await page.locator('#booking-dialog').isVisible(),false);
     await page.locator('#details-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
     await login('extern');await page.getByRole('button',{name:'Overzicht',exact:true}).click();
-    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent==='Mijn reservatie');
+    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent.startsWith('Mijn reservatie'));
     await page.locator('.booking-block.mine').first().click();
     assert.equal(await page.locator('#external-edit-note').isVisible(),true);
     await page.locator('#f-start').fill('09:15');await page.locator('#submit-btn').click();
@@ -207,7 +214,7 @@ try{
     await page.screenshot({path:`test-results/wijzigen-${viewport.width}.png`});
     await page.locator('#submit-btn').click();await page.waitForFunction(()=>!document.querySelector('#booking-dialog').open);
     assert.match(await page.locator('#app-notice').innerText(),/nieuw verzoek/);
-    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent==='Mijn verzoek');
+    await page.waitForFunction(()=>document.querySelector('.booking-block.mine')?.textContent.startsWith('Mijn verzoek'));
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'nieuwe tabs passen op mobiel');
     // New HAN@Connectr workflows through their actual controls.
     await page.locator('#profile-button').click();
@@ -220,7 +227,17 @@ try{
     await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
     await page.getByRole('button',{name:'Beheer',exact:true}).click();
     const guestCard=page.locator('#all-bookings-admin .booking-card').filter({hasText:'Gast zonder account'});
-    await guestCard.getByRole('button',{name:'Overdragen',exact:true}).click();
+    assert.equal(await guestCard.getByRole('button',{name:'Overdragen',exact:true}).count(),1);
+    await page.locator('#bookings-filters select').nth(0).selectOption({label:'Gast zonder account'});
+    await page.locator('#bookings-filters select').nth(1).selectOption('W0.03');
+    await page.locator('#bookings-filters select').nth(2).selectOption(guestDay);
+    assert.equal(await page.locator('#all-bookings-admin .booking-card').count(),1);
+    await page.locator('#bookings-filters button').click();
+    await page.getByRole('button',{name:'Overzicht',exact:true}).click();
+    await page.locator('#date-picker').fill(guestDay);await page.locator('#date-picker').dispatchEvent('change');
+    await page.waitForFunction(()=>document.querySelector('.booking-block')?.textContent.includes('HAN testafdeling'));
+    await page.locator('.booking-block').first().click();
+    await page.locator('#overview-transfer').click();
     await page.locator('#transfer-account-query').fill('user_extern');
     await page.locator('#transfer-account-results .account-result').click();
     await page.getByRole('button',{name:'Overdracht controleren',exact:true}).click();
@@ -251,11 +268,44 @@ try{
     await page.waitForFunction(()=>document.querySelector('#case-thread').textContent.includes('Reactie beheerder'));
     await page.locator('#case-status').selectOption('afgehandeld');await page.locator('#case-save-status').click();
     await page.waitForFunction(()=>!document.querySelector('#case-archive').hidden);
-    await page.locator('#case-archive').click();await page.waitForFunction(()=>!document.querySelector('#case-reopen').hidden);
+    await page.waitForFunction(()=>!document.querySelector('#case-save-status').disabled);
+    const caseId=await page.locator('#case-heading code').innerText();
+    await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    await page.locator('#case-search').fill(caseId);
+    await page.locator('#cases-filters select').first().selectOption('tip');
+    await page.locator('#cases-filters select').nth(1).selectOption('afgehandeld');
+    await page.waitForFunction(()=>document.querySelectorAll('#admin-support-messages .request-card').length===1);
+    await page.locator('#admin-support-messages .archive-btn').click();
+    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('De indiener heeft een melding'));
+    await page.locator('#cases-filters select').nth(1).selectOption('archived');
+    await page.locator('#admin-support-messages').getByRole('button',{name:'Gesprek openen',exact:true}).click();
+    await page.waitForFunction(()=>!document.querySelector('#case-reopen').hidden);
     assert.equal(await page.locator('#case-reply-form').isVisible(),false);
     await page.screenshot({path:`test-results/connectr-archive-${viewport.width}.png`,fullPage:true});
-    await page.locator('#case-reopen').click();await page.waitForFunction(()=>document.querySelector('#case-reopen').hidden);
+    await page.locator('#case-reopen').click();await page.waitForFunction(()=>document.querySelector('#case-reopen').hidden&&!document.querySelector('#case-save-status').disabled);
     await page.locator('#case-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    await page.locator('#cases-filters button').click();
+    await login('extern');await page.locator('#notification-button').click();
+    await page.locator('#notification-dialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#notification-list').innerText(),new RegExp(caseId+'.*gearchiveerd'));
+    await page.locator('#notification-dialog').getByRole('button',{name:'Sluiten',exact:true}).click();
+    await page.evaluate(async day=>{
+      const item={room_id:'W0.03',date:day,start_time:'09:00',end_time:'10:00',organization:'HAN overlap',occasion:'Overleg'};
+      await rpc('han_create_bookings',{items:[item]});await rpc('han_create_bookings',{items:[{...item,start_time:'09:30',end_time:'10:30'}]});
+      await refreshAfterChange();
+    },day);
+    await page.getByRole('button',{name:'Mijn verzoeken/reserveringen',exact:true}).click();
+    await page.locator('#mine-filters select').nth(0).selectOption('request');
+    await page.locator('#mine-filters select').nth(1).selectOption('W0.03');
+    await page.locator('#mine-filters select').nth(2).selectOption(day);
+    assert.equal(await page.locator('#my-bookings-list .booking-card').count(),2);
+    await login('admin');await page.getByRole('button',{name:'Overzicht',exact:true}).click();
+    await page.locator('#date-picker').fill(day);await page.locator('#date-picker').dispatchEvent('change');
+    await page.waitForFunction(()=>document.querySelectorAll('.booking-block').length===3);
+    const rects=await page.locator('.booking-block').evaluateAll(items=>items.map(el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};}));
+    for(let i=0;i<rects.length;i++)for(let j=0;j<i;j++)assert.ok(rects[i].top>=rects[j].bottom||rects[j].top>=rects[i].bottom||rects[i].left>=rects[j].right||rects[j].left>=rects[i].right);
+    await page.screenshot({path:`test-results/overlap-${viewport.width}.png`,fullPage:true});
+    await page.getByRole('button',{name:'Beheer',exact:true}).click();
     const roomDraft=page.locator('#admin-rooms-list .admin-room-row input').nth(1),noteDraft=page.locator('.admin-note').first();
     const roomBefore=await roomDraft.inputValue();
     await roomDraft.fill('Nog niet opgeslagen');await noteDraft.fill('Conceptnotitie');
@@ -305,6 +355,7 @@ try{
   console.log(`BROWSER: ${passed} viewportscenario's geslaagd; alle netwerkverzoeken lokaal afgehandeld`);
 }catch(error){
   console.error('BROWSER FAILURE:',error);
+  for(const page of browser.contexts().flatMap(context=>context.pages()))console.error('TEST STATE',await page.evaluate(()=>({filters:listFilters,cases:adminSupportMessages.map(c=>({id:c.id,status:c.status,category:c.category})),notice:document.getElementById('app-notice').textContent})).catch(()=>null));
   for(const page of browser.contexts().flatMap(context=>context.pages()))await page.screenshot({path:'test-results/connectr-failure.png'}).catch(()=>{});
   throw error;
 }finally{

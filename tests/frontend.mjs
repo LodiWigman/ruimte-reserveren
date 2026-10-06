@@ -89,7 +89,7 @@ test('DST niet-bestaande en dubbele kloktijden afgewezen',()=>{
 });
 vm.runInContext("rooms=[{id:'W0.03',name:'Vergaderruimte',capacity:8},{id:'W1.03',name:'Projectruimte',capacity:12}]",context);
 test('import normalisatie behoudt ICS reeks-ID',()=>{
-  const rows=call('prepareImportRows',call('parseIcs',ics('DTSTART:20300701T090000Z','DTEND:20300701T100000Z','RRULE:FREQ=DAILY;COUNT=2')));
+  const rows=call('prepareImportRows',call('parseIcs',ics('DTSTART:20300701T090000Z','DTEND:20300701T100000Z','RRULE:FREQ=DAILY;COUNT=2')),'HAN');
   assert.ok(rows[0].recurrenceId);assert.equal(rows[0].recurrenceId,rows[1].recurrenceId);assert.ok(rows.every(r=>r.valid));
 });
 test('dubbele regels, ambigue ruimte en te lange tekst worden gemeld',()=>{
@@ -99,6 +99,34 @@ test('dubbele regels, ambigue ruimte en te lange tekst worden gemeld',()=>{
   assert.equal(call('prepareImportRows',[{...row,naam:'x'.repeat(121)}])[0].valid,false);
 });
 test('nul RPC-resultaat veroorzaakt fout',()=>{});
+test('overlappende intervallen krijgen afzonderlijke rijen, aansluitende delen mogen een rij delen',()=>{
+  const input=[{id:'a',start:'09:00',end:'11:00'},{id:'b',start:'09:00',end:'10:00'},{id:'c',start:'10:30',end:'12:00'},{id:'d',start:'12:00',end:'13:00'}];
+  const result=call('layoutTimeline',input);
+  for(const a of result.items)for(const b of result.items){if(a.item.id!==b.item.id&&a.item.start<b.item.end&&a.item.end>b.item.start)assert.notEqual(a.lane,b.lane);}
+  assert.equal(result.lanes,2);assert.equal(input[0].id,'a');
+});
+test('gecombineerde filters gebruiken reserveringsdatum en behouden alleen passende items',()=>{
+  const items=[{kind:'request',roomId:'A',date:'2030-01-01',name:'Anna'},{kind:'booking',roomId:'A',date:'2030-01-01',name:'Anna'},{kind:'request',roomId:'B',date:'2030-01-02',name:'Bert'}];
+  assert.equal(call('filterBookings',items,{kind:'request',roomId:'A',date:'2030-01-01'}).length,1);
+  assert.equal(call('filterBookings',items,{name:'Bert',roomId:'A'}).length,0);
+  assert.equal(call('filterBookings',items,{}).length,3);
+});
+test('casenummer doorzoekt ook archief en blijft combineerbaar met type en status',()=>{
+  const cases=[{id:'abc',category:'complaint',status:'afgehandeld',archived_at:'2030-01-01'},{id:'def',category:'question',status:'open',archived_at:null}];
+  assert.equal(call('filterCases',cases,{query:'ABC'},false)[0].id,'abc');
+  assert.equal(call('filterCases',cases,{query:'abc',category:'question'},false).length,0);
+  assert.equal(call('filterCases',cases,{status:'archived'},false).length,1);
+  assert.equal(call('filterCases',cases,{},false)[0].id,'def');
+});
+test('import vereist organisatie en neemt kolom of expliciet ingevulde standaard over',()=>{
+  const row={naam:'Naam',ruimte:'W0.03',datum:'2030-01-01',start:'09:00',end:'10:00'};
+  assert.equal(call('prepareImportRows',[row])[0].valid,false);
+  assert.equal(call('prepareImportRows',[row],'HAN')[0].organization,'HAN');
+  assert.equal(call('prepareImportRows',[{...row,afdeling:'Faculteit'}],'HAN')[0].organization,'Faculteit');
+});
+test('archiefmelding noemt expliciet type, casenummer en archivering',()=>{
+  assert.match(call('notificationText',{event_type:'case_archived',item_id:'abc',details:{category:'complaint'}}),/Klacht.*abc.*gearchiveerd/);
+});
 client.rpc=async()=>({data:0,error:null});await assert.rejects(()=>call('rpc','test'),/Geen resultaat/);
 const all=Array.from({length:1201},(_,i)=>({id:String(i).padStart(5,'0')}));
 client.from=()=>{
@@ -120,4 +148,19 @@ test('Engelse systeemteksten en Nederlandse vrije tekst blijven gescheiden',()=>
 client.rpc=async()=>{vm.runInContext("currentUser={id:'user_changed'}",context);return {data:{private:'previous account'},error:null};};
 await assert.rejects(()=>call('rpc','test'),/SESSION_CHANGED/);
 passed++;console.log('PASS late API-resultaten worden geweigerd na een accountwisseling');
+element('case-dialog').open=true;
+vm.runInContext("activeCase={id:'case',version:4,status:'afgehandeld'};caseBusy=false",context);
+client.rpc=async()=>({data:{case:{id:'case',version:3,status:'open'},messages:[]},error:null});
+await call('refreshOpenCase');
+assert.equal(vm.runInContext('activeCase.status',context),'afgehandeld');
+passed++;console.log('PASS een vertraagd oud gesprekresultaat draait een opgeslagen status niet terug');
+let finishRead;
+client.rpc=()=>new Promise(resolve=>{finishRead=resolve;});
+const refreshing=call('refreshOpenCase');
+vm.runInContext('caseBusy=true',context);
+finishRead({data:{case:{id:'case',version:5,status:'open'},messages:[]},error:null});
+await refreshing;
+assert.equal(vm.runInContext('activeCase.version',context),4);
+vm.runInContext('caseBusy=false',context);
+passed++;console.log('PASS achtergrondverversing onderbreekt een lopende gesprekshandeling niet');
 console.log(`FRONTEND: ${passed} scenario's geslaagd`);

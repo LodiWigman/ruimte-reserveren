@@ -1,5 +1,12 @@
 # Actuele databasebasis
 
+Voor de verbeteringen van 6 oktober 2026 volgt na de Connectr-migratie:
+`migrations/20261006110904_overview_cases_filters.sql`.
+Deze voegt verplichte organisatie bij nieuwe reserveringen/verzoeken en de
+archiefnotificatie toe, en toont organisatie aan interne gebruikers in de bezetting.
+De bestaande installatie heeft de Connectr-migratie al; pas na eindgoedkeuring
+uitsluitend de nieuwe migratie toe. Er worden geen testgegevens verwijderd.
+
 Gebruik de genummerde scripts in `archive/` niet voor installatie of herstel.
 Die combineren verschillende ontwikkelfasen en bevatten bekende fouten.
 
