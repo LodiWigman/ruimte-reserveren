@@ -1,5 +1,7 @@
 # HAN ruimtereserveringen
 
+- [Introducties en hulp: lokale voorbereiding van 13 oktober 2026](docs/ONBOARDING-2026-10-13.md)
+
 Eén `index.html`, Clerk voor login, Supabase/PostgreSQL voor gegevens en rechten.
 Hosting via Vercel, automatisch gekoppeld aan `LodiWigman/ruimte-reserveren`, branch `main`.
 

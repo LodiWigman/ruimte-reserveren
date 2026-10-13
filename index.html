@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-OheuOZc6uTOcT0AFUIQytMaJKyMkWmQTRs3Rxy1qNPE=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-1iu6ubH/UNbox6sJZiKTbKQqB1lOkdquLb9UwzB1r8Y=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAN@Connectr — Ruimtereserveringen</title>
@@ -35,6 +35,9 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
 .case-number code{user-select:all;overflow-wrap:anywhere}
 .timeline{min-width:0}.room-row>div{min-width:0}
 @media(max-width:760px){.timeline{display:flex;flex-direction:column;gap:8px;height:auto!important;padding:6px}.booking-block{position:relative;left:auto!important;top:auto!important;width:100%!important;min-height:34px;height:auto}.booking-block span{white-space:normal;overflow-wrap:anywhere}.timeline-hours{display:none}}
+/* Help stays independent of booking data and uses native dialog focus handling. */
+.help-card{background:#fff;border:1px solid #e3d8df;border-left:4px solid var(--magenta);border-radius:12px;padding:18px 22px;margin:0 0 20px;max-width:850px}.help-card h2{font-family:Syne,sans-serif;font-size:17px;margin-bottom:6px}.help-card ul{padding-left:20px;margin:8px 0 14px}.help-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.help-actions button{min-height:42px}.help-card[hidden],.help-tip[hidden],#booking-outcome[hidden]{display:none}.help-tip{background:var(--magenta-light);border-radius:8px;padding:12px;margin:12px 0}.help-admin{margin-bottom:14px;max-width:760px}.help-admin summary{cursor:pointer;font-weight:600}.help-admin p{padding:8px 0;color:var(--gray-600)}
+#help-dialog{width:min(560px,calc(100vw - 28px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:18px;box-shadow:0 24px 80px #0004}#help-dialog::backdrop{background:#15101980}#help-dialog.help-tour{position:fixed;inset:auto 16px 16px auto;margin:0;width:min(440px,calc(100vw - 32px));max-height:46dvh}#help-dialog.help-tour::backdrop{background:#15101922}.help-body{padding:28px}.help-eyebrow{color:var(--magenta);font-size:12px;font-weight:700;letter-spacing:.6px;margin-bottom:8px}.help-body h2{font-family:Syne,sans-serif;font-size:25px;line-height:1.25;margin-bottom:16px}.help-copy{font-size:15px;line-height:1.7;margin-bottom:22px;white-space:pre-line}.help-progress{display:flex;gap:6px;margin:0 0 20px}.help-progress span{height:4px;flex:1;border-radius:4px;background:var(--gray-200)}.help-progress .active{background:var(--magenta)}.help-skip{display:block;margin-top:18px;background:none;border:0;color:var(--gray-600);text-decoration:underline;padding:6px 0}.help-target{outline:4px solid var(--magenta)!important;outline-offset:5px;border-radius:8px}.help-legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 18px;font-size:12px}.help-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--magenta);margin-right:6px}.help-legend span+span::before{background:var(--green)}#booking-outcome{margin:12px 0;padding:14px;border:1px solid #a3d4bc;border-radius:8px;background:var(--green-light)}#booking-outcome p{margin-bottom:8px}button:focus-visible,summary:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}@media(max-width:560px){.help-body{padding:22px}.help-body h2{font-size:22px}.help-card{padding:16px}.help-actions button{flex:1}.help-copy{font-size:14px}}
 </style>
 </head>
 <body>
@@ -45,6 +48,7 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
     <div class="language-switch" aria-label="Taal / Language"><button id="lang-nl" data-onclick="setLanguage('nl')" aria-pressed="true">NL</button><button id="lang-en" data-onclick="setLanguage('en')" aria-pressed="false">EN</button></div>
     <button class="auth-btn secondary" id="notification-button" data-onclick="openNotifications()" style="display:none" aria-label="Meldingen">&#128276; <span id="notification-count">0</span></button>
     <button class="auth-btn secondary" id="profile-button" data-onclick="openProfile()" style="display:none" data-i18n="Mijn profiel">Mijn profiel</button>
+    <button class="auth-btn secondary" id="help-button" type="button" aria-haspopup="dialog">Hulp</button>
     <div id="auth-signed-out" class="auth-form"><button class="auth-btn" id="login-btn" data-onclick="signInWithPassword()">Inloggen</button><button class="auth-btn secondary" id="register-btn" data-onclick="signUpWithPassword()">Registreren</button></div>
     <div id="auth-signed-in" class="auth-user"><span class="role-badge" id="role-badge">extern</span><span id="auth-user-label"></span><button class="auth-btn secondary" data-onclick="signOut()">Uitloggen</button></div>
   </div>
@@ -112,6 +116,7 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
     <div class="admin-card"><h3>Alle reserveringen</h3><div id="all-bookings-admin"></div></div>
   </div>
 </div>
+<dialog id="help-dialog" aria-labelledby="help-title" aria-describedby="help-copy"><div class="help-body"><p class="help-eyebrow" id="help-eyebrow"></p><div class="help-progress" id="help-progress" aria-hidden="true"></div><h2 id="help-title" tabindex="-1"></h2><p class="help-copy" id="help-copy"></p><div class="help-actions" id="help-actions"></div><button type="button" class="help-skip" id="help-skip"></button></div></dialog>
 <div class="tooltip" id="tooltip"></div>
 <dialog id="profile-dialog" aria-labelledby="profile-title" data-oncancel="preventIncompleteProfileClose(event)"><div class="dialog-content"><h2 id="profile-title">Mijn profiel</h2><p id="profile-help" class="profile-hint"></p><form data-onsubmit="saveProfile()"><div class="form-group"><label for="profile-first">Voornaam *</label><input id="profile-first" autocomplete="given-name" maxlength="60" required></div><div class="form-group"><label for="profile-last">Achternaam *</label><input id="profile-last" autocomplete="family-name" maxlength="60" required></div><button class="save-btn" id="profile-save" type="submit">Naam opslaan</button><button class="edit-btn" id="profile-close" type="button" data-onclick="closeDialog('profile-dialog')">Sluiten</button><button class="edit-btn" type="button" data-onclick="signOut()">Uitloggen</button><p id="profile-error" role="alert"></p></form></div></dialog>
 <dialog id="transfer-dialog" aria-labelledby="transfer-title"><div class="dialog-content"><h2 id="transfer-title">Overdragen</h2><label for="transfer-scope">Welke momenten?</label><select id="transfer-scope" data-onchange="invalidateTransfer()"><option value="single">Alleen dit moment</option><option value="series">Dit en alle volgende momenten</option></select><div class="form-group"><label for="transfer-account-query">Nieuwe eigenaar: profielnaam of exact account-ID</label><input id="transfer-account-query" data-oninput="searchAccounts('transfer')" autocomplete="off"></div><div id="transfer-account-results"></div><button class="edit-btn" id="transfer-more-accounts" hidden data-onclick="searchAccounts('transfer',true)">Meer accounts</button><p id="transfer-selected-account"></p><button class="save-btn" data-onclick="previewTransfer()">Overdracht controleren</button><div id="transfer-summary" class="profile-hint"></div><button class="approve-btn" id="transfer-confirm" data-onclick="confirmTransfer()" disabled>Overdracht bevestigen</button> <button class="edit-btn" data-onclick="closeDialog('transfer-dialog')">Sluiten</button><p id="transfer-error" role="alert"></p></div></dialog>
@@ -138,7 +143,7 @@ let editState=null;
 let importRows=[];
 
 document.addEventListener('DOMContentLoaded', async()=>{
-  initializeLanguage();updateCaseIdentity();
+  initializeLanguage();initializeHelp();updateCaseIdentity();
   updateHeaderDate();
   document.getElementById('f-date').value=todayAmsterdam();
   document.getElementById('date-picker').value=dateStr(currentDate);
@@ -300,14 +305,16 @@ function loadScript(src,attrs){
 let authQueue=Promise.resolve();
 function handleClerkUser(user){
   authQueue=authQueue.then(async()=>{
+    resetHelpSession();
     currentUser=user?{id:user.id,email:getClerkEmail(user),firstName:user.firstName||'',lastName:user.lastName||''}:null;
     currentProfile=null;currentRole='extern';isAdmin=false;clearState();updateAuthUi();
-    if(!currentUser){renderGuestState();return;}
+    switchTabDirect('overzicht');
+    if(!currentUser){renderGuestState();loadHelpProgress();return;}
     try{
       await ensureProfile();await loadProfile();await loadRooms();await refreshAfterChange();
       updateAuthUi();updateBookingMode();
       if(!currentProfile.name_confirmed_at)openProfile();
-      startSharedRefresh();
+      startSharedRefresh();loadHelpProgress();
     }catch(error){clearState();showNotice(t('Gegevens laden mislukt: ')+explainError(error),'error');}
   });
   return authQueue;
@@ -370,16 +377,18 @@ function setAuthBusy(isBusy, label){
 }
 async function signInWithPassword(){
   if(!window.Clerk){ showNotice(t('Clerk is nog niet geladen.'),'error'); return; }
+  clearTimeout(helpState.timer);closeHelp(false);
   window.Clerk.openSignIn();
 }
 async function signUpWithPassword(){
   if(!window.Clerk){ showNotice(t('Clerk is nog niet geladen.'),'error'); return; }
+  clearTimeout(helpState.timer);closeHelp(false);
   window.Clerk.openSignUp();
 }
 async function signOut(){
   // Clear local personal data immediately, even if the identity provider is offline.
   const revoke=currentUser?Promise.resolve(supabaseClient.rpc('han_end_session')).catch(()=>({error:true})):Promise.resolve({error:null});
-  currentUser=null;currentProfile=null;currentRole='extern';isAdmin=false;
+  resetHelpSession();currentUser=null;currentProfile=null;currentRole='extern';isAdmin=false;
   clearState();updateAuthUi();renderGuestState();
   const revocation=await revoke;let providerEnded=true;
   if(window.Clerk)try{await window.Clerk.signOut();}catch{providerEnded=false;}
@@ -456,8 +465,10 @@ function mapBookingRequest(row){ const room=rooms.find(r=>r.id===row.room_id); r
 async function testSupabaseConnection(){ const status=document.getElementById('supabase-status'); status.innerHTML=uiHtml('<div class="status-badge checking"><div class="dot"></div>Verbinding testen...</div>'); try{ const {error}=await supabaseClient.from('rooms').select('id',{count:'exact',head:true}); if(error) throw error; status.innerHTML=uiHtml('<div class="status-badge connected"><div class="dot green"></div>Verbonden met Supabase</div>'); }catch(err){ status.innerHTML=uiHtml('<div class="status-badge error"><div class="dot red"></div>Verbinding mislukt: ')+esc(explainError(err))+'</div>'; } }
 function switchTab(name){ if(!currentUser && name!=='overzicht'){ showNotice(t('Log eerst in om deze tab te gebruiken.'),'error'); return; } if(name==='beheer'&&!isAdmin){ showNotice(t('Alleen admins kunnen beheer openen.'),'error'); return; } if(name==='rollen'){if(isAdmin){showNotice(t('Je hebt al een adminrol.'),'');return;}updateRoleOptions();renderMyRoleRequests();} if(name==='mijn') renderMyBookings(); if(name==='vragen') renderSupportMessages(); if(name==='beheer') renderAdmin(); switchTabDirect(name); }
 function switchTabDirect(name){
+  if(name==='overzicht')helpState.dirty=false;
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='tab-'+name));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-onclick')==="switchTab('"+name+"')"));
+  renderHelpCard();scheduleHelpIntro();
 }
 
 function changeDay(delta){currentDate.setDate(currentDate.getDate()+delta);document.getElementById('date-picker').value=dateStr(currentDate);refreshOverview();}
@@ -533,6 +544,7 @@ async function submitBooking(){
   const room=rooms.find(r=>r.id===form.roomId);
   if(room?.capacity&&Number(form.persons)>room.capacity&&!confirm(t('Meer personen dan de opgegeven capaciteit. Toch doorgaan?')))return;
   if(editState){await submitBookingEdit(form);return;}
+  document.getElementById('booking-outcome')?.remove();
   const btn=document.getElementById('submit-btn');btn.disabled=true;
   try{
     const dates=getRecurrenceDates();
@@ -543,7 +555,8 @@ async function submitBooking(){
       items,owner_id:ownerMode==='account'?selectedAccounts.booking.id:null,
       guest_name:ownerMode==='guest'?document.getElementById('booking-guest-name').value.trim():null});
     await refreshAfterChange();resetBookingForm();
-    showNotice(result.confirmed+t(' bevestigd; ')+result.requested+t(' verzoek(en) ingediend. Controleer je verzoek/reservatie in het overzicht.'),'success');
+    if(!refreshFailure)hideNotice();
+    showBookingOutcome(result,ownerMode);
   }catch(error){showNotice(t('Opslaan mislukt: ')+explainError(error),'error');}
   finally{btn.disabled=false;updateBookingMode();}
 }
@@ -579,6 +592,7 @@ function canEditBooking(b){return !!(currentUser&&b&&(isAdmin||b.userId===curren
 
 function canEditRequest(r){ return currentUser&&r&&r.status==='pending'&&(r.userId===currentUser.id||isAdmin); }
 function startEdit(type,id,scope){
+  document.getElementById('booking-outcome')?.remove();
   document.getElementById('overview-transfer')?.remove();
   const source=type==='booking'?bookings:myBookingRequests.concat(adminBookingRequests),item=source.find(x=>x.id===id);
   if(!item||!(type==='booking'?canEditBooking(item):canEditRequest(item))){showNotice(t('Dit item is niet beschikbaar om te wijzigen. Ververs het overzicht.'),'error');return;}
@@ -1521,9 +1535,284 @@ function startSharedRefresh(){
   clearInterval(sharedRefreshTimer);
   sharedRefreshTimer=setInterval(async()=>{
     if(!currentUser||document.hidden||sharedRefreshBusy)return;sharedRefreshBusy=true;
-    try{await loadProfile();updateAuthUi();await refreshAfterChange(true);await refreshOpenCase();}
+    try{const previousRole=currentRole;await loadProfile();updateAuthUi();await refreshAfterChange(true);await refreshOpenCase();if(previousRole!==currentRole)helpRoleChanged();}
     catch(error){showNotice(explainError(error),'error');}finally{sharedRefreshBusy=false;}
   },15000);
+}
+// Help content: NL/EN pairs are rendered as text, never as executable markup.
+const helpText=(nl,en)=>language==='en'?en:nl;
+function helpGuides(){
+  const h=helpText,external=currentRole==='extern';
+  return {
+    welcome:[
+      [h('Welkom bij HAN@Connectr','Welcome to HAN@Connectr'),h('Bekijk welke ruimtes beschikbaar zijn en vraag een reservering aan. Log in of maak een account aan om te beginnen.','Check room availability and request a booking. Sign in or create an account to get started.')],
+      [h('Een verzoek is nog geen reservering','A request is not a confirmed booking'),h('Als externe gebruiker dien je een verzoek in. Een beheerder beoordeelt dit. Pas na goedkeuring is de ruimte voor jou gereserveerd.\n\nVerzoek indienen → Beoordeling → Bevestigd of afgewezen','External users submit requests. An administrator reviews them. The room is only booked for you after approval.\n\nSubmit request → Review → Confirmed or declined')],
+      [h('Werk je bij HAN@Connectr?','Do you work at HAN@Connectr?'),h('Vraag dan een interne rol aan via “Intern/admin rol aanvraag”. Na goedkeuring kun je vrije ruimtes direct reserveren. Een adminrol is bedoeld voor mensen die het beheer uitvoeren.','Request an internal role through “Internal/admin role request”. Once approved, you can book available rooms directly. An admin role is intended for people who manage this service.')]
+    ],
+    extern:[
+      [h('Je gebruikt de website als externe gebruiker','You are using an external account'),h('Kies een ruimte en tijd in Overzicht of Reserveren. Vul je organisatie/afdeling en gelegenheid in. Je inzending is een verzoek: wacht op goedkeuring voordat je rekent op de ruimte.','Choose a room and time in Overview or Book a room. Enter your organisation/department and occasion. Your submission is a request: wait for approval before relying on the room.')],
+      [h('Volg je verzoek en de reactie','Follow your request and the response'),h('Onder Mijn verzoeken/reserveringen vind je de status en kun je een open verzoek wijzigen of intrekken. Updates vind je ook bij het belletje bovenaan.','Find the status under My requests/reservations, where you can edit or withdraw a pending request. Updates also appear under the bell at the top.')],
+      [h('Een interne rol aanvragen','Requesting an internal role'),h('Ben je medewerker van HAN@Connectr? Vraag een interne rol aan met je functie en een korte reden. Je rechten veranderen pas na goedkeuring door een bestaande admin.','Are you a HAN@Connectr employee? Request an internal role with your job title and a short reason. Your permissions change only after an existing admin approves it.')]
+    ],
+    intern:[
+      [h('Je hebt een interne rol','You have an internal role'),h('Je kunt vrije ruimtes direct reserveren. Is een tijdstip bezet, dan kan je inzending alsnog een verzoek worden. Controleer altijd de uitkomst na indienen.','You can book available rooms directly. If a time is occupied, your submission may still become a request. Always check the result after submitting.')],
+      [h('Houd je reserveringen bij','Keep your bookings up to date'),h('Wijzig of annuleer je eigen reserveringen onder Mijn verzoeken/reserveringen. Bij een herhaling kies je bewust één moment of dit en alle volgende momenten. Bekijk updates via het belletje.','Edit or cancel your own bookings under My requests/reservations. For recurring bookings, choose one occurrence or this and all following occurrences. Check the bell for updates.')]
+    ],
+    admin:[
+      [h('Je hebt een adminrol','You have an admin role'),h('Vrije tijden kun je direct reserveren; bij bezetting kan een verzoek ontstaan. Je kunt ook reserveren voor een bestaand account of voor iemand zonder account. Controleer steeds voor wie je reserveert.','You can book available times directly; occupied times may become requests. You can also book for an existing account or someone without an account. Always check who you are booking for.')],
+      [h('Aanvragen zorgvuldig beoordelen','Review requests carefully'),h('In Beheer beoordeel je reserveringsverzoeken en rolaanvragen. Controleer ruimte, tijd en toelichting. Een rolaanvraag geeft pas na goedkeuring extra rechten. Je kunt je eigen rolaanvraag niet behandelen.','In Administration, review booking and role requests. Check the room, time and explanation. A role request grants extra permissions only after approval. You cannot process your own role request.')],
+      [h('Beheer en ondersteuning','Administration and support'),h('Beheer ook ruimtes, reserveringen en gesprekken. Controleer bij import eerst de preview: één fout houdt het hele bestand tegen. Onder elk beheeronderdeel vind je uitleg. Het belletje toont nieuwe updates.','Manage rooms, bookings and conversations too. Check the import preview first: one error prevents the entire file from being imported. Each administration section has its own help. The bell shows new updates.')]
+    ],
+    overzicht:{title:h('Zo lees je het overzicht','How to read the overview'),steps:[
+      ['.date-nav',h('Kies een datum','Choose a date'),h('Gebruik de pijlen of de datumkiezer om de beschikbaarheid op een andere dag te bekijken.','Use the arrows or date picker to check availability on another day.')],
+      ['#rooms-grid',h('Lees de tijdlijn','Read the timeline'),h('Roze staat voor een bevestigde reservering; groen voor een open verzoek. Een verzoek is nog niet goedgekeurd. Klik op een blok voor de beschikbare details.','Pink means a confirmed booking; green means a pending request. A request has not been approved yet. Select a block to see the available details.')],
+      ['.reserve-btn-small',h('Start bij een ruimte','Start with a room'),h('Klik op Reserveer bij de gewenste ruimte. De ruimte en gekozen dag worden voor je ingevuld; controleer zelf de tijden.','Select Reserve next to the room. The room and selected date are filled in for you; check the times yourself.')]
+    ]},
+    reserveren:{title:h('Een ruimte aanvragen of reserveren','Request or book a room'),steps:[
+      ['#f-room',h('Kies ruimte, datum en tijd','Choose a room, date and time'),h('Vul de verplichte velden in, waaronder organisatie/afdeling. Controleer de capaciteit en reserveer alleen de tijd die je nodig hebt.','Complete the required fields, including organisation/department. Check the capacity and book only the time you need.')],
+      ['#booking-mode',h('Controleer wat je indient','Check what you are submitting'),external?h('Als externe gebruiker dien je altijd eerst een verzoek in. De ruimte is pas gereserveerd na goedkeuring.','As an external user, you always submit a request first. The room is only booked after approval.'):h('Vrije tijden worden direct gereserveerd. Bij bezetting ontstaat een verzoek dat nog beoordeeld moet worden. Controleer de melding na indienen.','Available times are booked directly. Occupied times become a request that still needs review. Check the result after submitting.')],
+      ['.recurrence-box',h('Meerdere momenten?','More than one occurrence?'),h('Schakel Herhalen in voor een reeks. Controleer het aantal momenten, de einddatum en de conflicten voordat je indient.','Enable Repeat for a series. Check the number of occurrences, end date and conflicts before submitting.')]
+    ]},
+    mijn:{title:h('Je verzoeken en reserveringen beheren','Manage your requests and bookings'),steps:[
+      ['#my-bookings-list',h('Bekijk de status','Check the status'),h('Open verzoeken wachten op beoordeling. Bevestigde reserveringen zijn geplaatst. Bij een afwijzing kun je de beschikbare toelichting bekijken. Ook je rolaanvragen staan hier.','Pending requests await review. Confirmed bookings have been made. For declined requests, check any available explanation. Your role requests appear here too.')],
+      ['#my-bookings-list',h('Plannen gewijzigd?','Have your plans changed?'),h('Gebruik de beschikbare knoppen om te wijzigen, te annuleren of een open verzoek in te trekken. Bij reeksen kies je één moment of dit en alle volgende momenten.','Use the available buttons to edit, cancel or withdraw a pending request. For a series, choose one occurrence or this and all following occurrences.')],
+      ['#notification-button',h('Bekijk je updates','Check your updates'),external?h('Het belletje toont updates. Let op: een bevestigde externe reservering verplaatsen of uitbreiden maakt opnieuw een verzoek. De bestaande reservering vervalt bij die omzetting.','The bell shows updates. Moving or extending a confirmed external booking turns it into a new request. The existing booking is removed when it is converted.'):h('Het belletje bovenaan toont updates over je reserveringen, aanvragen en gesprekken.','The bell at the top shows updates about your bookings, requests and conversations.')]
+    ]},
+    rollen:{title:h('Een passende rol aanvragen','Request the right role'),steps:[
+      ['#rr-role',h('Kies de passende rol','Choose the appropriate role'),h('Intern is voor medewerkers van HAN@Connectr. Admin is voor mensen die aanvragen, ruimtes en reserveringen beheren. Vraag alleen de rol aan die bij je werkzaamheden past.','Internal is for HAN@Connectr employees. Admin is for people who manage requests, rooms and bookings. Request only the role that fits your responsibilities.')],
+      ['#rr-job',h('Licht je aanvraag toe','Explain your request'),h('Vul je functie en een korte reden in. Een bestaande admin beoordeelt je aanvraag; indienen geeft nog geen nieuwe rechten.','Enter your job title and a short reason. An existing admin reviews your request; submitting it does not yet give you new permissions.')],
+      ['#my-role-requests',h('Volg je rolaanvraag','Follow your role request'),h('Je kunt één open rolaanvraag tegelijk hebben. Bekijk, wijzig of trek deze in onder Mijn verzoeken/reserveringen.','You can have one pending role request at a time. View, edit or withdraw it under My requests/reservations.')]
+    ]},
+    vragen:{title:h('Een vraag, klacht of tip doorgeven','Send a question, complaint or tip'),steps:[
+      ['#support-category',h('Kies het onderwerp','Choose the category'),h('Kies vraag, klacht of tip en beschrijf duidelijk wat je wilt doorgeven.','Choose question, complaint or tip and clearly describe what you want to share.')],
+      ['#support-anonymous',h('Kies hoe je indient','Choose how to submit'),h('Dien anoniem of met je profielnaam in. De toelichting bij je keuze vertelt welke gegevens zichtbaar zijn. De website verstuurt geen automatische e-mails.','Submit anonymously or with your profile name. The explanation next to your choice tells you what information is visible. The website does not send automatic emails.')],
+      ['#my-support-messages',h('Lees reacties op de website','Read replies on the website'),h('Open je gesprek om reacties te lezen en te antwoorden. Eerdere gearchiveerde gesprekken vind je via Archief openen.','Open your conversation to read replies and respond. Find archived conversations using Open archive.')]
+    ]},
+    beheer:{title:h('Aan de slag met beheer','Getting started with administration'),steps:[
+      ['#admin-role-requests',h('Beoordeel aanvragen','Review requests'),h('Bekijk rol- en reserveringsverzoeken en controleer de onderbouwing voordat je goedkeurt of afwijst.','Review role and booking requests and check their explanation before approving or declining.')],
+      ['#admin-support-messages',h('Behandel gesprekken','Handle conversations'),h('Lees vragen, klachten en tips, reageer en werk de status bij. Let op de gekozen anonimiteit.','Read questions, complaints and tips, respond and update their status. Respect the selected anonymity.')],
+      ['#admin-rooms-list',h('Ruimtes, reserveringen en import','Rooms, bookings and imports'),h('Onder elk onderdeel staat extra uitleg. Controleer wijzigingen en importpreviews zorgvuldig voordat je ze opslaat.','Each section has additional help. Carefully review changes and import previews before saving them.')]
+    ]}
+  };
+}
+let helpState={epoch:0,ready:false,seen:new Set(),pending:{},user:null,dialog:null,returnFocus:null,timer:null,dirty:false};
+let helpGuestSeenThisVisit=false;
+function helpCacheKey(){return helpState.user?'han-help:'+helpState.user:'han-help:visitor';}
+function helpActiveTab(){return document.querySelector('.section.active')?.id.replace('tab-','')||'overzicht';}
+function helpAllowed(tab){return !!currentUser&&!!currentProfile&&(tab!=='beheer'||isAdmin)&&(tab!=='rollen'||!isAdmin);}
+function helpKey(kind,name){
+  if(kind==='intro')return 'v1:intro:'+name;
+  // Reuse acknowledgements when the explanation itself does not change with the role.
+  let audience=currentRole;
+  if(kind==='tab'&&['overzicht','rollen','vragen'].includes(name))audience='shared';
+  if(kind==='tab'&&['reserveren','mijn'].includes(name)&&!userIsExtern())audience='intern';
+  return 'v1:'+kind+':'+name+':'+audience;
+}
+function helpReadCache(){try{return JSON.parse(localStorage.getItem(helpCacheKey())||'{}');}catch{return {};}}
+function helpWriteCache(){try{localStorage.setItem(helpCacheKey(),JSON.stringify({seen:[...helpState.seen],pending:helpState.pending}));}catch{}}
+function resetHelpSession(){
+  clearTimeout(helpState.timer);closeHelp(false);
+  helpState={epoch:helpState.epoch+1,ready:false,seen:new Set(),pending:{},user:null,dialog:null,returnFocus:null,timer:null,dirty:false};
+  document.querySelectorAll('.help-card').forEach(el=>el.remove());
+  document.getElementById('booking-outcome')?.remove();
+}
+async function helpRequest(name,args={}){
+  let timer;
+  try{return await Promise.race([rpc(name,args),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('HELP_TIMEOUT')),4000);})]);}
+  finally{clearTimeout(timer);}
+}
+async function loadHelpProgress(){
+  const state=helpState;state.user=currentUser?.id||null;
+  const cache=helpReadCache();
+  state.seen=new Set(Array.isArray(cache.seen)?cache.seen.filter(k=>typeof k==='string'):[]);
+  state.pending=cache.pending&&typeof cache.pending==='object'&&!Array.isArray(cache.pending)?cache.pending:{};
+  if(state.user){
+    try{const keys=await helpRequest('han_help_progress');if(state!==helpState)return;for(const key of keys)state.seen.add(key);}
+    catch{/* Help storage failures must never stop reservations. Use this account's local cache. */}
+    if(state!==helpState)return;
+    if(helpGuestSeenThisVisit&&currentRole==='extern'){
+      state.seen.add(helpKey('intro','extern'));state.pending[helpKey('intro','extern')]='completed';
+    }
+    // The visitor-to-account handoff belongs only to the first sign-in, not the next person.
+    helpGuestSeenThisVisit=false;
+  }
+  if(state!==helpState)return;
+  state.ready=true;helpWriteCache();flushHelpProgress();
+  if(!state.dirty)renderHelpCard();
+  scheduleHelpIntro();
+}
+async function flushHelpProgress(){
+  const state=helpState;if(!state.user||state.flushing)return;state.flushing=true;
+  try{for(const [guide_key,outcome] of Object.entries(state.pending)){
+    if(state!==helpState)break;
+    try{await helpRequest('han_help_mark',{guide_key,outcome});if(state!==helpState)break;delete state.pending[guide_key];helpWriteCache();}
+    catch{break;}
+  }}finally{state.flushing=false;}
+}
+function markHelp(key,outcome='completed'){
+  if(!key)return;
+  helpState.seen.add(key);
+  if(helpState.user)helpState.pending[key]=outcome;
+  helpWriteCache();flushHelpProgress();
+}
+function scheduleHelpIntro(){
+  clearTimeout(helpState.timer);
+  helpState.timer=setTimeout(()=>{
+    if(!helpState.ready||helpState.dialog||document.querySelector('dialog[open]')||helpState.dirty||editState||document.hidden)return;
+    if(document.activeElement?.matches('input,textarea,select'))return;
+    if(currentUser&&(!currentProfile?.name_confirmed_at||helpActiveTab()!=='overzicht'))return;
+    if(document.querySelector('.cl-modalBackdrop,.cl-modalContent'))return;
+    const key=currentUser?helpKey('intro',currentRole):'v1:welcome';
+    if(!helpState.seen.has(key))openHelpIntro(false);
+  },250);
+}
+function helpRoleChanged(){
+  closeHelp(false);
+  if(!helpState.dirty)renderHelpCard();
+  updateBookingMode();scheduleHelpIntro();
+}
+function helpButton(label,action,primary=false){
+  const button=document.createElement('button');button.type='button';button.className=primary?'save-btn':'edit-btn';button.textContent=label;button.addEventListener('click',action);return button;
+}
+function openHelpMenu(){
+  if(document.querySelector('dialog[open]:not(#help-dialog)'))return;
+  helpState.returnFocus=document.activeElement;helpState.dialog={kind:'menu',index:0};renderHelpDialog();
+}
+function openHelpIntro(manual=true){
+  if(currentUser&&!currentProfile?.name_confirmed_at){openProfile();return;}
+  if(document.querySelector('dialog[open]:not(#help-dialog)'))return;
+  const role=currentUser?currentRole:'welcome';
+  const key=role==='welcome'?'v1:welcome':helpKey('intro',role);
+  if(!helpState.dialog)helpState.returnFocus=document.activeElement;
+  helpState.dialog={kind:'intro',role,key,index:0,manual};renderHelpDialog();
+}
+function openHelpTour(tab=helpActiveTab()){
+  if(!helpAllowed(tab)||document.querySelector('dialog[open]:not(#help-dialog)'))return;
+  if(!helpState.dialog)helpState.returnFocus=document.activeElement;
+  helpState.dialog={kind:'tour',tab,key:helpKey('tab',tab),index:0};renderHelpDialog();
+}
+function finishHelp(outcome='completed'){
+  const session=helpState.dialog;if(!session)return;
+  markHelp(session.key,outcome);
+  if(session.kind==='intro'){
+    if(session.role==='welcome'){helpGuestSeenThisVisit=true;}
+    else markHelp(helpKey('tip','notifications'),outcome);
+  }
+  closeHelp();renderHelpCard();
+  if(!helpState.returnFocus?.isConnected)document.getElementById('help-button').focus({preventScroll:true});
+}
+function closeHelp(restoreFocus=true){
+  const dialog=document.getElementById('help-dialog');
+  document.querySelectorAll('.help-target').forEach(el=>el.classList.remove('help-target'));
+  helpState.dialog=null;if(dialog?.open)dialog.close();
+  if(restoreFocus&&helpState.returnFocus?.isConnected)helpState.returnFocus.focus({preventScroll:true});
+}
+function renderHelpDialog(){
+  const session=helpState.dialog;if(!session)return;
+  const h=helpText,dialog=document.getElementById('help-dialog'),actions=document.getElementById('help-actions');
+  const title=document.getElementById('help-title'),copy=document.getElementById('help-copy'),progress=document.getElementById('help-progress'),skip=document.getElementById('help-skip');
+  actions.replaceChildren();progress.replaceChildren();document.querySelectorAll('.help-target').forEach(el=>el.classList.remove('help-target'));
+  dialog.classList.toggle('help-tour',session.kind==='tour');
+  skip.hidden=session.kind==='menu';skip.textContent=h('Uitleg overslaan','Skip explanation');
+  if(session.kind==='menu'){
+    document.getElementById('help-eyebrow').textContent='HAN@Connectr';title.textContent=h('Waarmee kunnen we je helpen?','What would you like help with?');
+    copy.textContent=h('Je kunt de uitleg altijd opnieuw bekijken.','You can revisit the explanations at any time.');
+    if(helpAllowed(helpActiveTab()))actions.append(helpButton(h('Uitleg over dit tabblad','Help with this tab'),()=>openHelpTour()));
+    if(currentUser)actions.append(helpButton(h('Wat kan ik met mijn rol?','What can I do with my role?'),()=>openHelpIntro()));
+    actions.append(helpButton(h('Introductie opnieuw bekijken','Replay introduction'),()=>openHelpIntro()),helpButton(h('Sluiten','Close'),()=>closeHelp()));
+  }else{
+    const guide=helpGuides(),steps=session.kind==='intro'?guide[session.role]:guide[session.tab].steps;
+    const entry=steps[session.index],last=session.index===steps.length-1;
+    document.getElementById('help-eyebrow').textContent=h('KORTE UITLEG','QUICK GUIDE')+' · '+(session.index+1)+' / '+steps.length;
+    title.textContent=entry[session.kind==='tour'?1:0];copy.textContent=entry[session.kind==='tour'?2:1];
+    steps.forEach((_,i)=>{const dot=document.createElement('span');dot.className=i<=session.index?'active':'';progress.append(dot);});
+    if(session.index>0)actions.append(helpButton(h('Vorige','Previous'),()=>{session.index--;renderHelpDialog();}));
+    if(!last)actions.append(helpButton(h('Volgende','Next'),()=>{session.index++;renderHelpDialog();},true));
+    else if(session.role==='welcome'){
+      actions.append(helpButton(h('Inloggen','Sign in'),()=>{finishHelp();signInWithPassword();},true),helpButton(h('Account aanmaken','Create account'),()=>{finishHelp();signUpWithPassword();}),helpButton(h('Sluiten','Close'),()=>finishHelp()));
+    }else{
+      const destination=session.role==='admin'?'beheer':session.role==='intern'?'reserveren':'overzicht';
+      const label=session.kind==='tour'?h('Begrepen','Got it'):session.role==='admin'?h('Beheer bekijken','View administration'):session.role==='intern'?h('Een ruimte reserveren','Book a room'):h('Naar het overzicht','Go to overview');
+      actions.append(helpButton(label,()=>{finishHelp();if(session.kind==='intro')switchTab(destination);},true));
+    }
+    if(session.kind==='tour'){
+      const target=document.querySelector(entry[0]);
+      if(target&&target.getClientRects().length){target.classList.add('help-target');target.scrollIntoView({block:'center',behavior:'instant'});}
+    }
+  }
+  if(!dialog.open)dialog.showModal();title.focus({preventScroll:true});
+}
+function renderHelpCard(){
+  document.querySelectorAll('.help-card').forEach(el=>el.remove());
+  const tab=helpActiveTab();if(!helpState.ready||!helpAllowed(tab))return;
+  const guide=helpGuides()[tab],key=helpKey('tab',tab);if(!guide||helpState.seen.has(key))return;
+  const card=document.createElement('aside');card.className='help-card';card.setAttribute('aria-label',helpText('Uitleg over dit tabblad','Help with this tab'));
+  const title=document.createElement('h2');title.textContent=guide.title;
+  const list=document.createElement('ul');for(const entry of guide.steps){const li=document.createElement('li');li.textContent=entry[1]+': '+entry[2];list.append(li);}
+  const actions=document.createElement('div');actions.className='help-actions';
+  actions.append(helpButton(helpText('Begrepen','Got it'),()=>{const next=document.querySelector('#tab-'+tab+' input, #tab-'+tab+' select, #tab-'+tab+' button:not(.help-card button)');markHelp(key);card.remove();(next||document.getElementById('help-button')).focus();}),helpButton(helpText('Laat zien','Show me'),()=>openHelpTour(tab),true));
+  card.append(title,list,actions);document.getElementById('tab-'+tab).prepend(card);
+}
+function renderAdminHelp(){
+  const h=helpText,entries=[
+    ['admin-role-requests',h('Controleer functie, reden en gewenste rol. Geef alleen de rechten die bij de werkzaamheden passen. Een andere admin moet je eigen aanvraag behandelen.','Check the job title, reason and requested role. Grant only permissions appropriate to the responsibilities. Another admin must handle your own request.')],
+    ['admin-booking-requests',h('Controleer ruimte, tijd en toelichting. Goedkeuren maakt een bevestigde reservering. Bij een conflict blijft het verzoek open; bespreek dan een alternatief.','Check room, time and explanation. Approval creates a confirmed booking. If there is a conflict, the request stays pending; discuss an alternative.')],
+    ['admin-support-messages',h('Open een gesprek, reageer en werk de status bij. Respecteer anonimiteit. Afgeronde gesprekken kun je archiveren en later terugvinden. De website verstuurt geen automatische e-mails.','Open a conversation, reply and update its status. Respect anonymity. Archive completed conversations and find them again later. The website does not send automatic emails.')],
+    ['admin-rooms-list',h('Voeg ruimtes toe of wijzig de gegevens en sla daarna op. Een ruimte uit de actieve lijst halen is bedoeld om nieuwe reserveringen voor die ruimte te stoppen. Controleer ook bestaande afspraken.','Add rooms or change their details, then save. Removing a room from the active list stops new bookings for that room. Check existing bookings too.')],
+    ['import-file',h('Kies Excel, CSV of ICS en controleer eerst de preview. Controleer ruimte, datum, tijd en organisatie/afdeling. Bij één fout of conflict wordt niets uit het bestand geïmporteerd.','Choose Excel, CSV or ICS and check the preview first. Check room, date, time and organisation/department. One error or conflict prevents the entire file from being imported.')],
+    ['all-bookings-admin',h('Hier beheer je ook reserveringen van anderen. Controleer eigenaar en ruimte voordat je wijzigt, annuleert of overdraagt. Kies bij reeksen bewust welke momenten je behandelt.','Manage other people’s bookings here too. Check the owner and room before editing, cancelling or transferring. For a series, carefully choose which occurrences you are handling.')]
+  ];
+  for(const [id,text] of entries){
+    const parent=document.getElementById(id)?.closest('.admin-card');if(!parent)continue;
+    let details=parent.querySelector('.help-admin');
+    if(!details){details=document.createElement('details');details.className='help-admin';details.append(document.createElement('summary'),document.createElement('p'));parent.querySelector('h3').after(details);}
+    details.firstChild.textContent=h('Uitleg over dit onderdeel','Help with this section');details.lastChild.textContent=text;
+  }
+}
+function renderHelpLanguage(){
+  document.getElementById('help-button').textContent=helpText('Hulp','Help');renderHelpCard();renderAdminHelp();
+  const legend=document.getElementById('help-legend');if(legend){legend.firstChild.textContent=helpText('Bevestigde reservering','Confirmed booking');legend.lastChild.textContent=helpText('Open verzoek (nog niet bevestigd)','Pending request (not confirmed)');}
+  renderRecurrenceHelp();renderBookingOutcome();if(helpState.dialog)renderHelpDialog();
+}
+function renderRecurrenceHelp(){
+  const tip=document.getElementById('recurrence-help');if(!tip)return;
+  tip.hidden=!currentUser||!document.getElementById('f-recur-toggle').checked;
+  tip.textContent=helpText('Controleer het aantal momenten en de einddatum in de preview. Als externe gebruiker vraag je alle momenten aan. Als intern/admin kunnen vrije momenten bevestigd worden en bezette momenten verzoeken worden. De uitkomst na indienen is leidend.','Check the number of occurrences and end date in the preview. External users request every occurrence. For internal/admin users, available occurrences may be confirmed while occupied ones become requests. Check the final result after submitting.');
+}
+function showBookingOutcome(result,ownerMode){
+  let box=document.getElementById('booking-outcome');if(!box){box=document.createElement('div');box.id='booking-outcome';box.setAttribute('role','status');document.getElementById('submit-btn').after(box);}
+  box.dataset.confirmed=String(result.confirmed);box.dataset.requested=String(result.requested);box.dataset.owner=ownerMode;renderBookingOutcome();
+}
+function renderBookingOutcome(){
+  const box=document.getElementById('booking-outcome');if(!box)return;box.replaceChildren();
+  const p=document.createElement('p');p.textContent=box.dataset.confirmed+helpText(' bevestigd; ',' confirmed; ')+box.dataset.requested+helpText(' verzoek(en) ingediend. Een verzoek is pas een reservering na goedkeuring.',' request(s) submitted. A request becomes a booking only after approval.');
+  box.append(p,helpButton(helpText('Bekijk mijn verzoeken/reserveringen','View my requests/reservations'),()=>switchTab('mijn')));
+  if(box.dataset.owner!=='self'&&isAdmin)box.append(helpButton(helpText('Alle reserveringen bekijken','View all bookings'),()=>switchTab('beheer')));
+}
+function initializeHelp(){
+  document.getElementById('help-button').addEventListener('click',openHelpMenu);
+  document.getElementById('help-skip').addEventListener('click',()=>finishHelp('skipped'));
+  document.getElementById('help-dialog').addEventListener('cancel',event=>{event.preventDefault();helpState.dialog?.kind==='menu'?closeHelp():finishHelp('skipped');});
+  document.getElementById('help-dialog').addEventListener('keydown',event=>{
+    if(event.key!=='Tab')return;
+    const buttons=[...event.currentTarget.querySelectorAll('button')].filter(button=>!button.hidden&&!button.disabled);
+    const index=buttons.indexOf(document.activeElement);
+    if(index===-1||(!event.shiftKey&&index===buttons.length-1)||(event.shiftKey&&index===0)){
+      event.preventDefault();buttons[event.shiftKey?buttons.length-1:0]?.focus();
+    }
+  });
+  document.addEventListener('close',event=>{if(event.target.id!=='help-dialog')scheduleHelpIntro();},true);
+  document.addEventListener('input',event=>{if(event.target.closest('.section')||event.target.closest('#booking-dialog'))helpState.dirty=true;});
+  document.addEventListener('click',event=>{
+    if(event.target.closest('header,.section')&&event.target.closest('button')&&event.target.id!=='help-button'&&!event.target.closest('.help-card')){
+      helpState.dirty=true;clearTimeout(helpState.timer);
+    }
+  },true);
+  document.addEventListener('change',event=>{if(event.target.closest('.section'))helpState.dirty=true;if(event.target.id==='f-recur-toggle')renderRecurrenceHelp();});
+  window.addEventListener('online',flushHelpProgress);
+  const legend=document.createElement('div');legend.id='help-legend';legend.className='help-legend';legend.append(document.createElement('span'),document.createElement('span'));document.querySelector('.date-nav').after(legend);
+  const tip=document.createElement('p');tip.id='recurrence-help';tip.className='help-tip';tip.hidden=true;document.getElementById('recurrence-fields').prepend(tip);
+  renderHelpLanguage();
 }
 // Translation catalogue: only application-authored strings enter this dictionary.
 let language='nl';try{language=localStorage.getItem('han-language')==='en'?'en':'nl';}catch{}
@@ -1983,6 +2272,7 @@ async function setLanguage(next){
   document.getElementById('overview-date-label').textContent=formatDate(currentDate);populateRoomSelect();
   renderOverview();renderMyBookings();renderMyRoleRequests();renderSupportMessages();if(isAdmin)renderAdmin();
   addTransferButtons();renderCase();renderNotifications();updateArchiveLabels();
+  renderHelpLanguage();
   if(document.getElementById('profile-dialog').open)document.getElementById('profile-help').textContent=t(currentProfile?.name_confirmed_at?'Je naam wordt gebruikt bij toekomstige reserveringen en open verzoeken.':'Vul je voor- en achternaam in voordat je een reservering of verzoek indient.');
   try{await setClerkLanguage();}catch(error){showNotice(explainError(error),'error');}
 }

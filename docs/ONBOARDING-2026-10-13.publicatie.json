@@ -1,0 +1,17 @@
+{
+  "approval": "Explicit final approval from the user on 2026-10-13: publish to main",
+  "preparedManifest": "ONBOARDING-2026-10-13.manifest.json",
+  "repository": "LodiWigman/ruimte-reserveren",
+  "branch": "main",
+  "website": "https://ruimte-reserveren.vercel.app/",
+  "supabaseProject": "oappvdfjyvbmvqrjvnmv",
+  "migration": {
+    "name": "help_onboarding",
+    "localFile": "SQL/migrations/20261013122102_help_onboarding.sql",
+    "liveVersion": "20261013131949",
+    "status": "applied and verified",
+    "verification": "RLS enabled; SELECT/INSERT restricted to own account; both RPCs are invoker functions, authenticated-only; no anonymous execution"
+  },
+  "verification": "All prepared file hashes match the reviewed manifest. Thirteen local test groups passed during preparation. Publication build checks passed.",
+  "remainingCheck": "Authenticated live check across two devices after website deployment"
+}

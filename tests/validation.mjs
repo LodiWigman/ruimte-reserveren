@@ -1,5 +1,6 @@
 // Focused browser regression for native validation and programmatically reset fields.
 import assert from 'node:assert/strict';
+import {returningUser} from './help-existing-user.mjs';
 import {readFile} from 'node:fs/promises';
 import {chromium} from 'playwright';
 const html=await readFile('index.html','utf8');
@@ -7,6 +8,7 @@ const locales={en:await readFile('node_modules/.cache/han-test/clerk-en.js','utf
 const browser=await chromium.launch({headless:true,...(process.env.TEST_BROWSER_CHANNEL?{channel:process.env.TEST_BROWSER_CHANNEL}:{})});
 try{
   const page=await browser.newPage();
+  await returningUser(page);
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(()=>{
     window.supabase={createClient:()=>({rpc:()=>{throw new Error('Unexpected write in validation test');}})};

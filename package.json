@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:help": "node tests/help-database.mjs && node tests/help-preview.mjs --build-only && node tests/help-browser.mjs",
+    "test:onboarding": "node tests/verify-onboarding.mjs",
     "test": "node tests/frontend.mjs && node tests/database.mjs && node tests/workflows.mjs && node tests/reset.mjs && node tests/connectr.mjs && node tests/overview-cases.mjs",
     "test:ui": "node tests/browser.mjs && node tests/validation.mjs",
     "test:security": "node tests/security-assessment.mjs && node tests/security-browser.mjs && node tests/security-imports.mjs && node tests/prepare-security-headers.mjs --check",

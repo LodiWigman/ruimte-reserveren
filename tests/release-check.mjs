@@ -6,6 +6,9 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 export const publicFiles=['index.html','han-logo.svg'];
 export const releaseFiles=[...publicFiles,'vercel.json','package.json','pnpm-lock.yaml',
+  'SQL/migrations/20261013122102_help_onboarding.sql',
+  'tests/help-browser.mjs','tests/help-database.mjs','tests/help-existing-user.mjs',
+  'tests/verify-onboarding.mjs','tests/help-preview.mjs','tests/validation.mjs','docs/ONBOARDING-2026-10-13.md',
   'SQL/basis.sql','SQL/migrations/20260922151039_reservation_workflows.sql',
   'SQL/migrations/20260929192403_connectr_profiles_conversations.sql',
   'SQL/migrations/20261006110904_overview_cases_filters.sql','tests/overview-cases.mjs',

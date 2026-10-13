@@ -1,5 +1,12 @@
 # Toekomstige migraties
 
+## Voorbereide uitlegvoortgang — 13 oktober 2026
+
+`20261013122102_help_onboarding.sql` voegt eigen-accountvoortgang voor introducties
+en tutorials toe. Volgt op de live `overview_cases_filters`-migratie. Nog niet live;
+zie [oplevering en publicatievolgorde](../../docs/ONBOARDING-2026-10-13.md).
+Test lokaal met `node tests/help-database.mjs` en `node tests/help-browser.mjs`.
+
 ## Voorbereide wijziging van 6 oktober 2026
 
 `20261006110904_overview_cases_filters.sql` is met Supabase CLI gegenereerd en

@@ -1,0 +1,28 @@
+{
+  "version": "2026-10-13-onboarding",
+  "approval": "awaiting_final_approval",
+  "baseline": "2449aee628e37c1b31e4907e6fe00aa6bb15a0b3",
+  "repository": "LodiWigman/ruimte-reserveren",
+  "branch": "main",
+  "project": "oappvdfjyvbmvqrjvnmv",
+  "migration": "20261013122102_help_onboarding.sql",
+  "verification": "13 local test groups passed; affected checks repeated after corrections",
+  "liveAuthenticatedCheck": "pending after authorized publication",
+  "files": {
+    "README.md": "36778a72b90df40ce5a885478fea556ab8eef08186c7b0c63e188b0388269952",
+    "SQL/migrations/README.md": "a56fd87df6431ab85c3aedae3c36b17c4b764c32befc2713cf12e70e3380ad68",
+    "SQL/migrations/20261013122102_help_onboarding.sql": "9bc41bc4790bc764f754e5d3a308db79cd2237378102714d26e1c7e3876441d5",
+    "index.html": "3cfe4a600c648024db13d6283b4aee4460ba8e042e2c122ee9811741163f7079",
+    "package.json": "27dcbce0d1a3bd3c231509945a370d3d1bc41bf248dc43028c508687f280b07a",
+    "vercel.json": "4ccb1ecee897bb4471034a5381388fc126c8eb768a8dfda88267d367323bc523",
+    "tests/browser.mjs": "7c5b08b815d4e4322e2e11bca5b47867532345b8a2dc2e754c9552c23a3c415e",
+    "tests/validation.mjs": "7d885e048e43a736df4fdc2c3263f2b6bc6d61dc8cf98b3be9bab29ad6b28756",
+    "tests/release-check.mjs": "116c79b827c7f554c98e37f316a0ed8e97e6938b22c99cd0b53c07c274c523af",
+    "tests/help-browser.mjs": "2a4534ece56a47e71381c09c459a821a4eb8a1b26cc3329ac6b2a10063204f89",
+    "tests/help-database.mjs": "62253a5cd57b56bb8bfac4ac9f22aaede7baf0769418a91e726089220374f95b",
+    "tests/help-existing-user.mjs": "f8cf9c087fe1fc511a2f3b6c3174f9edb2b900d97954c8c2ae2f9a6dfc9ebb38",
+    "tests/help-preview.mjs": "8c293fff277c11ad62323a98d6fbb7ad94684530c20b63678c6b46a0923b7438",
+    "tests/verify-onboarding.mjs": "3ba07b7c5a897d20492a207ade9cf0088011b809843587c2f75d0e4a0e17ffc1",
+    "docs/ONBOARDING-2026-10-13.md": "46a1a38f8a3b10e93de877438e17edee4bd3f548638c1a8a0c126a22e18cb34f"
+  }
+}

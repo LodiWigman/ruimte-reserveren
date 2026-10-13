@@ -1,6 +1,7 @@
 // Offline browser + echte lokale PostgreSQL. Alleen de Clerk-sessie en HTTP-
 // vertaling naar SQL zijn testdubbels; index.html en Supabase SDK zijn ongewijzigd.
 import assert from 'node:assert/strict';
+import {returningUser} from './help-existing-user.mjs';
 import {readFile,mkdir} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import {startDatabase,applyBasis,applyConnectr,applyOverviewUpdates,asUser} from './db-harness.mjs';
@@ -10,6 +11,7 @@ await applyBasis(env.db);
 await env.db.query("INSERT INTO public.profiles(id,display_name,role) VALUES('user_admin','Beheerder','admin'),('user_intern','Interne gebruiker','intern'),('user_extern','Externe gebruiker','extern')");
 await applyConnectr(env.db);
 await applyOverviewUpdates(env.db);
+await env.db.query(await readFile('SQL/migrations/20261013122102_help_onboarding.sql','utf8'));
 for(const role of ['admin','intern','extern'])await asUser(env.db,'user_'+role,'SELECT public.han_save_profile($1,$2)',[role,'Testpersoon']);
 const html=await readFile('index.html','utf8');
 const logo=await readFile('han-logo.svg','utf8');
@@ -54,6 +56,7 @@ try{
   assert.ok(viewports.length,'unknown test viewport');
   for(const viewport of viewports){
     const page=await browser.newPage({viewport});const errors=[];
+    await returningUser(page);
     page.on('pageerror',e=>errors.push(e.message));
     page.on('dialog',dialog=>dialog.accept());
     await page.route('**/*',async route=>{
@@ -103,7 +106,7 @@ try{
     assert.equal(await page.locator('#beheer-tab-btn').isVisible(),false);
     await fill(day);
     await page.locator('#f-organization').fill('Test organisatie');await page.locator('#f-occasion').fill('Overleg');await page.locator('#f-motivation').fill('Toelichting test');
-    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 verzoek'));
+    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#booking-outcome')?.textContent.includes('1 verzoek'));
     await page.getByRole('button',{name:'Vragen/klachten',exact:true}).click();await page.locator('#support-message').fill('Testvraag vanuit de browser');await page.locator('#support-submit-btn').click();
     await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('bericht is ingediend'));
     assert.match(await page.locator('#app-notice').innerText(),/Casenummer: [0-9a-f-]{36}/);
@@ -136,7 +139,7 @@ try{
     await page.screenshot({path:`test-results/admin-${viewport.width}.png`,fullPage:true});
     await login('intern');await fill(day);
     await page.locator('#f-date').fill(viewport.width===390?'2031-02-02':'2031-01-02');
-    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
+    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#booking-outcome')?.textContent.includes('1 bevestigd'));
     await page.getByRole('button',{name:'Mijn verzoeken/reserveringen',exact:true}).click();
     await page.locator('#my-bookings-list .edit-btn').first().click();await page.locator('#f-start').fill('11:00');await page.locator('#f-end').fill('12:00');
     await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('Wijzigingen opgeslagen'));
@@ -172,8 +175,8 @@ try{
     assert.match(await page.locator('#recurrence-preview').innerText(),/3 momenten/);
     await page.waitForFunction(()=>document.querySelector('#conflict-warning').textContent.includes('nu vrij'));
     assert.equal(await page.locator('#conflict-warning').evaluate(el=>el.classList.contains('subnote')),true);
-    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('3 verzoek'));
-    assert.match(await page.locator('#app-notice').innerText(),/Controleer je verzoek\/reservatie in het overzicht/);
+    await page.locator('#submit-btn').click();await page.waitForFunction(()=>document.querySelector('#booking-outcome')?.textContent.includes('3 verzoek'));
+    assert.match(await page.locator('#booking-outcome').innerText(),/na goedkeuring/);
     await page.getByRole('button',{name:'Mijn verzoeken/reserveringen',exact:true}).click();
     const mySeries=page.locator('#my-bookings-list .series-group').filter({hasText:seriesDay});
     assert.equal(await mySeries.count(),1);assert.equal(await mySeries.locator('.booking-card').count(),3);
@@ -224,7 +227,7 @@ try{
     const guestDay=viewport.width===390?'2036-02-01':'2036-01-01';
     await fill(guestDay);await page.locator('#booking-owner-mode').selectOption('guest');
     await page.locator('#booking-guest-name').fill('Gast zonder account');await page.locator('#submit-btn').click();
-    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
+    await page.waitForFunction(()=>document.querySelector('#booking-outcome')?.textContent.includes('1 bevestigd'));
     await page.getByRole('button',{name:'Beheer',exact:true}).click();
     const guestCard=page.locator('#all-bookings-admin .booking-card').filter({hasText:'Gast zonder account'});
     assert.equal(await guestCard.getByRole('button',{name:'Overdragen',exact:true}).count(),1);
@@ -248,7 +251,7 @@ try{
     await fill(viewport.width===390?'2036-02-02':'2036-01-02');
     await page.locator('#booking-owner-mode').selectOption('account');await page.locator('#booking-account-query').fill('Eva');
     await page.locator('#booking-account-results .account-result').click();await page.locator('#submit-btn').click();
-    await page.waitForFunction(()=>document.querySelector('#app-notice').textContent.includes('1 bevestigd'));
+    await page.waitForFunction(()=>document.querySelector('#booking-outcome')?.textContent.includes('1 bevestigd'));
     await login('extern');await page.locator('#notification-button').click();
     await page.locator('#notification-dialog').waitFor({state:'visible'});
     assert.match(await page.locator('#notification-list').innerText(),/Een beheerder heeft voor jou gereserveerd/);
