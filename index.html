@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-1iu6ubH/UNbox6sJZiKTbKQqB1lOkdquLb9UwzB1r8Y=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'sha256-iDUoYQW+f71RjKzQUzgSytNCtjEQuJ+4YEQmslyu9o4=' https://alert-bat-50.clerk.accounts.dev https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js https://cdn.jsdelivr.net/npm/@clerk/localizations@4.20.0/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://img.clerk.com; connect-src 'self' https://alert-bat-50.clerk.accounts.dev https://oappvdfjyvbmvqrjvnmv.supabase.co https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js https://clerk-telemetry.com https://*.clerk-telemetry.com https://*.protect.clerk.com; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAN@Connectr — Ruimtereserveringen</title>
@@ -38,6 +38,7 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
 /* Help stays independent of booking data and uses native dialog focus handling. */
 .help-card{background:#fff;border:1px solid #e3d8df;border-left:4px solid var(--magenta);border-radius:12px;padding:18px 22px;margin:0 0 20px;max-width:850px}.help-card h2{font-family:Syne,sans-serif;font-size:17px;margin-bottom:6px}.help-card ul{padding-left:20px;margin:8px 0 14px}.help-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.help-actions button{min-height:42px}.help-card[hidden],.help-tip[hidden],#booking-outcome[hidden]{display:none}.help-tip{background:var(--magenta-light);border-radius:8px;padding:12px;margin:12px 0}.help-admin{margin-bottom:14px;max-width:760px}.help-admin summary{cursor:pointer;font-weight:600}.help-admin p{padding:8px 0;color:var(--gray-600)}
 #help-dialog{width:min(560px,calc(100vw - 28px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:18px;box-shadow:0 24px 80px #0004}#help-dialog::backdrop{background:#15101980}#help-dialog.help-tour{position:fixed;inset:auto 16px 16px auto;margin:0;width:min(440px,calc(100vw - 32px));max-height:46dvh}#help-dialog.help-tour::backdrop{background:#15101922}.help-body{padding:28px}.help-eyebrow{color:var(--magenta);font-size:12px;font-weight:700;letter-spacing:.6px;margin-bottom:8px}.help-body h2{font-family:Syne,sans-serif;font-size:25px;line-height:1.25;margin-bottom:16px}.help-copy{font-size:15px;line-height:1.7;margin-bottom:22px;white-space:pre-line}.help-progress{display:flex;gap:6px;margin:0 0 20px}.help-progress span{height:4px;flex:1;border-radius:4px;background:var(--gray-200)}.help-progress .active{background:var(--magenta)}.help-skip{display:block;margin-top:18px;background:none;border:0;color:var(--gray-600);text-decoration:underline;padding:6px 0}.help-target{outline:4px solid var(--magenta)!important;outline-offset:5px;border-radius:8px}.help-legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 18px;font-size:12px}.help-legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--magenta);margin-right:6px}.help-legend span+span::before{background:var(--green)}#booking-outcome{margin:12px 0;padding:14px;border:1px solid #a3d4bc;border-radius:8px;background:var(--green-light)}#booking-outcome p{margin-bottom:8px}button:focus-visible,summary:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}@media(max-width:560px){.help-body{padding:22px}.help-body h2{font-size:22px}.help-card{padding:16px}.help-actions button{flex:1}.help-copy{font-size:14px}}
+.admin-handbook-link{display:inline-block;margin-top:8px;padding:10px 0;color:var(--magenta-dark);font-weight:600;text-underline-offset:3px}.admin-handbook-link:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -107,6 +108,12 @@ dialog .form-card{border:0;max-width:none}#details-content{padding:20px;overflow
   </div></div>
 
   <div id="tab-beheer" class="section">
+    <div class="admin-card">
+      <h3>Adminhandboek</h3>
+      <p>Stappenplannen en antwoorden op veelgestelde vragen over het beheer.</p>
+      <a class="admin-handbook-link" href="HAN-Connectr-Adminhandboek.pdf" download="HAN-Connectr-Adminhandboek.pdf">Adminhandboek downloaden (PDF)</a>
+      <p class="muted">Versie 1.0 · 15 oktober 2026 · 21 pagina’s · Nederlands</p>
+    </div>
     <div class="admin-card"><h3>Supabase verbinding</h3><div id="supabase-status"><div class="status-badge checking"><div class="dot"></div>Nog niet getest</div></div><p class="muted">Alleen gebruikers met role = admin in profiles krijgen deze tab te zien.</p><button class="save-btn" data-onclick="testSupabaseConnection()">Verbinding testen</button></div>
     <div class="admin-card"><h3>Rolverzoeken</h3><div id="admin-role-requests" class="request-list"></div></div>
     <div class="admin-card"><h3>Reserveringsverzoeken</h3><div id="admin-booking-requests" class="request-list"></div></div>
@@ -1817,6 +1824,10 @@ function initializeHelp(){
 // Translation catalogue: only application-authored strings enter this dictionary.
 let language='nl';try{language=localStorage.getItem('han-language')==='en'?'en':'nl';}catch{}
 const UI_EN=Object.fromEntries(`
+Adminhandboek\tAdmin handbook
+Stappenplannen en antwoorden op veelgestelde vragen over het beheer.\tStep-by-step instructions and answers to frequently asked administration questions.
+Adminhandboek downloaden (PDF)\tDownload admin handbook (PDF)
+Versie 1.0 · 15 oktober 2026 · 21 pagina’s · Nederlands\tVersion 1.0 · 15 October 2026 · 21 pages · Dutch
 Ruimtereserveringen\tRoom reservations
 Mijn profiel\tMy profile
 Overzicht\tOverview

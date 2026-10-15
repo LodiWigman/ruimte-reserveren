@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-export const publicFiles=['index.html','han-logo.svg'];
+export const publicFiles=['index.html','han-logo.svg','HAN-Connectr-Adminhandboek.pdf'];
 export const releaseFiles=[...publicFiles,'vercel.json','package.json','pnpm-lock.yaml',
   'SQL/migrations/20261013122102_help_onboarding.sql',
   'tests/help-browser.mjs','tests/help-database.mjs','tests/help-existing-user.mjs',
@@ -44,6 +44,8 @@ export async function verifyRelease(root=process.cwd()){
   if(config.outputDirectory!=='dist'||config.buildCommand!=='node tests/build-public.mjs')throw Error('Unexpected publication configuration');
   const logo=await readFile(path.join(root,'han-logo.svg'),'utf8');
   if(!logo.includes('<svg'))throw Error('Website logo missing');
+  const handbook=await readFile(path.join(root,'HAN-Connectr-Adminhandboek.pdf'));
+  if(!handbook.subarray(0,5).equals(Buffer.from('%PDF-')))throw Error('Admin handbook PDF missing or invalid');
   return {status:'passed',clerkMode:html.includes("CLERK_PUBLISHABLE_KEY = 'pk_test_")?'development':'production',publicFiles};
 }
 

@@ -5,4 +5,4 @@ await verifyRelease();
 await mkdir('dist',{recursive:true});
 for(const name of await readdir('dist'))if(!files.includes(name))throw Error('Unexpected existing public file: '+name);
 for(const name of files)await copyFile(name,'dist/'+name);
-console.log('Public output contains only the website and logo.');
+console.log('Public output contains only the website, logo and admin handbook.');
